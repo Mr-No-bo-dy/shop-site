@@ -9,8 +9,16 @@
 </head>
 
 <body>
-   <h1>Hello, <?= $data['name'] ?></h1>
+   <h2>Welcome to Shop, <?= $data['name'] ?></h2>
+   <?= '<pre>'; ?>
+   <?php // var_dump($data['products']); ?>
+   <?= '</pre>'; ?>
+   
+   <?php foreach($data['products'] as $product) {?>
+      <p>Price: <b><?= $product['price'] ?>00 $</b></p>
+   <?php } ?>
 
+   
 </body>
 
 </html>
