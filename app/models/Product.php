@@ -2,42 +2,32 @@
    require_once "app/vendor/DataBase.php";
    require_once "app/vendor/BaseModel.php";
 
+   // echo '<pre>';
+
    class Product extends BaseModel
    {
-      // public function getAll()
-      // {
-      //    $builder = $this->builder();
-      //    $stmt = $builder->prepare("SELECT * FROM shop_db.products");
-      //    $stmt->execute();
+      // Витягнути інфу про 'products' і додати до неї ціни з таблиці `prices`:
+      public function getAllProducts()
+      {
+         $products = $this->getAll('products');
 
-      //    return $stmt->fetchAll();
-      // }
+         foreach ($products as $product) {
+            $builder = $this->builder();
+            $stmt = $builder->prepare("SELECT * FROM shop_db.prices WHERE id_product = " . $product['id_product']);
+            $stmt->execute();
+            $prices[] = $stmt->fetch();
+         }
 
-      // public function getAllProducts($table)
-      // {
-      //    $products = $this->getAll($table);
-      //    foreach ($products as $product) {
-      //       $builder = $this->builder();
-      //       $stmt = $builder->prepare("SELECT * FROM shop_db.$table WHERE id_product = " . $product['id_product']);
-      //       $stmt->execute();
-      //       $prices[] = $stmt->fetch();
-      //    }
-
-      //    foreach ($prices as &$price) {      // масив з id_product => price
-      //       if (!empty($price)) {
-      //          $preparePrice[$price['id_product']] = $price;
-      //       }
-      //       // $prices[$price['id_product']][] = $price;
-      //    }
-
-      //    foreach ($products as $product) {
-      //       $prepareProduct['prices'] = $preparePrice[$product['id_product']];
-      //    }
-      //    echo '<pre>';
-      //    var_dump($products);
-      //    die;
+         foreach ($prices as $price) {
+            if (!empty($price)) {
+               $products[$price['id_product']]['price'] = $price['price'];
+            }
+         }
+         // var_dump($products);
           
-      //    return $prices;
-      // }
+         return $products;
+      }
    }
+   
+   // echo '</pre>';
 ?>

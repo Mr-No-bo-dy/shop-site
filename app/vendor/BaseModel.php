@@ -1,7 +1,7 @@
 <?php 
    require_once "app/vendor/DataBase.php";
 
-   echo '<pre>';
+   // echo '<pre>';
 
    class BaseModel
    {
@@ -65,7 +65,7 @@
             $indexArray = array_values($row);
             $items[$indexArray[$primaryColumnNum]] = $row;
          }
-         var_dump($items);
+         // var_dump($items);
 
          return $items;
       }
@@ -116,7 +116,7 @@
             $items[$indexArray[$primaryColumnNum]] = $row;
          }
          $item = $items[$id];
-         var_dump($item);
+         // var_dump($item);
 
          // $items = $this>getAll($table);
          // $item = $items[$id];
@@ -124,4 +124,6 @@
          return $item;
       }
    }
+
+   // echo '</pre>';
 ?>
