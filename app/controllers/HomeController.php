@@ -8,8 +8,10 @@
       public function actionIndex()
       {
          $name = 'Olex';
+         $table = 'customers';
          $productModel = new Product();
-         $products = $productModel->getAllProducts();
+         $products = $productModel->getAll($table);
+         // $products = $productModel->getOne($table, 11);
          $this->render('home/index', 
             [
                'name' => $name,

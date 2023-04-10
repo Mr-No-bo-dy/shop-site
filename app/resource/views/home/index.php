@@ -14,9 +14,10 @@
    <?php // var_dump($data['products']); ?>
    <?= '</pre>'; ?>
    
-   <?php foreach($data['products'] as $product) {?>
-      <p>Price: <b><?= $product['price'] ?>00 $</b></p>
-   <?php } ?>
+   <?php //foreach($data['products'] as $product) {?>
+      <p>Price: <b><?//= $product['price'] ?> $</b></p>
+      <b><?php //var_dump($product) ?>
+   <?php //} ?>
 
    
 </body>

@@ -4,40 +4,40 @@
 
    class Product extends BaseModel
    {
-      public function getAll()
-      {
-         $builder = $this->builder();
-         $stmt = $builder->prepare("SELECT * FROM shop_db.products");
-         $stmt->execute();
+      // public function getAll()
+      // {
+      //    $builder = $this->builder();
+      //    $stmt = $builder->prepare("SELECT * FROM shop_db.products");
+      //    $stmt->execute();
 
-         return $stmt->fetchAll();
-      }
+      //    return $stmt->fetchAll();
+      // }
 
-      public function getAllProducts()
-      {
-         $products = $this->getAll();
-         foreach ($products as $product) {
-            $builder = $this->builder();
-            $stmt = $builder->prepare("SELECT * FROM shop_db.prices WHERE id_product = " . $product['id_product']);
-            $stmt->execute();
-            $prices[] = $stmt->fetch();
-         }
+      // public function getAllProducts($table)
+      // {
+      //    $products = $this->getAll($table);
+      //    foreach ($products as $product) {
+      //       $builder = $this->builder();
+      //       $stmt = $builder->prepare("SELECT * FROM shop_db.$table WHERE id_product = " . $product['id_product']);
+      //       $stmt->execute();
+      //       $prices[] = $stmt->fetch();
+      //    }
 
-         foreach ($prices as &$price) {      // масив з id_product => price
-            if (!empty($price)) {
-               $preparePrice[$price['id_product']] = $price;
-            }
-            // $prices[$price['id_product']][] = $price;
-         }
+      //    foreach ($prices as &$price) {      // масив з id_product => price
+      //       if (!empty($price)) {
+      //          $preparePrice[$price['id_product']] = $price;
+      //       }
+      //       // $prices[$price['id_product']][] = $price;
+      //    }
 
-         foreach ($products as $product) {
-            $prepareProduct['prices'] = $preparePrice[$product['id_product']];
-         }
-         echo '<pre>';
-         var_dump($products);
-         die;
+      //    foreach ($products as $product) {
+      //       $prepareProduct['prices'] = $preparePrice[$product['id_product']];
+      //    }
+      //    echo '<pre>';
+      //    var_dump($products);
+      //    die;
           
-         return $prices;
-      }
+      //    return $prices;
+      // }
    }
 ?>
