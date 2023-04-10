@@ -13,14 +13,22 @@
 
          foreach ($products as $product) {
             $builder = $this->builder();
-            $stmt = $builder->prepare("SELECT * FROM shop_db.prices WHERE id_product = " . $product['id_product']);
+            $stmt = $builder->prepare("SELECT * FROM shop_db.prices WHERE id_product = " . $product['id_product'] . "");
             $stmt->execute();
             $prices[] = $stmt->fetch();
          }
 
          foreach ($prices as $price) {
             if (!empty($price)) {
-               $products[$price['id_product']]['price'] = $price['price'];
+               // $products[$price['id_product']]['price'] = $price['price'];
+               foreach ($products as &$product) {
+                  if ($price['id_product'] === $product['id_product']) {
+                     // var_dump($price);
+                     // var_dump($product);
+                     $product['price'] = $price['price'];
+                     // break;
+                  }
+               }
             }
          }
          // var_dump($products);

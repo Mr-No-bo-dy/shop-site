@@ -4,6 +4,7 @@
    require_once 'app/models/Product.php';
    require_once 'app/models/User.php';
    require_once 'app/models/Customer.php';
+   require_once 'app/models/Order.php';
 
    class HomeController extends Controller
    {
@@ -24,12 +25,16 @@
          $customerModel = new Customer();
          $customers = $customerModel->getAllCustomers();
 
+         $orderModel = new Order();
+         $orders = $orderModel->getAllOrders();
+
          $this->render('home/index', 
             [
                'name' => $name,
                'products' => $products,
                'users' => $users,
                'customers' => $customers,
+               'orders' => $orders,
             ]
          );
       }

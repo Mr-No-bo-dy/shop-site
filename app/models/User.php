@@ -13,15 +13,20 @@
 
          foreach ($users as $user) {
             $builder = $this->builder();
-            $stmt = $builder->prepare("SELECT * FROM shop_db.orders WHERE id_user = " . $user['id_user']);
+            $stmt = $builder->prepare("SELECT * FROM shop_db.orders WHERE id_user = " . $user['id_user'] . "");
             $stmt->execute();
             $orders[] = $stmt->fetch();
          }
          // var_dump($orders);
 
+
          foreach ($orders as $order) {
-            if (!empty($order)) {
-               $users[$order['id_user']]['total_price'] = $order['total_price'];
+            if (!empty($order['total_price'])) {
+               foreach ($users as &$user) {
+                  if ($user['id_user'] === $order['id_user']) {
+                     $user['total_price'] = $order['total_price'];
+                  }
+               }
             }
          }
          // var_dump($users);
