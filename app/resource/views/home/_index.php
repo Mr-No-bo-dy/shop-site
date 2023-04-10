@@ -62,10 +62,10 @@
       <p>Price: <b><?= $product['price'] ?> $</b></p>
    <?php } ?>
    
-   <h2>Most popular Products:</h2>
+   <h2>Selled Products:</h2>
    <?php foreach($data['orders'] as $order) {?>
-      <h3><?= $orders['name'] ?></h3>
-      <p>Price: <b><?= $orders['total_price'] ?> $</b></p>
+      <h3><?= $order['name'] ?></h3>
+      <p>Price: <b><?= $order['total_price'] ?> $</b></p>
    <?php } ?>
    
    <h2>Our best sellers:</h2>

@@ -62,20 +62,20 @@
          if (file_exists($dir)) {
             require_once($dir);
          } else {
-            die('Controller file does NOT found.');
+            die('Controller file NOT found.');
          }
 
          if (class_exists($this->controllerName)) {
             $controller = new $this->controllerName();   // object creation of class (in file) "controllerName"
          } else {
-            die('Class does NOT found.');
+            die('Class NOT found.');
          }
 
          if (method_exists($controller, $this->actionName)) {
             $action = $this->actionName;
             $controller->$action();
          } else {
-            die('Action does NOT found.');
+            die('Action NOT found.');
          }
       }
    }

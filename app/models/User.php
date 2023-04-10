@@ -2,7 +2,7 @@
    require_once "app/vendor/DataBase.php";
    require_once "app/vendor/BaseModel.php";
 
-   echo '<pre>';
+   // echo '<pre>';
 
    class User extends BaseModel
    {
