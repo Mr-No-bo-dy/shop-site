@@ -9,7 +9,7 @@
       // Витягнути інфу про 'customers' і додати до неї суму замовлень з таблиці `orders`:
       public function getAllCustomers()
       {
-         $customers = $this->getAll('customers');
+         $customers = $this->getAll('customers', 'id_customer');
 
          foreach ($customers as $customer) {
             $builder = $this->builder();

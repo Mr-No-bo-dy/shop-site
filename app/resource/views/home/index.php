@@ -5,9 +5,7 @@
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Index</title>
-	<!-- <link rel="stylesheet" href="header.css"> -->
-   <!-- <link rel="stylesheet" href="../../css/header.css"> -->
-   <link rel="stylesheet" href="../../../resource/css/header.css">
+   <link rel="stylesheet" href="app/resource/css/header.css">
 </head>
 <body>
 
@@ -15,7 +13,7 @@
    // require ("components/header.php");
    // require ("_temp/error_login.php");
 ?>
-   <header class="header">
+   <!-- <header class="header">
 		<div class="logo">
 			<img src="logo.png" alt="Logo">
 		</div>
@@ -48,7 +46,7 @@
 				<button type="submit">Go</button>
 			</form>
 		</div>
-	</header>
+	</header> -->
 
    <h2>Welcome to Shop, <?= $data['name'] ?></h2>
    <?= '<pre>'; ?>

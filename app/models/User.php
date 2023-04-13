@@ -9,7 +9,7 @@
       // Витягнути інфу про 'users' і додати до неї суму замовлень з таблиці `orders`:
       public function getAllUsers()
       {
-         $users = $this->getAll('users');
+         $users = $this->getAll('users', 'id_user');
 
          foreach ($users as $user) {
             $builder = $this->builder();

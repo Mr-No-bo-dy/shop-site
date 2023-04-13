@@ -14,7 +14,7 @@
          $this->setUri();
          $this->setRoute();
          $this->setRouteParams();
-         $this->Redirect();
+         $this->redirect();
       }
 
       // Вибираємо те, що в нас в URL (Щоб перенаправляти по наших роутах на різні локації)
@@ -48,6 +48,9 @@
          global $urlRoutes;
          if(isset($urlRoutes[$this->route[0]])) {     // route[0] - ключ нашого масиву urlRoutes[]
             $routePath = explode('/', $urlRoutes[$this->route[0]]);
+            if ($routePath[0] == 'admin') {
+               $this->dirController .= 'admin/';
+            }
             if (isset($routePath[0]) && isset($routePath[1])) {
                $this->setControllerName($routePath[0]);
                $this->setActionName($routePath[1]);
@@ -56,9 +59,10 @@
       }
 
       // Redirect if URL wrong (for Error 404): including Controller's file, creating Object & executing his method
-      private function Redirect()
+      private function redirect()
       {
          $dir = $this->dirController . $this->controllerName . '.php';
+         // var_dump($dir);
          if (file_exists($dir)) {
             require_once($dir);
          } else {

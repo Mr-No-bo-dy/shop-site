@@ -8,6 +8,8 @@
       // 'login' => 'user/login',
       'register' => 'home/register',
       'login' => 'home/login',
+
+      'admin' => 'admin/index',
       
       // 'logout' => 'user/logout',
       // 'user-view' => 'user/view',
