@@ -1,8 +1,6 @@
 <?php 
    require_once "app/vendor/DataBase.php";
 
-   // echo '<pre>';
-
    class BaseModel
    {
       public function builder()
@@ -10,31 +8,29 @@
          return DataBase::connection();
       }
       
-      public function getAll(string $table_name, string $primary_column_name)
+      public function getAll(string $tableName, string $primaryColumnName)
       {
          $builder = $this->builder();
-         $stmt = $builder->prepare('SELECT * FROM shop_db.' . $table_name . '');
+         $stmt = $builder->prepare('SELECT * FROM shop_db.' . $tableName . '');
          $stmt->execute();
          
          $items = [];
          $result = $stmt->fetchAll();
          foreach ($result as $row) {
-            $items[$row[$primary_column_name]] = $row;
+            $items[$row[$primaryColumnName]] = $row;
          }
 
          return $items;
       }
       
-      public function getOne(string $table_name, string $primary_column_name, int $id_entity)
+      public function getOne(string $tableName, string $primaryColumnName, int $idEntity)
       {
          $builder = $this->builder();
-         $stmt = $builder->prepare('SELECT * FROM shop_db.' .$table_name .' WHERE ' . $primary_column_name .' = ' . $id_entity . '');
+         $stmt = $builder->prepare('SELECT * FROM shop_db.' .$tableName .' WHERE ' . $primaryColumnName .' = ' . $idEntity . '');
          $stmt->execute();
          $item = $stmt->fetch();
 
          return $item;
       }
    }
-
-   // echo '</pre>';
 ?>

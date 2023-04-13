@@ -6,3 +6,4 @@
          require_once 'app/resource/views/' . $template . '.php';
       }
    }
+?>

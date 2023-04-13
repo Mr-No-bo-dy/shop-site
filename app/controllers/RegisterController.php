@@ -1,6 +1,6 @@
 <?php 
    require_once 'app/vendor/Controller.php';
-   require_once 'app/vendor/DataBase.php';
+   // require_once 'app/vendor/DataBase.php';
    require_once 'app/models/Product.php';
    require_once 'app/models/User.php';
    require_once 'app/models/Customer.php';
@@ -35,3 +35,4 @@
          );
       }
    }
+?>

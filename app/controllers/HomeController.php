@@ -12,11 +12,7 @@
       {
          $name = 'Olex';
 
-         // $table = 'products';
-         // $tableSecondary = 'prices';
          $productModel = new Product();
-         // $products = $productModel->getAll($table);
-         // $product = $productModel->getOne($table, 11);
          $products = $productModel->getAllProducts();
 
          $userModel = new User();
@@ -39,3 +35,4 @@
          );
       }
    }
+?>

@@ -1,6 +1,8 @@
 <?php 
    // echo '<pre>';
-   spl_autoload_register();      // Classes' Auto-Load (Авто-завантаження Класів)
+
+   // Classes' Auto-Load (Авто-завантаження Класів):
+   spl_autoload_register();
    require_once 'app/config/routes.php';
    require_once 'app/vendor/Route.php';
 

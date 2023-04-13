@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,9 +8,10 @@
    <title>Index</title>
    <link rel="stylesheet" href="app/resource/css/header.css">
 </head>
+
 <body>
 
-<?php
+   <?php
    // require ("components/header.php");
    // require ("_temp/error_login.php");
 ?>
@@ -51,34 +53,34 @@
    <h2>Welcome to Shop, <?= $data['name'] ?></h2>
    <?= '<pre>'; ?>
    <?php //var_dump($data['products']); ?>
-   <?php //var_dump($product) ?>
    <?= '</pre>'; ?>
-   
+
    <h2>Our Products:</h2>
    <?php foreach($data['products'] as $product) {?>
-      <h3><?= $product['name'] ?></h3>
-      <p>Price: <b><?= $product['price'] ?> $</b></p>
+   <h3><?= $product['name'] ?></h3>
+   <p>Price: <b><?= $product['price'] ?> $</b></p>
    <?php } ?>
-   
+
    <h2>Selled Products:</h2>
    <?php foreach($data['orders'] as $order) {?>
-      <h3><?= $order['name'] ?></h3>
-      <p>Price: <b><?= $order['total_price'] ?> $</b></p>
+   <h3><?= $order['name'] ?></h3>
+   <p>Price: <b><?= $order['total_price'] ?> $</b></p>
    <?php } ?>
-   
+
    <h2>Our best sellers:</h2>
    <?php foreach($data['users'] as $user) {?>
-      <h3><?= $user['first_name']?> <?= $user['last_name']?></h3>
-      <p>Total Order: <b><?= $user['total_price'] ?> $</b></p>
+   <h3><?= $user['first_name']?> <?= $user['last_name']?></h3>
+   <p>Total Order: <b><?= $user['total_price'] ?> $</b></p>
    <?php } ?>
 
    <h2>Our best customers:</h2>
    <?php foreach($data['customers'] as $customer) {?>
-      <h3><?= $customer['first_name']?> <?= $customer['last_name']?></h3>
-      <p>Total Order: <b><?= $customer['total_price'] ?> $</b></p>
+   <h3><?= $customer['first_name']?> <?= $customer['last_name']?></h3>
+   <p>Total Order: <b><?= $customer['total_price'] ?> $</b></p>
    <?php } ?>
 
 </body>
+
 </html>
 
 <?php 

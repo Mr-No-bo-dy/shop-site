@@ -15,3 +15,4 @@
       // 'user-view' => 'user/view',
    
    ];
+?>

@@ -22,3 +22,4 @@
    $pdo = new DataBase();
    $pdo->connection();
    // echo "<p>Connection succesful!</p>";
+?>
