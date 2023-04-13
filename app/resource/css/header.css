@@ -11,7 +11,7 @@
    color: #fff;
    padding: 10px;
    text-align: center;
-   background-color: #444;
+   background-color: #668;
 }
 
 /* Style for the header logo */
@@ -55,7 +55,7 @@
 }
 
 .nav a:hover {
-   background-color: #111;
+   background-color: #335;
 }
 
 /* Style for the dropdown menu */
@@ -68,7 +68,7 @@
    display: none;
    position: absolute;
    min-width: 160px;
-   background-color: #333;
+   background-color: #335;
    z-index: 1;
 }
 
@@ -94,11 +94,11 @@
    max-width: 70%;
    padding: 5px 10px;
    box-sizing: border-box;
-   color: #333;
+   color: #335;
    font-size: 16px;
    background-color: #f8f8f8;
    border: 1px solid transparent;
-   border-radius: 4px;
+   /* border-radius: 3px; */
    transition: background-color 0.2s ease;
 }
 
@@ -106,7 +106,7 @@
 .search input[type="text"]:focus {
    background-color: #fff;
    outline: none;
-   border-color: #111;
+   border-color: #224;
 }
 
 .search button {
@@ -114,13 +114,13 @@
    max-width: 30%;
    color: #fff;
    font-size: 16px;
-   background-color: #4CAF50;
+   background-color: #394;
    border: none;
-   border-radius: 4px;
+   /* border-radius: 3px; */
    cursor: pointer;
    transition: background-color 0.3s ease;
 }
 
 .search button:hover {
-   background-color: #3e8e
+   background-color: #5f6
 }

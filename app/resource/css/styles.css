@@ -13,8 +13,8 @@
    max-width: 350px;
    padding: 25px 15px 15px;
    text-align: center;
-   background-color: #aac;
-   border: 1px solid #000;
+   background-color: #779;
+   border: 1px solid #446;
 }
 
 .flex {
@@ -81,7 +81,7 @@ input::placeholder {
 .allUsers td {
    padding: 5px 10px;
    text-align: center;
-   border: 1px solid #000;
+   border: 1px solid #111;
    background-color: #ddf;
 }
 
@@ -89,15 +89,16 @@ input::placeholder {
    display: inline-block;
    margin: 5px 0;
    padding: 5px 10px;
-   color: #000;
+   color: #111;
    text-decoration: none;
-   background-color: #ffa;
-   border: 1px solid #333;
+   background-color: #394;
+   border: 1px solid #446;
+   /* border-radius: 3px; */
    transition: all .5s ease;
 }
 
 .button:hover {
-   background-color: #afa;
+   background-color: #5f6;
    cursor: pointer;
 }
 

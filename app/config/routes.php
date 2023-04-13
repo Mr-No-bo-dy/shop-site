@@ -4,14 +4,12 @@
       '' => 'home/index',
       'home' => 'home/index',
 
-      // 'register' => 'user/register',
-      // 'login' => 'user/login',
-      'register' => 'home/register',
-      'login' => 'home/login',
+      'register' => 'user/register',
+      'login' => 'user/login',
+      'logout' => 'user/logout',
 
       'admin' => 'admin/index',
       
-      // 'logout' => 'user/logout',
       // 'user-view' => 'user/view',
    
    ];

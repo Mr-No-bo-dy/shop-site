@@ -1,13 +1,13 @@
 <?php
-   require ("components/header.php");
-   require ("_temp/error_login.php");
+   require ("app/resource/views/home/components/header.php");
+   // require ("_temp/error_login.php");
 ?>
 
 <div class="wrapper">
    <div class="wrapper-form">
       <h1>Login</h1>
-      <h3><a class="button" href="register.php">Register</a></h3>
-      <form class="verify" action="<?= $action ?>" method="post">
+      <h3><a class="button" href="register">Register</a></h3>
+      <form class="verify" action="home" method="post">
          <?php if (!empty($errorText)) { ?>
             <span class="error-unique"><?= $errorText ?></span>
          <?php } ?>
@@ -19,5 +19,10 @@
 </div>
 
 <?php 
-   require ("components/footer.php"); 
+   // $action = '';
+   // $fieldsError = false;
+?>
+
+<?php 
+   require ("app/resource/views/home/components/footer.php"); 
 ?>

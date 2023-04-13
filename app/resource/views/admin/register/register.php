@@ -1,12 +1,12 @@
 <?php
-   require ("components/header.php");
-   require ("_temp/error_register.php");
+   require ("app/resource/views/home/components/header.php");
+   // require ("_temp/error_register.php");
 ?>
 
 <div class="wrapper">
    <div class="wrapper-form">
       <h1>Registration</h1>
-      <h3><a class="button" href="login.php">Login</a></h3>
+      <h3><a class="button" href="login">Login</a></h3>
       <form class="verify" action="<?= $action ?>" method="post" enctype="multipart/form-data">
          <?php if (!empty($errorText)) { ?>
             <span class="error-unique"><?= $errorText ?></span>
@@ -22,5 +22,5 @@
 </div>
 
 <?php 
-   require ("components/footer.php"); 
+   require ("app/resource/views/home/components/footer.php"); 
 ?>

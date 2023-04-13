@@ -1,16 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
+   require ("app/resource/views/home/components/header.php");
+?>
 
-<head>
-   <meta charset="UTF-8">
-   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Document</title>
-</head>
+<?php 
+   if (isset($_SESSION['users']['adminLoginUser'])) {
+      // header("Location: app/resource/views/admin/dashboard/index.php");
+      // header("Location: admin");
+   } else {
+      // header("Location: app/resource/views/admin/register/login.php");
+      header("Location: login");
+   }
+   $adminName = $_SESSION['users']['adminLoginUser'];
+?>
+   <h1>Hello, admin <?= $adminName ?></h1>
 
-<body>
-   <h1>Admin</h1>
-
-</body>
-
-</html>
+<?php 
+   require ("app/resource/views/home/components/footer.php"); 
+?>
