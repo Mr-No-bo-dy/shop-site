@@ -4,20 +4,7 @@
 ?>
 
 <?php 
-   if (isset($_POST['username'])) {
-      $_SESSION['users']['adminLoginUser'] = $_POST['username'];
-      header("Location: admin");
-   } else {
-      // header("Location: login");
-   }
 
-   
-   // if (isset($_POST['username']) && isset($_POST['password']) && $_POST['username'] === 'olex') {
-   // if (isset($_POST['username'])) {
-   //    // $action = 'admin';
-   // } else {
-   //    // $fieldsError = true;
-   // }
 ?>
    <h2>Welcome to Shop, User</h2>
 

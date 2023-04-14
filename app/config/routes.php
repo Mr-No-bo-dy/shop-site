@@ -1,16 +1,14 @@
-<?php
+<?php 
    $urlRoutes = [
-      // request '' or 'home' => controller 'home', method 'index'
+      // request (in URL) => controller / method
       '' => 'home/index',
       'home' => 'home/index',
 
-      'register' => 'user/register',
-      'login' => 'user/login',
-      'logout' => 'user/logout',
-
       'admin' => 'admin/index',
-      
-      // 'user-view' => 'user/view',
+      'register' => 'admin/register',
+      'login' => 'admin/login',
+      'logout' => 'admin/logout',
+
    
    ];
 ?>

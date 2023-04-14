@@ -7,7 +7,7 @@
    <div class="wrapper-form">
       <h1>Login</h1>
       <h3><a class="button" href="register">Register</a></h3>
-      <form class="verify" action="home" method="post">
+      <form class="verify" action="admin" method="post">
          <?php if (!empty($errorText)) { ?>
             <span class="error-unique"><?= $errorText ?></span>
          <?php } ?>
@@ -19,8 +19,7 @@
 </div>
 
 <?php 
-   // $action = '';
-   // $fieldsError = false;
+   
 ?>
 
 <?php 
