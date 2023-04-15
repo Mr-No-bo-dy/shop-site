@@ -1,6 +1,6 @@
-/* body {
+* {
    margin: 0;
-} */
+}
 
 html {
    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
@@ -17,8 +17,7 @@ html {
    max-width: 350px;
    padding: 25px 15px 15px;
    text-align: center;
-   background-color: #779;
-   /* border: 1px solid #224; */
+   background-color: #668;
 }
 
 .flex {

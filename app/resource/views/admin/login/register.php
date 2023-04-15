@@ -1,6 +1,6 @@
 <?php
-   require ("app/resource/views/home/components/header.php");
-   // require ("_temp/error_register.php");
+   require 'app/resource/views/home/components/header.php';
+   // require '_temp/error_register.php';
 ?>
 
 <div class="wrapper">
@@ -25,5 +25,5 @@
 </div>
 
 <?php 
-   require ("app/resource/views/home/components/footer.php"); 
+   require 'app/resource/views/home/components/footer.php'; 
 ?>

@@ -1,6 +1,6 @@
 <?php 
-   require_once "app/vendor/DataBase.php";
-   require_once "app/vendor/BaseModel.php";
+   require_once 'app/vendor/DataBase.php';
+   require_once 'app/vendor/BaseModel.php';
 
    // echo '<pre>';
 
@@ -37,9 +37,9 @@
       {
          // if (isset($_POST['username'])) {
          //    $_SESSION['users']['adminLoginUser'] = $_POST['username'];
-         //    header("Location: admin");
+         //    header('Location: admin');
          // } else {
-         //    // header("Location: login");
+         //    // header('Location: login');
          // }
       }
 
@@ -50,7 +50,7 @@
 
          foreach ($users as $user) {
             $builder = $this->builder();
-            $stmt = $builder->prepare("SELECT * FROM shop_db.orders WHERE id_user = " . $user['id_user'] . "");
+            $stmt = $builder->prepare('SELECT * FROM shop_db.orders WHERE id_user = ' . $user['id_user'] . '');
             $stmt->execute();
             $orders[] = $stmt->fetch();
          }

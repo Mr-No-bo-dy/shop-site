@@ -1,6 +1,6 @@
 <?php 
-   require_once "app/vendor/DataBase.php";
-   require_once "app/vendor/BaseModel.php";
+   require_once 'app/vendor/DataBase.php';
+   require_once 'app/vendor/BaseModel.php';
 
    // echo '<pre>';
 
@@ -13,7 +13,7 @@
 
          foreach ($customers as $customer) {
             $builder = $this->builder();
-            $stmt = $builder->prepare("SELECT * FROM shop_db.orders WHERE id_customer = " . $customer['id_customer'] . "");
+            $stmt = $builder->prepare('SELECT * FROM shop_db.orders WHERE id_customer = ' . $customer['id_customer'] . '');
             $stmt->execute();
             $orders[] = $stmt->fetch();
          }

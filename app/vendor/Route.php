@@ -6,7 +6,7 @@
       private $route;
       private $dirController = 'app/controllers/';   // dir with controllers
       private $controllerName = 'Index';
-      private $actionName = 'Index';     // method in class "controllerName"
+      private $actionName = 'Index';     // method in class 'controllerName'
 
       public function startApp()
       {
@@ -46,7 +46,7 @@
       private function setRouteParams()
       {
          global $urlRoutes;
-         if(isset($urlRoutes[$this->route[0]])) {     // route[0] - ключ нашого масиву urlRoutes[]
+         if (isset($urlRoutes[$this->route[0]])) {     // route[0] - ключ нашого масиву urlRoutes[]
             $routePath = explode('/', $urlRoutes[$this->route[0]]);
             if ($routePath[0] == 'admin') {
                $this->dirController .= 'admin/';
@@ -70,7 +70,7 @@
          }
 
          if (class_exists($this->controllerName)) {
-            $controller = new $this->controllerName();   // object creation of class (in file) "controllerName"
+            $controller = new $this->controllerName();   // object creation of class (in file) 'controllerName'
          } else {
             die('Class NOT found.');
          }
