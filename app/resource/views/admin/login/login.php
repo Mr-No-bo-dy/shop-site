@@ -6,7 +6,7 @@
 <div class="wrapper">
    <div class="wrapper-form">
       <h1>Login</h1>
-      <h3><a class="button" href="register">Register</a></h3>
+      <div><a class="button" href="register">Register</a></div>
       <form class="verify" action="admin" method="post">
          <?php if (!empty($errorText)) { ?>
             <span class="error-unique"><?= $errorText ?></span>
@@ -17,10 +17,6 @@
       </form>
    </div>
 </div>
-
-<?php 
-   
-?>
 
 <?php 
    require ("app/resource/views/home/components/footer.php"); 

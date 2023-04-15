@@ -2,6 +2,10 @@
    margin: 0;
 } */
 
+html {
+   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+}
+
 .wrapper {
    padding: 0 15px;
    margin: 0 auto;
@@ -14,7 +18,7 @@
    padding: 25px 15px 15px;
    text-align: center;
    background-color: #779;
-   border: 1px solid #446;
+   /* border: 1px solid #224; */
 }
 
 .flex {
@@ -57,7 +61,16 @@ form.verify {
    width: 90%;
    font-size: 16px;
    font-weight: bold;
+   background-color: #f0f0f0;
    outline: none;
+   border: 2px solid transparent;
+}
+
+.verify input:hover,
+.verify input:focus {
+   background-color: #fff;
+   outline: none;
+   border: 2px solid #446;
 }
 
 input::placeholder {
@@ -90,6 +103,7 @@ input::placeholder {
    margin: 5px 0;
    padding: 5px 10px;
    color: #111;
+   font-weight: bold;
    text-decoration: none;
    background-color: #394;
    border: 1px solid #446;

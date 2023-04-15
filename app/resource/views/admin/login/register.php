@@ -6,7 +6,7 @@
 <div class="wrapper">
    <div class="wrapper-form">
       <h1>Registration</h1>
-      <h3><a class="button" href="login">Login</a></h3>
+      <div><a class="button" href="login">Login</a></div>
       <form class="verify" action="register" method="post" enctype="multipart/form-data">
          <?php if (!empty($errorText)) { ?>
             <span class="error-unique"><?= $errorText ?></span>
