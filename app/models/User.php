@@ -1,38 +1,12 @@
 <?php 
    require_once 'app/vendor/DataBase.php';
    require_once 'app/vendor/BaseModel.php';
+   // require_once 'app/helpers/Requires.php';
 
    // echo '<pre>';
 
    class User extends BaseModel
    {
-      public function save(array $data)
-      {
-         if (isset($data['login']) && isset($data['password']) && isset($data['first_name']) 
-            && isset($data['last_name']) && isset($data['phone']) && isset($data['email']) && isset($data['id_status'])) {
-            $sql = 'INSERT INTO shop_db.users (login, password, first_name, last_name, phone, email, id_status) 
-               VALUES (:login, :password, :first_name, :last_name, :phone, :email, :id_status)';
-               
-            // Password's hashing:
-            $hashOptions = ['cost' => 12];
-            $password = password_hash($data['password'], PASSWORD_BCRYPT, $hashOptions);
-
-            $stmt = $this->builder()
-                        ->prepare($sql);
-
-            $stmt->bindParam(':login', $data['login']);
-            $stmt->bindParam(':password', $password);
-            $stmt->bindParam(':first_name', $data['first_name']);
-            $stmt->bindParam(':last_name', $data['last_name']);
-            $stmt->bindParam(':phone', $data['phone']);
-            $stmt->bindParam(':email', $data['email']);
-            $stmt->bindParam(':id_status', $data['id_status']);
-            $stmt->execute();
-         }
-         $this->builder();
-
-      }
-
       public function checkUser()
       {
          // if (isset($_POST['username'])) {

@@ -6,11 +6,13 @@
          session_start();
       }
 
+      // Redirect to Views
       protected function render(string $template, array $data = [])
       {
          require_once 'app/resource/views/' . $template . '.php';
       }
 
+      // Get data from Post
       public function getPost(string $key = '')
       {
          $result = [];

@@ -1,40 +1,9 @@
 <?php 
    require_once 'app/vendor/DataBase.php';
+   require_once 'app/vendor/Controller.php';
 
-   class BaseModel
+   class Requires
    {
-      public function builder()
-      {
-         return DataBase::connection();
-      }
-      
-      // Get all info of all entities
-      public function getAll(string $tableName, string $primaryColumnName)
-      {
-         $builder = $this->builder();
-         $stmt = $builder->prepare('SELECT * FROM shop_db.' . $tableName . '');
-         $stmt->execute();
-         
-         $items = [];
-         $result = $stmt->fetchAll();
-         foreach ($result as $row) {
-            $items[$row[$primaryColumnName]] = $row;
-         }
-
-         return $items;
-      }
-      
-      // Get all info of one entity
-      public function getOne(string $tableName, string $primaryColumnName, int $idEntity)
-      {
-         $builder = $this->builder();
-         $stmt = $builder->prepare('SELECT * FROM shop_db.' . $tableName .' WHERE ' . $primaryColumnName .' = ' . $idEntity . '');
-         $stmt->execute();
-         $item = $stmt->fetch();
-
-         return $item;
-      }
-
       public function errorRegister()
       {
          echo '<pre>';
@@ -68,9 +37,9 @@
                   $userData = $userPost;
 
                   // Get data from DB
-                  // $pdo = new DataBase();
-                  // $connection = $pdo->connection();
-                  $connection = $this->builder();
+                  $pdo = new DataBase();
+                  $connection = $pdo->connection();
+                  // $connection = $this->builder();
                   $stmt = $connection->prepare('SELECT * FROM shop_db.users');
                   $stmt->execute();
                   $db = $stmt->fetchAll();
@@ -160,37 +129,6 @@
             $errorText = $e->getMessage();
          }
          // echo '</pre>';
-      }
-
-      // Add user into DB
-      public function save(array $data)
-      {
-         if (isset($data['login']) && isset($data['password']) && isset($data['first_name']) 
-            && isset($data['last_name']) && isset($data['phone']) && isset($data['email']) && isset($data['id_status'])) {
-            
-            $this->errorRegister();
-            
-            $sql = 'INSERT INTO shop_db.users (login, password, first_name, last_name, phone, email, id_status) 
-               VALUES (:login, :password, :first_name, :last_name, :phone, :email, :id_status)';
-            
-            // Password's hashing:
-            $hashOptions = ['cost' => 12];
-            $password = password_hash($data['password'], PASSWORD_BCRYPT, $hashOptions);
-
-            $stmt = $this->builder()
-                        ->prepare($sql);
-
-            $stmt->bindParam(':login', $data['login']);
-            $stmt->bindParam(':password', $password);
-            $stmt->bindParam(':first_name', $data['first_name']);
-            $stmt->bindParam(':last_name', $data['last_name']);
-            $stmt->bindParam(':phone', $data['phone']);
-            $stmt->bindParam(':email', $data['email']);
-            $stmt->bindParam(':id_status', $data['id_status']);
-            // $stmt->execute();
-         }
-
-         $this->builder();
       }
    }
 ?>

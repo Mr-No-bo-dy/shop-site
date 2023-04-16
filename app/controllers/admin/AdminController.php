@@ -19,10 +19,11 @@
          $userData = $this->getPost();
          if (!empty($userData)) {
             $userModel->save($userData);
-            $this->render('admin/login/login');
+            // $this->render('admin/login/login');
          } else {    // temporary
-            $this->render('admin/login/register');
+            // $this->render('admin/login/register');
          }
+         $this->render('admin/login/register');
       }
 
       public function actionLogin()
