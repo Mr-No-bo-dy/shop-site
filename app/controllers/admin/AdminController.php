@@ -18,8 +18,10 @@
          $userModel = new User();
          $userData = $this->getPost();
          if (!empty($userData)) {
+            // $userData = $userModel->errorRegister();
+            // var_dump($userData);
             $userModel->save($userData);
-            // $this->render('admin/login/login');
+            $this->render('admin/login/login');
          } else {    // temporary
             // $this->render('admin/login/register');
          }

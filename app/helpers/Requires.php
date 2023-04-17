@@ -25,16 +25,19 @@
                if (empty($userPost['login']) || empty($userPost['password']) || empty($userPost['first_name']) || empty($userPost['last_name']) 
                   || empty($userPost['phone']) || empty($userPost['email']) || empty($userPost['id_status'])) {
                   $fieldsError = true;
+                  // $this->fieldsError = true;
+                  // $this->fieldsError = true;
                   throw new Exception("Заповнені не всі поля");
-                  
+
                } else {
-                  // // Strip special characters from $_POST
-                  // $userData = [];
-                  // foreach ($userPost as $key => $val) {
-                  //    $userData[$key] = preg_quote($val, '/');
-                  // }
+                  // Strip special characters from $_POST
+                  $userData = [];
+                  foreach ($userPost as $key => $val) {
+                     $userData[$key] = preg_replace('#[^a-zA-Z0-9а-яА-ЯєЄіІ@._-]#u', '', $val);
+                     // $userData[$key] = preg_replace('#[\!\№\#\;\$\:\^\?\*\\,(\)\[\]\{\}\<\>\\+\=\\\|\/]#', '', $val);
+                  }
                   // var_dump($userData);
-                  $userData = $userPost;
+                  // $userData = $userPost;
 
                   // Get data from DB
                   $pdo = new DataBase();
@@ -49,6 +52,7 @@
                      $loginError = true;
                      throw new Exception("Довжина Юзернейма повнна бути від 8 до 32 символів");
                   } else {
+                     $userData['login'] = preg_replace('#[\s+]#', '_', $userData['login']);
                      $loginError = false;
                   }
 
@@ -80,10 +84,13 @@
                   }
 
                   // Check phone
-                  $clean_phone = preg_replace('#[\s()-]+#', '', $userData['phone']);
-                  if (preg_match('#^(\+7)#', $userData['phone'])) {
+                  $userData['phone'] = preg_replace('#[+\s()-]#', '', $userData['phone']);
+                  // if (preg_match('#^(\+7)#', $userData['phone'])) {
+                  if (preg_match('#^7#', $userData['phone'])) {
                      throw new Exception("Московитським окупантам тут не місце!");
-                  } elseif (!preg_match('#^(\+)[0-9]{10,12}$#', $clean_phone)) {
+                     // } elseif (!preg_match('#^(\+)[0-9]{10,12}$#', $userData['phone'])) {
+                  } elseif (!preg_match('#^[0-9]{10,12}$#', $userData['phone'])) {
+                     echo 'error';
                      throw new Exception("Введіть номер телефону в міжнародному форматі без додаткових символів");
                   } else {
                      $phoneError = false;
@@ -102,6 +109,7 @@
                      $first_nameError = true;
                      throw new Exception("Довжина Імені повнна бути від 2 до 32 символів");
                   } else {
+                     $userData['first_name'] = preg_replace('#[\s]+#', '_', $userData['first_name']);
                      $first_nameError = false;
                   }
                                     
@@ -110,6 +118,7 @@
                      $last_nameError = true;
                      throw new Exception("Довжина Прізвища повнна бути від 2 до 32 символів");
                   } else {
+                     $userData['last_name'] = preg_replace('#[\s]+#', '_', $userData['last_name']);
                      $last_nameError = false;
                   }
                                     
@@ -129,6 +138,8 @@
             $errorText = $e->getMessage();
          }
          // echo '</pre>';
+         
+         return $userData;
       }
    }
 ?>
