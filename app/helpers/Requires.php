@@ -10,35 +10,19 @@
          try {
             $errorText = '';
             $fieldsError = false;
-            $loginError = true;
-            $passwordError = true;
-            $first_nameError = true;
-            $last_nameError = true;
-            $phoneError = true;
-            $emailError = true;
-            $id_statusError = true;
 
             $cont = new Controller;
-            $userPost = $cont->getPost();
+            $userData = $cont->getPost();
 
             if (!empty($_POST)) {
-               if (empty($userPost['login']) || empty($userPost['password']) || empty($userPost['first_name']) || empty($userPost['last_name']) 
-                  || empty($userPost['phone']) || empty($userPost['email']) || empty($userPost['id_status'])) {
+               if (empty($userData['login']) || empty($userData['password']) || empty($userData['first_name']) || empty($userData['last_name']) 
+                  || empty($userData['phone']) || empty($userData['email']) || empty($userData['id_status'])) {
                   $fieldsError = true;
                   // $this->fieldsError = true;
                   // $this->fieldsError = true;
                   throw new Exception("Заповнені не всі поля");
 
                } else {
-                  // Strip special characters from $_POST
-                  $userData = [];
-                  foreach ($userPost as $key => $val) {
-                     $userData[$key] = preg_replace('#[^a-zA-Z0-9а-яА-ЯєЄіІ@._-]#u', '', $val);
-                     // $userData[$key] = preg_replace('#[\!\№\#\;\$\:\^\?\*\\,(\)\[\]\{\}\<\>\\+\=\\\|\/]#', '', $val);
-                  }
-                  // var_dump($userData);
-                  // $userData = $userPost;
-
                   // Get data from DB
                   $pdo = new DataBase();
                   $connection = $pdo->connection();
@@ -48,21 +32,24 @@
                   $db = $stmt->fetchAll();
 
                   // Check login
-                  if (strlen($userData['login']) < 8 || strlen($userData['login']) > 32) {
-                     $loginError = true;
-                     throw new Exception("Довжина Юзернейма повнна бути від 8 до 32 символів");
-                  } else {
-                     $userData['login'] = preg_replace('#[\s+]#', '_', $userData['login']);
-                     $loginError = false;
+                  if (!preg_match_all('#[a-zA-Zа-яА-ЯіІєЄ_-]{6,20}#u', $userData['login'])) {
+                     // echo '<h3>login</h3>';
+                     throw new Exception("Юзернейм повинен містити лише літери, цифри, - чи _ та мати довжину від 6 до 20 символів");
                   }
 
                   // Check unique login
                   foreach ($db as $row) {
                      if ($userData['login'] == $row['login']) {
-                        $loginError = true;
+                        // echo '<h3>ulogin</h3>';
                         throw new Exception("Такий Юзернейм вже зареєстрований");
                         break;
                      }
+                  }
+
+                  // Check password
+                  if (!preg_match_all('#[a-zA-Zа-яА-ЯіІєЄ_-]{8,32}#u', $userData['password'])) {
+                     // echo '<h3>pass</h3>';
+                     throw new Exception("Пароль повинен містити лише літери, цифри, - чи _ та мати довжину від 8 до 32 символів");
                   }
 
                   // Check email
@@ -70,67 +57,45 @@
                      throw new Exception("Московитським окупантам тут не місце!");
                   } elseif (!preg_match('#^[a-zA-Z0-9-.]+@[a-z]+\.[a-z]{2,3}$#', $userData['email'])) {
                      throw new Exception("Такої електронної адреси не існує");
-                  } else {
-                     $emailError = false;
+                     // echo '<h3>email</h3>';
                   }
 
                   // Check unique email
                   foreach ($db as $row) {
                      if ($userData['email'] == $row['email']) {
-                        $emailError = true;
+                        // echo '<h3>uemail</h3>';
                         throw new Exception("Така Електронна адреса вже зареєстрована");
                         break;
                      }
                   }
 
                   // Check phone
-                  $userData['phone'] = preg_replace('#[+\s()-]#', '', $userData['phone']);
-                  // if (preg_match('#^(\+7)#', $userData['phone'])) {
-                  if (preg_match('#^7#', $userData['phone'])) {
+                  $userData['phone'] = preg_replace('#[\s()-]#', '', $userData['phone']);
+                  if (preg_match('#^(\+7)#', $userData['phone'])) {
                      throw new Exception("Московитським окупантам тут не місце!");
-                     // } elseif (!preg_match('#^(\+)[0-9]{10,12}$#', $userData['phone'])) {
-                  } elseif (!preg_match('#^[0-9]{10,12}$#', $userData['phone'])) {
-                     echo 'error';
+                  } elseif (!preg_match('#^(\+)[0-9]{10,12}$#', $userData['phone'])) {
+                     // echo '<h3>phone</h3>';
                      throw new Exception("Введіть номер телефону в міжнародному форматі без додаткових символів");
-                  } else {
-                     $phoneError = false;
-                  }
-
-                  // Check password
-                  if (strlen($userData['password']) < 8 || strlen($userData['password']) > 32) {
-                     $passwordError = true;
-                     throw new Exception("Довжина Паролю повнна бути від 8 до 32 символів");
-                  } else {
-                     $passwordError = false;
                   }
                   
                   // Check first_name
-                  if (strlen($userData['first_name']) < 2 || strlen($userData['first_name']) > 32) {
-                     $first_nameError = true;
-                     throw new Exception("Довжина Імені повнна бути від 2 до 32 символів");
-                  } else {
-                     $userData['first_name'] = preg_replace('#[\s]+#', '_', $userData['first_name']);
-                     $first_nameError = false;
+                  if (!preg_match_all('#[a-zA-Zа-яА-ЯіІєЄ_-]{2,32}#u', $userData['first_name'])) {
+                     // echo '<h3>fname</h3>';
+                     throw new Exception("Ім'я повинно містити лише літери, цифри, - чи _ та мати довжину від 2 до 32 символів");
                   }
                                     
                   // Check last_name
-                  if (strlen($userData['last_name']) < 2 || strlen($userData['last_name']) > 32) {
-                     $last_nameError = true;
-                     throw new Exception("Довжина Прізвища повнна бути від 2 до 32 символів");
-                  } else {
-                     $userData['last_name'] = preg_replace('#[\s]+#', '_', $userData['last_name']);
-                     $last_nameError = false;
+                  if (!preg_match_all('#[a-zA-Zа-яА-ЯіІєЄ_-]{2,32}#u', $userData['last_name'])) {
+                     // echo '<h3>lname</h3>';
+                     throw new Exception("Прізвище повинно містити лише літери, цифри, - чи _ та мати довжину від 2 до 32 символів");
                   }
                                     
                   // Check id_status
                   $idStatus = (int)$userData['id_status'];
                   if (gettype($idStatus) != 'integer') {
-                     $id_statusError = true;
+                     // echo '<h3>id</h3>';
                      throw new Exception("Ідентифікатор статусу - це числове значення");
-                  } else {
-                     $id_statusError = false;
                   }
-
                }
             }
 
