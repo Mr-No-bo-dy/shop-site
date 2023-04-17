@@ -9,6 +9,5 @@
       'login' => 'admin/login',
       'logout' => 'admin/logout',
 
-   
    ];
 ?>

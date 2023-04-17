@@ -79,12 +79,14 @@
                   }
                   
                   // Check first_name
+                  $userData['first_name'] = ucfirst($userData['first_name']);
                   if (!preg_match_all('#[a-zA-Zа-яА-ЯіІєЄ_-]{2,32}#u', $userData['first_name'])) {
                      // echo '<h3>fname</h3>';
                      throw new Exception("Ім'я повинно містити лише літери, цифри, - чи _ та мати довжину від 2 до 32 символів");
                   }
                                     
                   // Check last_name
+                  $userData['last_name'] = ucfirst($userData['last_name']);
                   if (!preg_match_all('#[a-zA-Zа-яА-ЯіІєЄ_-]{2,32}#u', $userData['last_name'])) {
                      // echo '<h3>lname</h3>';
                      throw new Exception("Прізвище повинно містити лише літери, цифри, - чи _ та мати довжину від 2 до 32 символів");

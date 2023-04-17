@@ -41,8 +41,8 @@
       {
          echo '<pre>';
          try {
-            $errorText = '';
             $fieldsError = false;
+            $errorText = '';
 
             $cont = new Controller;
             $userData = $cont->getPost();
@@ -65,7 +65,7 @@
                   $db = $stmt->fetchAll();
 
                   // Check login
-                  if (!preg_match_all('#[a-zA-Zа-яА-ЯіІєЄ_-]{6,20}#u', $userData['login'])) {
+                  if (!preg_match_all('#[a-zA-Z0-9а-яА-ЯєЄіІ_-]{4,20}#u', $userData['login'])) {
                      // echo '<h3>login</h3>';
                      throw new Exception("Юзернейм повинен містити лише літери, цифри, - чи _ та мати довжину від 6 до 20 символів");
                   }
@@ -80,7 +80,7 @@
                   }
 
                   // Check password
-                  if (!preg_match_all('#[a-zA-Zа-яА-ЯіІєЄ_-]{8,32}#u', $userData['password'])) {
+                  if (!preg_match_all('#[a-zA-Z0-9а-яА-ЯєЄіІ_-]{8,32}#u', $userData['password'])) {
                      // echo '<h3>pass</h3>';
                      throw new Exception("Пароль повинен містити лише літери, цифри, - чи _ та мати довжину від 8 до 32 символів");
                   }
@@ -112,13 +112,15 @@
                   }
                   
                   // Check first_name
-                  if (!preg_match_all('#[a-zA-Zа-яА-ЯіІєЄ_-]{2,32}#u', $userData['first_name'])) {
+                  $userData['first_name'] = ucfirst($userData['first_name']);
+                  if (!preg_match_all('#[a-zA-Z0-9а-яА-ЯєЄіІ_-]{2,32}#u', $userData['first_name'])) {
                      // echo '<h3>fname</h3>';
                      throw new Exception("Ім'я повинно містити лише літери, цифри, - чи _ та мати довжину від 2 до 32 символів");
                   }
                                     
                   // Check last_name
-                  if (!preg_match_all('#[a-zA-Zа-яА-ЯіІєЄ_-]{2,32}#u', $userData['last_name'])) {
+                  $userData['last_name'] = ucfirst($userData['last_name']);
+                  if (!preg_match_all('#[a-zA-Z0-9а-яА-ЯєЄіІ_-]{2,32}#u', $userData['last_name'])) {
                      // echo '<h3>lname</h3>';
                      throw new Exception("Прізвище повинно містити лише літери, цифри, - чи _ та мати довжину від 2 до 32 символів");
                   }
@@ -143,8 +145,8 @@
       // Add user into DB
       public function save(array $data)
       {
-         if (isset($data['login']) && isset($data['password']) && isset($data['first_name']) 
-            && isset($data['last_name']) && isset($data['phone']) && isset($data['email']) && isset($data['id_status'])) {
+         if (isset($data['login']) && isset($data['password']) && isset($data['first_name']) && isset($data['last_name']) 
+            && isset($data['phone']) && isset($data['email']) && isset($data['id_status'])) {
             
             $data = $this->errorRegister();
             // var_dump($data);
@@ -171,5 +173,54 @@
 
          $this->builder();
       }
+
+      public function login(array $data)
+      {
+         echo '<pre>';
+         try {
+            $fieldsError = false;
+            $errorText = '';
+
+            // $cont = new Controller;
+            // $userData = $cont->getPost();
+
+            if (empty($data['login']) || empty($data['password'])) {
+               $fieldsError = true;
+               throw new Exception("Порожні поля");
+            } else {
+
+               // Get data from DB
+               // $pdo = new DataBase();
+               // $connection = $pdo->connection();
+               $connection = $this->builder();
+               $stmt = $connection->prepare('SELECT * FROM shop_db.users');
+               $stmt->execute();
+               $db = $stmt->fetchAll();
+               // var_dump($db);
+               
+               $data['login'] = preg_replace('#[^a-zA-Z0-9а-яА-ЯєЄіІ_-]#u', '', $data['login']);
+               $data['password'] = preg_replace('#[^a-zA-Z0-9а-яА-ЯєЄіІ_-]#u', '', $data['password']);
+
+               foreach ($db as $row) {
+                  if ($row['login'] == $data['login']) {
+                     // var_dump($row);
+                     if (password_verify($data['password'], $row['password'])) {
+                        // echo '<h3>OK</h3>';
+                        return true;
+                     } else {
+                        // echo '<h3>pass</h3>';
+                        throw new Exception("Неправильний Нікнейм або Пароль");
+                        // return false;
+                     }
+                     // break;
+                  }
+               }
+            }
+
+         } catch (Exception $e) {
+            $errorText = $e->getMessage();
+         }
+      }
+
    }
 ?>
