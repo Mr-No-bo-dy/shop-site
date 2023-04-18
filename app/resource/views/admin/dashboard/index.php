@@ -3,16 +3,16 @@
 ?>
 
 <?php 
-   if (isset($_SESSION['users']['adminLoginUser'])) {
+   if (isset($_SESSION['users']['admin'])) {
       // header('Location: app/resource/views/admin/dashboard/index.php');
       // header('Location: admin');
    } else {
       // header('Location: app/resource/views/admin/register/login.php');
       header('Location: login');
    }
-   $adminName = $_SESSION['users']['adminLoginUser'];
+   $adminName = $_SESSION['users']['admin'];
 ?>
-   <h1>Hello, admin <?= $adminName ?></h1>
+   <p>Hello, admin <b><?= $adminName ?></b></p>
 
 <?php 
    require 'app/resource/views/home/components/footer.php'; 

@@ -6,7 +6,7 @@
    {
       public function errorRegister()
       {
-         echo '<pre>';
+         // echo '<pre>';
          try {
             $errorText = '';
             $fieldsError = false;

@@ -39,7 +39,7 @@
       // public static $fieldsError = false;
       public function errorRegister()
       {
-         echo '<pre>';
+         // echo '<pre>';
          try {
             $fieldsError = false;
             $errorText = '';
@@ -126,8 +126,9 @@
                   }
                                     
                   // Check id_status
-                  $idStatus = (int)$userData['id_status'];
-                  if (gettype($idStatus) != 'integer') {
+                  // $idStatus = (int)$userData['id_status'];
+                  // if (gettype($idStatus) != 'integer') {
+                  if ((int)$userData['id_status'] != 'integer') {
                      // echo '<h3>id</h3>';
                      throw new Exception("Ідентифікатор статусу - це числове значення");
                   }
@@ -176,7 +177,9 @@
 
       public function login(array $data)
       {
-         echo '<pre>';
+         // echo '<pre>';
+         // unset($_SESSION['users']);
+         session_destroy();
          try {
             $fieldsError = false;
             $errorText = '';
@@ -206,6 +209,7 @@
                      // var_dump($row);
                      if (password_verify($data['password'], $row['password'])) {
                         // echo '<h3>OK</h3>';
+                        $_SESSION['users']['admin'] = $data['login'];
                         return true;
                      } else {
                         // echo '<h3>pass</h3>';

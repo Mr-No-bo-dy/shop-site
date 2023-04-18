@@ -10,7 +10,7 @@
       public function checkUser()
       {
          // if (isset($_POST['username'])) {
-         //    $_SESSION['users']['adminLoginUser'] = $_POST['username'];
+         //    $_SESSION['users']['admin'] = $_POST['username'];
          //    header('Location: admin');
          // } else {
          //    // header('Location: login');

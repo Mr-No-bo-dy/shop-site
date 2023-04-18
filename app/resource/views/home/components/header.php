@@ -1,6 +1,3 @@
-<?php
-   // require ("_temp/functions.php");
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -39,7 +36,7 @@
 				</li>
 				<li><a href="#">About Us</a></li>
 				<li><a href="#">Contact Us</a></li>
-				<?php if(!isset($_SESSION['users']['adminLoginUser'])) { ?>
+				<?php if(!isset($_SESSION['users']['admin'])) { ?>
 					<li><a href="login">Login</a></li>
 				<?php } else { ?>
 					<li><a href="logout">Logout</a></li>
