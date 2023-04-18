@@ -18,32 +18,23 @@
          $userModel = new User();
          $userData = $this->getPost();
          if (!empty($userData)) {
-            // $userData = $userModel->errorRegister();
             $userModel->save($userData);
             $this->render('admin/login/login');
          } else {    // temporary
             $this->render('admin/login/register');
          }
-         // $this->render('admin/login/register');
       }
 
       public function actionLogin()
       {
-         // $this->render('admin/login/login');
-
          $userModel = new User();
          $userData = $this->getPost();
          if (!empty($userData)) {
             $userModel->login($userData);
-            // if ($userModel->login($userData)) {
-               $this->render('admin/dashboard/index');
-            // } else {
-               // echo '<h3>No</h3>';
-            // }
+            $this->render('admin/dashboard/index');
          } else {    // temporary
             $this->render('admin/login/login');
          }
-         // $this->render('admin/login/login');
       }
 
       public function actionLogout()

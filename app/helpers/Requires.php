@@ -4,12 +4,15 @@
 
    class Requires
    {
+      // Verification of all fields during user registration
+      // public static $errorText = '';
+      // public static $fieldsError = false;
       public function errorRegister()
       {
          // echo '<pre>';
          try {
-            $errorText = '';
             $fieldsError = false;
+            $errorText = '';
 
             $cont = new Controller;
             $userData = $cont->getPost();
@@ -19,7 +22,7 @@
                   || empty($userData['phone']) || empty($userData['email']) || empty($userData['id_status'])) {
                   $fieldsError = true;
                   // $this->fieldsError = true;
-                  // $this->fieldsError = true;
+                  // static::fieldsError = true;
                   throw new Exception("Заповнені не всі поля");
 
                } else {
@@ -32,7 +35,7 @@
                   $db = $stmt->fetchAll();
 
                   // Check login
-                  if (!preg_match_all('#[a-zA-Zа-яА-ЯіІєЄ_-]{6,20}#u', $userData['login'])) {
+                  if (!preg_match_all('#[a-zA-Z0-9а-яА-ЯєЄіІ_-]{4,20}#u', $userData['login'])) {
                      // echo '<h3>login</h3>';
                      throw new Exception("Юзернейм повинен містити лише літери, цифри, - чи _ та мати довжину від 6 до 20 символів");
                   }
@@ -47,7 +50,7 @@
                   }
 
                   // Check password
-                  if (!preg_match_all('#[a-zA-Zа-яА-ЯіІєЄ_-]{8,32}#u', $userData['password'])) {
+                  if (!preg_match_all('#[a-zA-Z0-9а-яА-ЯєЄіІ_-]{8,32}#u', $userData['password'])) {
                      // echo '<h3>pass</h3>';
                      throw new Exception("Пароль повинен містити лише літери, цифри, - чи _ та мати довжину від 8 до 32 символів");
                   }
@@ -80,21 +83,20 @@
                   
                   // Check first_name
                   $userData['first_name'] = ucfirst($userData['first_name']);
-                  if (!preg_match_all('#[a-zA-Zа-яА-ЯіІєЄ_-]{2,32}#u', $userData['first_name'])) {
+                  if (!preg_match_all('#[a-zA-Z0-9а-яА-ЯєЄіІ_-]{2,32}#u', $userData['first_name'])) {
                      // echo '<h3>fname</h3>';
                      throw new Exception("Ім'я повинно містити лише літери, цифри, - чи _ та мати довжину від 2 до 32 символів");
                   }
                                     
                   // Check last_name
                   $userData['last_name'] = ucfirst($userData['last_name']);
-                  if (!preg_match_all('#[a-zA-Zа-яА-ЯіІєЄ_-]{2,32}#u', $userData['last_name'])) {
+                  if (!preg_match_all('#[a-zA-Z0-9а-яА-ЯєЄіІ_-]{2,32}#u', $userData['last_name'])) {
                      // echo '<h3>lname</h3>';
                      throw new Exception("Прізвище повинно містити лише літери, цифри, - чи _ та мати довжину від 2 до 32 символів");
                   }
                                     
                   // Check id_status
-                  $idStatus = (int)$userData['id_status'];
-                  if (gettype($idStatus) != 'integer') {
+                  if ((int)$userData['id_status'] != 'integer') {
                      // echo '<h3>id</h3>';
                      throw new Exception("Ідентифікатор статусу - це числове значення");
                   }
