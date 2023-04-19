@@ -3,43 +3,46 @@
    require_once 'app/models/User.php';
 
    class AdminController extends Controller
-   {      
-      public function actionIndex()
-      {
-         if (isset($_SESSION['adminUser'])) {
-            $this->render('admin/dashboard/index');
-         } else {
-            $this->actionLogin();
-         }
-      }
-
+   {
       public function actionRegister()
       {
          $userModel = new User();
          $userData = $this->getPost();
          if (!empty($userData)) {
             $userModel->save($userData);
-            $this->render('admin/login/login');
+            // $this->view('admin/login/login');
+            $this->actionLogin();
          } else {    // temporary
-            $this->render('admin/login/register');
+            $this->view('admin/login/register');
          }
       }
 
       public function actionLogin()
       {
+         var_dump($_SESSION);
          $userModel = new User();
          $userData = $this->getPost();
          if (!empty($userData)) {
             $userModel->login($userData);
-            $this->render('admin/dashboard/index');
+            // $this->view('admin/dashboard/index');
+            $this->actionIndex();
          } else {    // temporary
-            $this->render('admin/login/login');
+            $this->view('admin/login/login');
          }
       }
 
       public function actionLogout()
       {
-         $this->render('admin/login/logout');
+         $this->view('admin/login/logout');
+      }
+      
+      public function actionIndex()
+      {
+         if (isset($_SESSION['users']['admin'])) {
+            $this->view('admin/dashboard/index');
+         } else {
+            $this->actionLogin();
+         }
       }
    }
 ?>

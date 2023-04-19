@@ -9,7 +9,7 @@
       // Витягнути інфу про 'products' і додати до неї ціни з таблиці `prices`:
       public function getAllProducts()
       {
-         $products = $this->getAll('products', 'id_product');
+         $products = $this->getAll();
 
          $preparedProducts = [];
          foreach ($products as $product) {

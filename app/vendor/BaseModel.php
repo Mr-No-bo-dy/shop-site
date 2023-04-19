@@ -1,24 +1,53 @@
 <?php 
    require_once 'app/vendor/DataBase.php';
 
+   // echo '<pre>';
+   
    class BaseModel
    {
+      protected $properties = [];
+      // private $properties = [];
+
       public function builder()
       {
          return DataBase::connection();
       }
+
+      public function __construct()
+      {
+         $this->getChildProperties($this->getInheritedClassName());
+      }
+
+      public function getInheritedClassName()
+      {
+         return get_called_class();
+      }
+
+      // Get properties of Child Class
+      public function getChildProperties($childModel)
+      {
+         $reflection = new ReflectionClass($childModel);
+         $properties = $reflection->getProperties();
+         foreach ($properties as $property) {
+            $this->properties[$property->getName()] = $property->getValue($this);
+         }
+      }
       
       // Get all info of all entities
-      public function getAll(string $tableName, string $primaryColumnName)
+      public function getAll(array $filters = [])
       {
+         $table = $this->properties['table'];
+         $primaryKey = $this->properties['primaryKey'];
+         $fields = $this->properties['fields'];
+
          $builder = $this->builder();
-         $stmt = $builder->prepare('SELECT * FROM shop_db.' . $tableName . '');
+         $stmt = $builder->prepare('SELECT ' . implode(', ', $fields) . ' FROM shop_db.' . $table . '');
          $stmt->execute();
-         
+
          $items = [];
          $result = $stmt->fetchAll();
          foreach ($result as $row) {
-            $items[$row[$primaryColumnName]] = $row;
+            $items[$row[$primaryKey]] = $row;
          }
 
          return $items;
@@ -34,6 +63,23 @@
 
          return $item;
       }
+
+      public function getValue()    // -> в констракт. Якщо нема - на логін.
+      {
+         // if (isset($_SESSION['users']['admin'])) {
+         //    // header('Location: app/resource/views/admin/dashboard/index.php');
+         //    // header('Location: admin');
+         // } else {
+         //    // header('Location: app/resource/views/admin/register/login.php');
+         //    header('Location: login');
+         // }
+      }  
+         
+      public function setValue()
+      {
+         // $_SESSION['users']['admin'] = $userData['login'];
+      }
+
 
       // Verification of all fields during user registration
       // public static $errorText = '';

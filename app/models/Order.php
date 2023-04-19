@@ -9,7 +9,7 @@
       // Витягнути інфу про 'orders' і додати до неї ціни з таблиці `products`:
       public function getAllOrders()
       {
-         $orders = $this->getAll('orders', 'id_order');
+         $orders = $this->getAll();
 
          foreach ($orders as $order) {
             $builder = $this->builder();

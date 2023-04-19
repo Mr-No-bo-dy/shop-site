@@ -6,10 +6,20 @@
          session_start();
       }
 
+      // // Redirect to Views
+      // protected function render(string $template, array $data = [])
+      // {
+      //    require_once 'app/resource/views/' . $template . '.php';
+      // }
+
       // Redirect to Views
-      protected function render(string $template, array $data = [])
+      protected function view(string $viewName, array $data = [])
       {
-         require_once 'app/resource/views/' . $template . '.php';
+         $viewPath = 'app/resource/views/' . $viewName . '.php';
+         if (file_exists($viewPath)) {
+            extract($data, EXTR_OVERWRITE);
+            include $viewPath;
+         }
       }
 
       // Get data from Post

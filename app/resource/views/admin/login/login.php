@@ -19,6 +19,5 @@
 </div>
 
 <?php 
-   var_dump($_SESSION);
    require 'app/resource/views/home/components/footer.php'; 
 ?>

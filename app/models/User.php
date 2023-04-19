@@ -1,12 +1,15 @@
 <?php 
-   require_once 'app/vendor/DataBase.php';
    require_once 'app/vendor/BaseModel.php';
-   // require_once 'app/helpers/Requires.php';
 
-   // echo '<pre>';
+   // namespace app\models;
+   // use app\vendor\BaseModel;
 
    class User extends BaseModel
    {
+      public $table = 'users';
+      public $primaryKey = 'id_user';
+      public $fields = ['id_user', 'login', 'first_name', 'last_name', 'phone', 'id_status'];
+
       // Add user into DB
       public function save(array $data)
       {
@@ -39,7 +42,7 @@
       public function login(array $data)
       {
          // echo '<pre>';
-         session_destroy();
+         // session_destroy();
          try {
             $fieldsError = false;
             $errorText = '';
@@ -67,7 +70,7 @@
                   if ($row['login'] == $data['login']) {
                      if (password_verify($data['password'], $row['password'])) {
                         $_SESSION['users']['admin'] = $data['login'];
-                        return true;
+                        // return true;
                      } else {
                         throw new Exception("Неправильний Нікнейм або Пароль");
                      }
@@ -79,44 +82,34 @@
             $errorText = $e->getMessage();
          }
       }
-      
-      public function checkUser()
-      {
-         // if (isset($_POST['username'])) {
-         //    $_SESSION['users']['admin'] = $_POST['username'];
-         //    header('Location: admin');
-         // } else {
-         //    // header('Location: login');
-         // }
-      }
 
-      // Витягнути інфу про 'users' і додати до неї суму замовлень з таблиці `orders`:
-      public function getAllUsers()
-      {
-         $users = $this->getAll('users', 'id_user');
+      // // Витягнути інфу про 'users' і додати до неї суму замовлень з таблиці `orders`:
+      // public function getAllUsers()
+      // {
+      //    $users = $this->getAll();
 
-         foreach ($users as $user) {
-            $builder = $this->builder();
-            $stmt = $builder->prepare('SELECT * FROM shop_db.orders WHERE id_user = ' . $user['id_user'] . '');
-            $stmt->execute();
-            $orders[] = $stmt->fetch();
-         }
-         // var_dump($orders);
+      //    foreach ($users as $user) {
+      //       $builder = $this->builder();
+      //       $stmt = $builder->prepare('SELECT * FROM shop_db.orders WHERE id_user = ' . $user['id_user'] . '');
+      //       $stmt->execute();
+      //       $orders[] = $stmt->fetch();
+      //    }
+      //    // var_dump($orders);
 
 
-         foreach ($orders as $order) {
-            if (!empty($order['total_price'])) {
-               foreach ($users as &$user) {
-                  if ($user['id_user'] === $order['id_user']) {
-                     $user['total_price'] = $order['total_price'];
-                  }
-               }
-            }
-         }
-         // var_dump($users);
+      //    foreach ($orders as $order) {
+      //       if (!empty($order['total_price'])) {
+      //          foreach ($users as &$user) {
+      //             if ($user['id_user'] === $order['id_user']) {
+      //                $user['total_price'] = $order['total_price'];
+      //             }
+      //          }
+      //       }
+      //    }
+      //    // var_dump($users);
           
-         return $users;
-      }
+      //    return $users;
+      // }
    }
 
    // echo '</pre>';
