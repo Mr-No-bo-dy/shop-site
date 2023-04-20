@@ -34,5 +34,22 @@
          }
          return $result;
       }
+      
+      public function getValue()    // -> в констракт. Якщо нема - на логін.
+      {
+         // if (isset($_SESSION['users']['admin'])) {
+         //    // header('Location: app/resource/views/admin/dashboard/index.php');
+         //    // header('Location: admin');
+         // } else {
+         //    // header('Location: app/resource/views/admin/register/login.php');
+         //    header('Location: login');
+         // }
+      }  
+         
+      public function setValue()
+      {
+         // $_SESSION['users']['admin'] = $userData['login'];
+      }
+
    }
 ?>

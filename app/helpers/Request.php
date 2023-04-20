@@ -2,12 +2,12 @@
    require_once 'app/vendor/DataBase.php';
    require_once 'app/vendor/Controller.php';
 
-   class Requires
+   class Request
    {
       // Verification of all fields during user registration
       // public static $errorText = '';
       // public static $fieldsError = false;
-      public function errorRegister()
+      public function checkUserRegister()
       {
          // echo '<pre>';
          try {

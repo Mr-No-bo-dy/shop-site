@@ -16,7 +16,7 @@
          if (isset($data['login']) && isset($data['password']) && isset($data['first_name']) && isset($data['last_name']) 
             && isset($data['phone']) && isset($data['email']) && isset($data['id_status'])) {
             
-            $data = $this->errorRegister();
+            // $data = $this->errorRegister();
             
             $sql = 'INSERT INTO shop_db.users (login, password, first_name, last_name, phone, email, id_status) 
                VALUES (:login, :password, :first_name, :last_name, :phone, :email, :id_status)';
@@ -42,13 +42,9 @@
       public function login(array $data)
       {
          // echo '<pre>';
-         // session_destroy();
          try {
             $fieldsError = false;
             $errorText = '';
-
-            // $cont = new Controller;
-            // $userData = $cont->getPost();
 
             if (empty($data['login']) || empty($data['password'])) {
                $fieldsError = true;
@@ -56,10 +52,8 @@
             } else {
 
                // Get data from DB
-               // $pdo = new DataBase();
-               // $connection = $pdo->connection();
                $connection = $this->builder();
-               $stmt = $connection->prepare('SELECT * FROM shop_db.users');
+               $stmt = $connection->prepare('SELECT login, password FROM shop_db.users');
                $stmt->execute();
                $db = $stmt->fetchAll();
                
@@ -70,8 +64,9 @@
                   if ($row['login'] == $data['login']) {
                      if (password_verify($data['password'], $row['password'])) {
                         $_SESSION['users']['admin'] = $data['login'];
-                        // return true;
+                        return true;
                      } else {
+                        return false;
                         throw new Exception("Неправильний Нікнейм або Пароль");
                      }
                   }
