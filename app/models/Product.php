@@ -1,11 +1,14 @@
 <?php 
-   require_once 'app/vendor/DataBase.php';
-   require_once 'app/vendor/BaseModel.php';
+   use app\vendor\BaseModel;
 
    // echo '<pre>';
 
    class Product extends BaseModel
    {
+      // public $table = 'products';
+      // public $primaryKey = 'id_product';
+      // public $fields = ['id_product', 'name', '	description', 'main_image', '	quantity'];
+
       // Витягнути інфу про 'products' і додати до неї ціни з таблиці `prices`:
       public function getAllProducts()
       {

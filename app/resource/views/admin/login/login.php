@@ -1,6 +1,6 @@
 <?php
+   // use app\vendor\BaseModel;
    require 'app/resource/views/home/components/header.php';
-   // require_once 'app/vendor/BaseModel.php';
 ?>
 
 <div class="wrapper">

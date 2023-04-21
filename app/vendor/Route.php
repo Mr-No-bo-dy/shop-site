@@ -1,5 +1,8 @@
 <?php 
-   namespace vendor;
+   namespace app\vendor;
+
+   use app\vendor\Controller;
+
    class Route
    {
       private $uri;           // Uniform Resource Identifier
@@ -62,24 +65,53 @@
       private function redirect()
       {
          $dir = $this->dirController . $this->controllerName . '.php';
-         // var_dump($dir);
+
+         if (is_null($this->checkDirExist($dir))) {
+            $controller = $this->checkClassExist($this->controllerName);
+            if (!is_null($controller)) {
+               $this->checkMethodExist($controller, $this->actionName);
+            }
+         }         
+      }
+      
+      private function checkDirExist(string $dir)
+      {
+         $baseController = new Controller();
+         $error = null;
          if (file_exists($dir)) {
             require_once($dir);
          } else {
-            die('Controller file NOT found.');
+            $error = 'This controller does NOT found.';
+            $baseController->view('templates/404', ['error' => $error]);
          }
 
+         return $error;
+      }
+      
+      private function checkClassExist(string $controllerName)
+      {
+         $baseController = new Controller();
+         // Просто створили дві різних пустих змінних:
+         $error = $controller = null;
          if (class_exists($this->controllerName)) {
-            $controller = new $this->controllerName();   // object creation of class (in file) 'controllerName'
+            $controller = new $this->controllerName();
          } else {
-            die('Class NOT found.');
+            $error = 'This class does NOT found.';
+            $baseController->view('templates/404', ['error' => $error]);
          }
 
-         if (method_exists($controller, $this->actionName)) {
-            $action = $this->actionName;
-            $controller->$action();
+         return is_null($error) ? $controller : null;
+      }
+      
+      private function checkMethodExist(object $controller, string $actionName)
+      {
+         $baseController = new Controller();
+         $error = null;
+         if (method_exists($controller, $actionName)) {
+            $controller->$actionName();
          } else {
-            die('Action NOT found.');
+            $error = 'This action does NOT found.';
+            $baseController->view('templates/404', ['error' => $error]);
          }
       }
    }

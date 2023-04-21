@@ -1,24 +1,28 @@
 <?php 
-   require_once 'app/vendor/Controller.php';
-   require_once 'app/models/User.php';
+   use app\models\User;
+   use app\vendor\Controller;
+   use app\helpers\Request;
 
    class AdminController extends Controller
    {
       public function actionRegister()
       {
          $userModel = new User();
+         $request = new Request();
+
          $userData = $this->getPost();
 
-         $request = new Request();
          $content = [];
          if (!empty($userData)) {
             $errors = $request->checkUserRegister($userData);
             if (!empty($errors)) {
+               echo '<pre>';
+               var_dump($errors);
+               die;
                $content['errors'] = $errors;
             } else {
-               $userModel->save($userData);
-               // $this->actionLogin();
-               header('Location: login');    // А чому так - з перенаправленням через routes?
+               $userModel->saveUser($userData);
+               $this->actionLogin();
             }
          } else {    // temporary
             $this->view('admin/login/register');
@@ -27,41 +31,23 @@
 
       public function actionLogin()
       {
-         if (isset($_SESSION['users']['admin'])) {
-            // $this->view('admin/dashboard/index');
-            $this->actionIndex();
-         } else {
-            $userModel = new User();
-            $userData = $this->getPost();
-            // echo '<br> userData: <br>';
-            // var_dump($userData);
-            // die;
-            if (!empty($userData['login']) && !empty($userData['password'])) {
-               $login = $userModel->login($userData);
-               if ($login) {
-                  $this->actionIndex();
-                  // $this->view('admin/dashboard/index');
-               } else {
-                  // $this->view('admin/login/login');
-               }
-               // header('Location: admin');
-            } else {    // temporary
-               // $this->view('admin/login/login');
-               // echo '<h3>Error</h3>';
+         $userModel = new User();
+         $userData = $this->getPost();
+         if (!empty($userData['login']) && !empty($userData['password'])) {
+            $login = $userModel->login($userData);
+            if ($login) {
+               header('Location: admin');
             }
-            $this->view('admin/login/login');
          }
-         echo '<br> SESSION: <br>';
-         var_dump($_SESSION);
+         $this->view('admin/login/login');
       }
       
       public function actionIndex()
       {
-         if (isset($_SESSION['users']['admin'])) {
-            $this->view('admin/dashboard/index');
-         } else {
+         if (!isset($_SESSION['users']['admin'])) {
             $this->actionLogin();
          }
+         $this->view('admin/dashboard/index');
       }
 
       public function actionLogout()

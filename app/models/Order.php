@@ -1,11 +1,14 @@
 <?php 
-   require_once 'app/vendor/DataBase.php';
-   require_once 'app/vendor/BaseModel.php';
+   use app\vendor\BaseModel;
 
    // echo '<pre>';
 
    class Order extends BaseModel
    {
+      // public $table = 'orders';
+      // public $primaryKey = 'id_order';
+      // public $fields = ['id_order', 'id_user', 'id_product', 'id_status', 'total_quantity', 'total_price'];
+
       // Витягнути інфу про 'orders' і додати до неї ціни з таблиці `products`:
       public function getAllOrders()
       {
@@ -21,26 +24,10 @@
          foreach ($products as $product) {
             foreach ($orders as &$order) {
                if ($order['id_product'] == $product['id_product']) {
-                  // var_dump($order);
-                  // var_dump($product);
-                  // echo '<h4>idp</h4>';
                   $order['name'] = $product['name'];
-                  // $orders[$order['id_product']]['name'] = $product['name'];
-                  // var_dump($order);
-                  // $orders[] = $order['name'];
-                  // break;
                }
             }
          }
-         // var_dump($orders);
-
-         // foreach ($orders as $order) {
-         //    $builder = $this->builder();
-         //    $stmt = $builder->prepare('SELECT * FROM shop_db.products WHERE id_product = ' . $order['id_product']);
-         //    $stmt->execute();
-         //    $products[] = $stmt->fetch();
-         // }
-
           
          return $orders;
       }

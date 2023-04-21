@@ -1,11 +1,14 @@
 <?php 
-   require_once 'app/vendor/DataBase.php';
-   require_once 'app/vendor/BaseModel.php';
+   use app\vendor\BaseModel;
 
    // echo '<pre>';
 
    class Customer extends BaseModel
    {
+      // public $table = 'users';
+      // public $primaryKey = 'id_user';
+      // public $fields = ['id_user', 'login', 'first_name', 'last_name', 'phone', 'id_status'];
+
       // Витягнути інфу про 'customers' і додати до неї суму замовлень з таблиці `orders`:
       public function getAllCustomers()
       {
@@ -17,7 +20,6 @@
             $stmt->execute();
             $orders[] = $stmt->fetch();
          }
-         // var_dump($orders);
 
          foreach ($orders as $order) {
             if (!empty($order['total_price'])) {
@@ -28,7 +30,6 @@
                }
             }
          }
-         // var_dump($customers);
           
          return $customers;
       }

@@ -6,7 +6,7 @@
    require_once 'app/config/routes.php';
    require_once 'app/vendor/Route.php';
 
-   $route = new \vendor\Route();
+   $route = new app\vendor\Route();
    $route->startApp();
 
    // var_dump($_SERVER['REQUEST_URI']);

@@ -1,6 +1,5 @@
 <?php 
-   require_once 'app/vendor/DataBase.php';
-   require_once 'app/vendor/BaseModel.php';
+   use app\vendor\BaseModel;
 
    class Category extends BaseModel
    {

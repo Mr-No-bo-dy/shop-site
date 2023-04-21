@@ -1,6 +1,6 @@
 <?php 
-   require_once 'app/vendor/Controller.php';
-   require_once 'app/models/User.php';
+   use app\models\User;
+   use app\vendor\Controller;
 
    class HomeController extends Controller
    {
