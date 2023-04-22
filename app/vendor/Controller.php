@@ -16,7 +16,7 @@
       //    require_once 'app/resource/views/' . $template . '.php';
       // }
 
-      // Redirect to Views
+      // Redirect to Views & import from array $data to variables
       public function view(string $viewName, array $data = [])
       {
          $viewPath = 'app/resource/views/' . $viewName . '.php';

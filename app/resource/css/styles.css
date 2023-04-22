@@ -17,7 +17,7 @@ html {
    max-width: 350px;
    padding: 25px 15px 15px;
    text-align: center;
-   background-color: #779;
+   background-color: #88a;
 }
 
 .flex {
@@ -45,7 +45,7 @@ form.verify {
    display: flex;
    flex-direction: column;
    align-items: center;
-   padding: 15px;
+   padding: 15px 0;
 }
 
 .verify button {
@@ -54,8 +54,14 @@ form.verify {
    font-weight: bold;
 }
 
+.verify label {
+   display: block;
+   text-align: left;
+}
+
 .verify input {
-   margin: 15px;
+   /* display: block; */
+   margin: 10px 0;
    padding: 5px 10px;
    width: 90%;
    font-size: 16px;
@@ -78,8 +84,10 @@ input::placeholder {
 
 .error-unique,
 .error-wrong,
-.error-input::placeholder {
+.er_text,
+.error::placeholder {
    color: red;
+   font-size: 12px;
 }
 
 .tableUsers {

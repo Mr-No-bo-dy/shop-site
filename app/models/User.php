@@ -40,16 +40,23 @@
          }
       }
 
-      public function login(array $data)
+      public function login(array $userData)
       {
          // echo '<pre>';
-         try {
-            $fieldsError = false;
-            $errorText = '';
+         // try {
+            // $fieldsError = false;
+            // $errorText = '';
 
-            if (empty($data['login']) || empty($data['password'])) {
-               $fieldsError = true;
-               throw new Exception("Порожні поля");
+            $errors = [];
+            if (empty($userData['login']) || empty($userData['password'])) {
+               foreach ($userData as $key => $val) {
+                  if (empty($val)) {
+                     $errors[$key]['check'] = true;
+                     $errors[$key]['desc'] = 'Це поле є обов\'язковим для заповнення';
+                  }
+               }
+               // $fieldsError = true;
+               // throw new Exception("Порожні поля");
             } else {
 
                // Get data from DB
@@ -58,25 +65,34 @@
                $stmt->execute();
                $db = $stmt->fetchAll();
                
-               $data['login'] = preg_replace('#[^a-zA-Z0-9а-яА-ЯєЄіІ_-]#u', '', $data['login']);
-               $data['password'] = preg_replace('#[^a-zA-Z0-9а-яА-ЯєЄіІ_-]#u', '', $data['password']);
+               $userData['login'] = preg_replace('#[^a-zA-Z0-9а-яА-ЯєЄіІ_-]#u', '', $userData['login']);
+               $userData['password'] = preg_replace('#[^a-zA-Z0-9а-яА-ЯєЄіІ_-]#u', '', $userData['password']);
 
                foreach ($db as $row) {
-                  if ($row['login'] == $data['login']) {
-                     if (password_verify($data['password'], $row['password'])) {
-                        $_SESSION['users']['admin'] = $data['login'];
-                        return true;
+                  if ($row['login'] == $userData['login']) {
+                     if (password_verify($userData['password'], $row['password'])) {
+                        $_SESSION['users']['admin'] = $userData['login'];
+                        // return true;
                      } else {
-                        return false;
-                        throw new Exception("Неправильний Нікнейм або Пароль");
+                        // return false;
+                        $errors['login']['check'] = true;
+                        $errors['password']['check'] = true;
+                        $errors['login']['desc'] = 'Неправильний Нікнейм або Пароль';
+                        $errors['password']['desc'] = 'Неправильний Нікнейм або Пароль';
+                        // throw new Exception("Неправильний Нікнейм або Пароль");
                      }
+                     // break;
+                  // } else {
+                  //    $errors['login']['check'] = true;
+                  //    $errors['login']['desc'] = 'Такий користувач не зареєстрований';
                   }
                }
             }
 
-         } catch (Exception $e) {
-            $errorText = $e->getMessage();
-         }
+         // } catch (Exception $e) {
+         //    $errorText = $e->getMessage();
+         // }
+         return $errors;
       }
 
       // Витягнути інфу про 'users' і додати до неї суму замовлень з таблиці `orders`:
