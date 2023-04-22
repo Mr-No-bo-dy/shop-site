@@ -18,11 +18,8 @@
                $content['errors'] = $errors;
             } else {
                $userModel->saveUser($userData);
-               // $this->actionLogin();
                header('Location: login');
             }
-         // } else {    // temporary
-         //    $this->view('admin/login/register');
          }
          $this->view('admin/login/register', $content);
 
@@ -36,22 +33,15 @@
          }
 
          $userModel = new User();
-         // $request = new Request();
 
          $userData = $this->getPost();
          $content = [];
          if (!empty($userData)) {
             $errors = $userModel->login($userData);
-            // echo '<pre>';
-            // var_dump($errors);
-            // die;
             if (!empty($errors)) {
                $content['errors'] = $errors;
             } else {
-               // $login = $userModel->login($userData);
-               // if ($login) {
-                  header('Location: admin');
-               // }
+               header('Location: admin');
             }
          }
          $this->view('admin/login/login', $content);
