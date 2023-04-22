@@ -56,6 +56,7 @@ form.verify {
 
 .verify label {
    display: block;
+   font-size: 14px;
    text-align: left;
 }
 

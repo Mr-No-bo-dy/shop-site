@@ -27,7 +27,7 @@
 
       public function actionLogin()
       {
-         // Чи треба з екшнЛогіна перенаправляти в адмінку, якщо адмін вже залогінений?
+         // Перенаправлення в адмінку, якщо адмін вже залогінений
          if (isset($_SESSION['users']['admin'])) {
             header('Location: admin');
          }

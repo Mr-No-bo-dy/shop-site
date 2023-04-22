@@ -7,9 +7,7 @@
    {
       // Verification of all fields during user Registration
       public function checkUserRegister(array $userData)
-      {
-         // echo '<pre>';
-         
+      {         
          $errors = [];
          if (empty($userData['login']) || empty($userData['password']) || empty($userData['first_name']) || empty($userData['last_name']) 
             || empty($userData['phone']) || empty($userData['email']) || empty($userData['id_status'])) {

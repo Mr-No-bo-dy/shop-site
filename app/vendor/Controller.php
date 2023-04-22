@@ -10,12 +10,6 @@
          }
       }
 
-      // // Redirect to Views
-      // protected function render(string $template, array $data = [])
-      // {
-      //    require_once 'app/resource/views/' . $template . '.php';
-      // }
-
       // Redirect to Views & import from array $data to variables
       public function view(string $viewName, array $data = [])
       {
@@ -40,19 +34,5 @@
          }
          return $result;
       }
-      
-      // public function getValue()    // -> в констракт. Якщо нема - на логін.
-      // {
-      //    // if (!isset($_SESSION['users']['admin'])) {
-      //    //    header('Location: login');
-      //    // }
-      //    // header('Location: admin');
-      // }  
-         
-      // public function setValue()
-      // {
-      //    // $_SESSION['users']['admin'] = $userData['login'];
-      // }
-
    }
 ?>

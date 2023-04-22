@@ -58,9 +58,9 @@
             $stmt->execute();
             $db = $stmt->fetchAll();
             
-            // Чи треба тут подібне очищення?
-            $userData['login'] = preg_replace('#[^a-zA-Z0-9_-]#', '', $userData['login']);
-            $userData['password'] = preg_replace('#[^a-zA-Z0-9_-]#', '', $userData['password']);
+            // Очистка форм-інпутів:
+            $userData['login'] = preg_replace('#[^a-zA-Z0-9_-]#', '', strip_tags($userData['login']));
+            $userData['password'] = preg_replace('#[^a-zA-Z0-9_-]#', '', strip_tags($userData['password']));
 
             foreach ($db as $row) {
                if ($row['login'] == $userData['login']) {
@@ -86,11 +86,13 @@
 
          foreach ($users as $user) {
             $builder = $this->builder();
-            $stmt = $builder->prepare('SELECT * FROM shop_db.orders WHERE id_user = ' . $user['id_user'] . '');
+            $stmt = $builder->prepare('SELECT total_price FROM shop_db.orders WHERE id_user = ' . $user['id_user'] . '');
             $stmt->execute();
             $orders[] = $stmt->fetch();
          }
-         // var_dump($orders);
+         echo '<pre>';
+         var_dump($orders);
+         die;
 
 
          foreach ($orders as $order) {
