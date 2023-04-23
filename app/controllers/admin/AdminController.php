@@ -12,7 +12,7 @@
 
          $userData = $this->getPost();
          $content = [];
-         if (!empty($userData)) {
+         if (!empty($userData)) {   // isset ?
             $errors = $request->checkUserRegister($userData);
             if (!empty($errors)) {
                $content['errors'] = $errors;

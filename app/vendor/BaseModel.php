@@ -7,11 +7,7 @@
    class BaseModel
    {
       protected $properties = [];
-
-      public function builder()
-      {
-         return DataBase::connection();
-      }
+      protected $dataBaseName = 'shop_db';
 
       public function __construct()
       {
@@ -33,6 +29,11 @@
          }
       }
       
+      public function builder()
+      {
+         return DataBase::connection();
+      }
+
       // Get all info of all entities
       public function getAll(array $filters = [])
       {
@@ -41,7 +42,13 @@
          $fields = $this->properties['fields'];
 
          $builder = $this->builder();
-         $stmt = $builder->prepare('SELECT ' . implode(', ', $fields) . ' FROM shop_db.' . $table . '');
+
+         // Added filter for SQL-query
+         $sql = '';
+         if (!empty($filters)) {
+            $sql = ' WHERE ' . key($filters) . ' IN (' . implode(', ', $filters[key($filters)]) . ')';
+         }
+         $stmt = $builder->prepare('SELECT ' . implode(', ', $fields) . ' FROM ' . $this->dataBaseName . '.' . $table . $sql . '');
          $stmt->execute();
 
          $items = [];
@@ -61,7 +68,7 @@
          $fields = $this->properties['fields'];
 
          $builder = $this->builder();
-         $stmt = $builder->prepare('SELECT ' . implode(', ', $fields) . ' FROM shop_db.' . $table . ' WHERE ' . $primaryKey . ' = ' . $id . '');
+         $stmt = $builder->prepare('SELECT ' . implode(', ', $fields) . ' FROM ' . $this->dataBaseName . '.' . $table . ' WHERE ' . $primaryKey . ' = ' . $id . '');
          $stmt->execute();
 
          return $stmt->fetch();

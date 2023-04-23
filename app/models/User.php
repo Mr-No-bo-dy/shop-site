@@ -54,7 +54,8 @@
 
             // Get data from DB
             $connection = $this->builder();
-            $stmt = $connection->prepare('SELECT login, password FROM shop_db.users');
+            $stmt = $connection->prepare('SELECT login, password FROM shop_db.users');    // брати з бази лише одного юзера
+            // $stmt = $connection->prepare('SELECT login, password FROM shop_db.users WHERE login = ' . $userData['login'] . '');    // брати з бази лише одного юзера
             $stmt->execute();
             $db = $stmt->fetchAll();
             
@@ -65,7 +66,7 @@
             foreach ($db as $row) {
                if ($row['login'] == $userData['login']) {
                   if (password_verify($userData['password'], $row['password'])) {
-                     $_SESSION['users']['admin'] = $userData['login'];
+                     $_SESSION['users']['admin'] = $userData['login'];  // не логін, а просто яке слово
                   } else {
                      $errors['login']['check'] = true;
                      $errors['login']['desc'] = 'Неправильний Нікнейм або Пароль';

@@ -1,6 +1,7 @@
 <?php 
-   use app\models\User;
    use app\vendor\Controller;
+   use app\models\User;
+   use app\models\Product;
 
    class HomeController extends Controller
    {
@@ -11,13 +12,17 @@
 
          $userModel = new User();
          $users = $userModel->getAll();
-         // var_dump($users);
-         // $users = $userModel->getAllUsers();
+         
+         $productModel = new Product();
+         $products = $productModel->getAllProducts();
+         // echo '<pre>';
+         // var_dump($products);
 
          $this->view('home/index',
             [
                'name' => $name,
                'users' => $users,
+               'products' => $products,
             ]
          );
       }
