@@ -1,7 +1,7 @@
 <?php 
-   use app\models\User;
    use app\vendor\Controller;
    use app\helpers\Request;
+   use app\models\User;
 
    class AdminController extends Controller
    {
@@ -12,7 +12,7 @@
 
          $userData = $this->getPost();
          $content = [];
-         if (!empty($userData)) {   // isset ?
+         if (!empty($userData)) {
             $errors = $request->checkUserRegister($userData);
             if (!empty($errors)) {
                $content['errors'] = $errors;

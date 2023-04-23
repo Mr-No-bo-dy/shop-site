@@ -12,11 +12,11 @@
 
          $userModel = new User();
          $users = $userModel->getAll();
+         // echo '<pre>';
+         // var_dump($users);
          
          $productModel = new Product();
          $products = $productModel->getAllProducts();
-         // echo '<pre>';
-         // var_dump($products);
 
          $this->view('home/index',
             [

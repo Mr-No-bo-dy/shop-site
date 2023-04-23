@@ -5,6 +5,7 @@
 
    class Order extends BaseModel
    {
+      // protected $dataBaseName = 'shop_db';
       // public $table = 'orders';
       // public $primaryKey = 'id_order';
       // public $fields = ['id_order', 'id_user', 'id_product', 'id_status', 'total_quantity', 'total_price'];
@@ -16,7 +17,7 @@
 
          foreach ($orders as $order) {
             $builder = $this->builder();
-            $stmt = $builder->prepare('SELECT * FROM shop_db.products WHERE id_product = ' . $order['id_product'] . '');
+            $stmt = $builder->prepare('SELECT * FROM ' . $this->dataBaseName . '.products WHERE id_product = ' . $order['id_product'] . '');
             $stmt->execute();
             $products[] = $stmt->fetch();
          }

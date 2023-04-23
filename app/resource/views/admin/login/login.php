@@ -7,6 +7,7 @@
       <h1>Login</h1>
       <div><a class="button" href="register">Register</a></div>
       <form class="verify" action="login" method="post" enctype="multipart/form-data">
+         <div class="er_text"><?= $errors['login_pass']['desc'] ?? '' ?></div>
          <div>
             <label>Username<input class="<?//= isset($errors['login']['check']) ? 'er_text' : '' ?>" type="text" name="login" value="<?= $_POST['login'] ?? '' ?>" placeholder="Enter Username"></label>
             <div class="er_text"><?= $errors['login']['desc'] ?? '' ?></div>

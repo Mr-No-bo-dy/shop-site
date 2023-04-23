@@ -5,7 +5,7 @@
 <?php 
    // var_dump($_SESSION);
 ?>
-   <p>Hello, admin <b><?= $_SESSION['users']['admin'] ?></b></p>
+   <p>Hello, <b><?= $_SESSION['users']['admin'] ?></b></p>
 
 <?php 
    // require 'app/resource/views/home/components/footer.php'; 

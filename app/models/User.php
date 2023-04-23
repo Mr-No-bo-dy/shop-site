@@ -5,6 +5,7 @@
 
    class User extends BaseModel
    {
+      protected $dataBaseName = 'shop_db';
       public $table = 'users';
       public $primaryKey = 'id_user';
       public $fields = ['id_user', 'login', 'first_name', 'last_name', 'phone', 'id_status'];
@@ -15,7 +16,7 @@
          if (isset($data['login']) && isset($data['password']) && isset($data['first_name']) && isset($data['last_name']) 
             && isset($data['phone']) && isset($data['email']) && isset($data['id_status'])) {
             
-            $sql = 'INSERT INTO shop_db.users (login, password, first_name, last_name, phone, email, id_status) 
+            $sql = 'INSERT INTO ' . $this->dataBaseName . '.users (login, password, first_name, last_name, phone, email, id_status) 
                VALUES (:login, :password, :first_name, :last_name, :phone, :email, :id_status)';
             
             // Password's hashing:
@@ -51,29 +52,33 @@
             }
 
          } else {
-
-            // Get data from DB
-            $connection = $this->builder();
-            $stmt = $connection->prepare('SELECT login, password FROM shop_db.users');    // брати з бази лише одного юзера
-            // $stmt = $connection->prepare('SELECT login, password FROM shop_db.users WHERE login = ' . $userData['login'] . '');    // брати з бази лише одного юзера
-            $stmt->execute();
-            $db = $stmt->fetchAll();
-            
             // Очистка форм-інпутів:
             $userData['login'] = preg_replace('#[^a-zA-Z0-9_-]#', '', strip_tags($userData['login']));
             $userData['password'] = preg_replace('#[^a-zA-Z0-9_-]#', '', strip_tags($userData['password']));
 
-            foreach ($db as $row) {
-               if ($row['login'] == $userData['login']) {
-                  if (password_verify($userData['password'], $row['password'])) {
-                     $_SESSION['users']['admin'] = $userData['login'];  // не логін, а просто яке слово
-                  } else {
-                     $errors['login']['check'] = true;
-                     $errors['login']['desc'] = 'Неправильний Нікнейм або Пароль';
-                     $errors['password']['check'] = true;
-                     $errors['password']['desc'] = 'Неправильний Нікнейм або Пароль';
-                  }
+            // Get data from DB
+            $connection = $this->builder();
+            $stmt = $connection->prepare('SELECT login FROM ' . $this->dataBaseName . '.users WHERE login = :login');
+            $stmt->bindParam(':login', $userData['login']);
+            $stmt->execute();
+            $dbLogin = $stmt->fetchColumn();
+
+            if ($userData['login'] == $dbLogin) {
+               $stmt = $connection->prepare('SELECT password FROM ' . $this->dataBaseName . '.users WHERE login = :login');
+               $stmt->bindParam(':login', $userData['login']);
+               $stmt->execute();
+               $dbPassword = $stmt->fetchColumn();
+               if (password_verify($userData['password'], $dbPassword)) {
+                  $_SESSION['users']['admin'] = 'admin';
+               } else {
+                  // $errors['login']['check'] = true;
+                  // $errors['password']['check'] = true;
+                  $errors['login_pass']['desc'] = 'Неправильний Нікнейм або Пароль';
                }
+            } else {
+               // $errors['login']['check'] = true;
+               // $errors['password']['check'] = true;
+               $errors['login_pass']['desc'] = 'Неправильний Нікнейм або Пароль';
             }
          }
 
@@ -87,14 +92,10 @@
 
          foreach ($users as $user) {
             $builder = $this->builder();
-            $stmt = $builder->prepare('SELECT total_price FROM shop_db.orders WHERE id_user = ' . $user['id_user'] . '');
+            $stmt = $builder->prepare('SELECT total_price FROM ' . $this->dataBaseName . '.orders WHERE id_user = ' . $user['id_user'] . '');
             $stmt->execute();
             $orders[] = $stmt->fetch();
          }
-         echo '<pre>';
-         var_dump($orders);
-         die;
-
 
          foreach ($orders as $order) {
             if (!empty($order['total_price'])) {
@@ -105,7 +106,6 @@
                }
             }
          }
-         // var_dump($users);
           
          return $users;
       }
