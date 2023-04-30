@@ -68,10 +68,35 @@
          $fields = $this->properties['fields'];
 
          $builder = $this->builder();
-         $stmt = $builder->prepare('SELECT ' . implode(', ', $fields) . ' FROM ' . $this->dataBaseName . '.' . $table . ' WHERE ' . $primaryKey . ' = ' . $id . '');
+         $stmt = $builder->prepare('SELECT ' . implode(', ', $fields) . ' FROM ' . $this->dataBaseName . '.' . $table . 
+                                    ' WHERE ' . $primaryKey . ' = ' . $id . '');
          $stmt->execute();
 
          return $stmt->fetch();
       }
+      
+      // Insert entity into DB
+      public function insert(array $data)
+      {
+         $table = $this->properties['table'];
+         $primaryKey = $this->properties['primaryKey'];
+         $fields = $this->properties['fields'];
+
+         // Clean $fields from $primaryKey
+         $fields = array_flip($fields);
+         unset($fields[$primaryKey]);
+         $fields = array_flip($fields);
+
+         $dbFields = implode(', ', $fields);
+         $postFields = ':' . implode(', :', $fields);
+
+         $sql = 'INSERT INTO ' . $this->dataBaseName . '.' . $table . ' (' . $dbFields . ')'. ' VALUES (' . $postFields . ')';
+         $stmt = $this->builder()
+                     ->prepare($sql)
+                     ->execute($data);
+
+         // var_dump($this->builder()->lastInsertId($this->getInheritedClassName()));
+      }
+
    }
 ?>

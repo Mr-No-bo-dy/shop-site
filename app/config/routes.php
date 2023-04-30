@@ -1,13 +1,23 @@
 <?php 
    $urlRoutes = [
-      // request (in URL) => controller / method
+      // request (in URL) => ( dir / ) controller / method
+
+      // 'admin' => 'admin/admin/index',
+      'admin/admin' => 'admin/admin/index',
+      'admin/dashboard' => 'admin/admin/index',
+      'admin/register' => 'admin/admin/register',
+      'admin/login' => 'admin/admin/login',
+      'admin/status' => 'admin/status/index',
+      'admin/status/create' => 'admin/status/create',
+
+      'admin/logout' => 'home/logout',
+      'logout' => 'home/logout',
+
       '' => 'home/index',
       'home' => 'home/index',
 
-      'admin' => 'admin/index',
-      'register' => 'admin/register',
-      'login' => 'admin/login',
-      'logout' => 'admin/logout',
+      // 'register' => 'home/register',
+      // 'login' => 'home/login',
 
    ];
 ?>

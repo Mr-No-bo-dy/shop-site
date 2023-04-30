@@ -13,7 +13,6 @@
 
       public function startApp()
       {
-         // var_dump($this->dirController);
          $this->setUri();
          $this->setRoute();
          $this->setRouteParams();
@@ -51,17 +50,21 @@
          global $urlRoutes;
          if (isset($urlRoutes[$this->route[0]])) {     // route[0] - ключ нашого масиву urlRoutes[]
             $routePath = explode('/', $urlRoutes[$this->route[0]]);
-            if ($routePath[0] == 'admin') {
-               $this->dirController .= 'admin/';
-            }
             if (isset($routePath[0]) && isset($routePath[1])) {
-               $this->setControllerName($routePath[0]);
-               $this->setActionName($routePath[1]);
+               $controllerName = $routePath[0];
+               $actionName = $routePath[1];
+               if ($routePath[0] == 'admin') {
+                  $this->dirController .= 'admin/';
+                  $controllerName = $routePath[1];
+                  $actionName = $routePath[2];
+               }
             }
+            $this->setControllerName($controllerName);
+            $this->setActionName($actionName);
          }
       }
 
-      // Redirect if URL wrong (for Error 404): including Controller's file, creating Object & executing his method
+      // Redirect to 404.php if URL is wrong: including Controller's file, creating Object & executing his method
       private function redirect()
       {
          $dir = $this->dirController . $this->controllerName . '.php';

@@ -4,60 +4,70 @@
    use app\models\User;
 
    class AdminController extends Controller
-   {
+   {      
+      // public function __construct()
+      // {
+      //    if (!isset($_SESSION['users']['admin']) && $_SERVER['REQUEST_URI'][0] == 'admin') {
+      //       $this->view('admin/login/login');
+      //       exit;
+      //    }
+      // }
+
       public function actionRegister()
       {
-         $userModel = new User();
          $request = new Request();
+         $userModel = new User();
 
-         $userData = $this->getPost();
-         $content = [];
-         if (!empty($userData)) {
-            $errors = $request->checkUserRegister($userData);
+         $postData = $this->getPost();
+         $data = [];
+         if (!empty($postData)) {
+            $errors = $request->checkUserRegister($postData);
             if (!empty($errors)) {
-               $content['errors'] = $errors;
+               $data['errors'] = $errors;
             } else {
-               $userModel->saveUser($userData);
-               header('Location: login');
+               $data['user'] = $postData;
+               $userModel->saveUser($postData);
+               
+               return $this->view('admin/login/login', $data);    // Перенаправить на Логін із заповненими даними
+               // return $this->actionLogin();                       // Відразу заЛогінить
             }
          }
-         $this->view('admin/login/register', $content);
-
+         $this->view('admin/login/register', $data);
       }
 
       public function actionLogin()
       {
-         // Перенаправлення в адмінку, якщо адмін вже залогінений
+         // Логаут, якщо  вже залогінений адмін, заходить на логін
          if (isset($_SESSION['users']['admin'])) {
-            header('Location: admin');
+            header('Location: logout');
          }
 
          $userModel = new User();
 
-         $userData = $this->getPost();
-         $content = [];
-         if (!empty($userData)) {
-            $errors = $userModel->login($userData);
+         $postData = $this->getPost();
+         $data = [];
+         if (!empty($postData)) {
+            $errors = $userModel->loginUser($postData);
             if (!empty($errors)) {
-               $content['errors'] = $errors;
+               $data['errors'] = $errors;
             } else {
-               header('Location: admin');
+               $data['user'] = $postData;
+               // $idUser = $_SESSION['id_user']; // і потім перевірки логінізації по $idUser. І цей id передавати на в'юшки
+               
+               return $this->actionIndex($data);
             }
          }
-         $this->view('admin/login/login', $content);
+         $this->view('admin/login/login', $data);
       }
       
-      public function actionIndex()
+      public function actionIndex(array $data = [])
       {
          if (!isset($_SESSION['users']['admin'])) {
             $this->actionLogin();
+         } else {
+            $this->view('admin/dashboard/index', $data);
          }
-         $this->view('admin/dashboard/index');
       }
 
-      public function actionLogout()
-      {
-         $this->view('admin/login/logout');
-      }
    }
 ?>

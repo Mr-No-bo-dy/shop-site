@@ -5,48 +5,32 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="app/resource/css/styles.css">
-	<link rel="stylesheet" href="app/resource/css/header.css">
+	<link rel="stylesheet" href="/app/resource/css/styles.css">
+	<!-- Using Bootstrap v5.2.3 -->
+	<link rel="stylesheet" href="/app/resource/css/bootstrap.min.css">
 	<title></title>
 </head>
 
 <body>
-	<header class="header">
-		<div class="logo">
-			<a href="home"><img src="logo.png" alt="Тут міг бути ваш Лого"></a>
-		</div>
-		<div class="nav">
-			<ul>
-				<li><a href="home">Home</a></li>
-				<li class="dropdown">
-					<a href="#">Products</a>
-					<div class="dropdown-content">
-						<!-- <a href="#">Product 1</a>
-						<a href="#">Product 2</a>
-						<a href="#">Product 3</a> -->
-					</div>
-				</li>
-				<li class="dropdown">
-					<a href="#">Services</a>
-					<div class="dropdown-content">
-						<!-- <a href="#">Service 1</a>
-						<a href="#">Service 2</a>
-						<a href="#">Service 3</a> -->
-					</div>
-				</li>
-				<li><a href="#">About Us</a></li>
-				<li><a href="#">Contact Us</a></li>
+	<header class="header d-flex justify-content-between mb-3 bg-light shadow">
+      <div class="navbar"><a class="navbar-brand" href="home"><img src="logo.png" alt="Logo"></a></div>
+		<nav class="navbar navbar-text">
+			<ul class="nav">
+				<li><a class="nav-link" href="/">Home</a></li>
+				<li><a class="nav-link" href="#">Staff</a></li>
+				<li><a class="nav-link" href="status">Categories</a></li>
+				<li><a class="nav-link" href="#">Products</a></li>
+				<li><a class="nav-link" href="#">Partners</a></li>
 				<?php if(!isset($_SESSION['users']['admin'])) { ?>
-					<li><a href="login">Login</a></li>
+					<li><a class="nav-link" href="register">Register</a></li>
+					<li><a class="nav-link" href="login">Login</a></li>
 				<?php } else { ?>
-					<li><a href="logout">Logout</a></li>
+					<li><a class="nav-link" href="logout">Logout</a></li>
 				<?php } ?>
 			</ul>
-		</div>
-		<div class="search">
-			<form>
-				<input type="text" placeholder="Search...">
-				<button type="submit">Go</button>
-			</form>
-		</div>
+		</nav>
+      <form class="d-flex">
+         <input class="form-control me-2" type="search" placeholder="Search">
+         <button class="btn btn-outline-primary" type="submit">Go</button>
+      </form>
 	</header>

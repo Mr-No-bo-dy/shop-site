@@ -6,7 +6,7 @@
    
 ?>
 
-   <h2>Welcome to Shop, <?= $name ?></h2>
+   <p>Welcome to Shop, <b><?= $name ?></b></p>
 
 <?php 
    require 'app/resource/views/home/components/footer.php'; 

@@ -8,6 +8,6 @@
 </head>
 <body>
    <h2>ERROR #404</h2>
-   <p><?= $error ?></p>
+   <p><?= $error ?? '' ?></p>
 </body>
 </html>

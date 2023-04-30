@@ -1,12 +1,12 @@
-<?php
-   // require 'app/resource/views/home/components/header.php';
-?>
+<?php // require 'app/resource/views/home/components/header.php'; ?>
+<?php // require_once '/app/controllers/admin/AdminController.php'; ?>
 
 <?php 
-   // var_dump($_SESSION);
+   // echo '<pre>';
+   // var_dump($user);
+   // echo '</pre>';
 ?>
-   <p>Hello, <b><?= $_SESSION['users']['admin'] ?></b></p>
+   <!-- <p>Hello, <b><?//= $user['login'] ?></b></p> -->
+   <p>Hello, <b>admin</b></p>
 
-<?php 
-   // require 'app/resource/views/home/components/footer.php'; 
-?>
+<?php // require 'app/resource/views/home/components/footer.php'; ?>

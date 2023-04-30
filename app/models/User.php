@@ -8,76 +8,56 @@
       protected $dataBaseName = 'shop_db';
       public $table = 'users';
       public $primaryKey = 'id_user';
-      public $fields = ['id_user', 'login', 'first_name', 'last_name', 'phone', 'id_status'];
+      public $fields = ['id_user', 'id_status', 'first_name', 'last_name', 'phone', 'email', 'login', 'password'];
 
       // Add user into DB
-      public function saveUser(array $data)
+      public function saveUser(array $postData)
       {
-         if (isset($data['login']) && isset($data['password']) && isset($data['first_name']) && isset($data['last_name']) 
-            && isset($data['phone']) && isset($data['email']) && isset($data['id_status'])) {
-            
-            $sql = 'INSERT INTO ' . $this->dataBaseName . '.users (login, password, first_name, last_name, phone, email, id_status) 
-               VALUES (:login, :password, :first_name, :last_name, :phone, :email, :id_status)';
-            
-            // Password's hashing:
-            $hashOptions = ['cost' => 12];
-            $password = password_hash($data['password'], PASSWORD_BCRYPT, $hashOptions);
+         // Altering user's postData
+         $postData['password'] = password_hash($postData['password'], PASSWORD_BCRYPT, ['cost' => 12]);
+         $postData['last_name'] = ucfirst(trim($postData['last_name']));
+         $postData['first_name'] = ucfirst(trim($postData['first_name']));
 
-            $data['last_name'] = ucfirst($data['last_name']);
-            $data['first_name'] = ucfirst($data['first_name']);
-
-            $stmt = $this->builder()
-                        ->prepare($sql);
-
-            $stmt->bindParam(':login', $data['login']);
-            $stmt->bindParam(':password', $password);
-            $stmt->bindParam(':first_name', $data['first_name']);
-            $stmt->bindParam(':last_name', $data['last_name']);
-            $stmt->bindParam(':phone', $data['phone']);
-            $stmt->bindParam(':email', $data['email']);
-            $stmt->bindParam(':id_status', $data['id_status']);
-            $stmt->execute();
-         }
+         $this->insert($postData);
       }
 
-      public function login(array $userData)
+      public function loginUser(array $postData)
       {
          $errors = [];
-         if (empty($userData['login']) || empty($userData['password'])) {
-            foreach ($userData as $key => $val) {
+         if (empty($postData['login']) || empty($postData['password'])) {
+            foreach ($postData as $key => $val) {
                if (empty($val)) {
                   $errors[$key]['check'] = true;
                   $errors[$key]['desc'] = 'Це поле є обов\'язковим для заповнення';
                }
             }
-
          } else {
-            // Очистка форм-інпутів:
-            $userData['login'] = preg_replace('#[^a-zA-Z0-9_-]#', '', strip_tags($userData['login']));
-            $userData['password'] = preg_replace('#[^a-zA-Z0-9_-]#', '', strip_tags($userData['password']));
+            // Чистка форм-інпутів:
+            $postData['login'] = preg_replace('#[^a-zA-Z0-9_-]#', '', strip_tags($postData['login']));
+            $postData['password'] = preg_replace('#[^a-zA-Z0-9_-]#', '', strip_tags($postData['password']));
 
             // Get data from DB
             $connection = $this->builder();
             $stmt = $connection->prepare('SELECT login FROM ' . $this->dataBaseName . '.users WHERE login = :login');
-            $stmt->bindParam(':login', $userData['login']);
+            $stmt->bindParam(':login', $postData['login']);
             $stmt->execute();
             $dbLogin = $stmt->fetchColumn();
 
-            if ($userData['login'] == $dbLogin) {
+            if ($postData['login'] == $dbLogin) {
                $stmt = $connection->prepare('SELECT password FROM ' . $this->dataBaseName . '.users WHERE login = :login');
-               $stmt->bindParam(':login', $userData['login']);
+               $stmt->bindParam(':login', $postData['login']);
                $stmt->execute();
                $dbPassword = $stmt->fetchColumn();
-               if (password_verify($userData['password'], $dbPassword)) {
+               if (password_verify($postData['password'], $dbPassword)) {
                   $_SESSION['users']['admin'] = 'admin';
                } else {
-                  // $errors['login']['check'] = true;
-                  // $errors['password']['check'] = true;
+                  $errors['login']['check'] = true;
+                  $errors['password']['check'] = true;
                   $errors['login_pass']['desc'] = 'Неправильний Нікнейм або Пароль';
                }
             } else {
-               // $errors['login']['check'] = true;
-               // $errors['password']['check'] = true;
+               $errors['login']['check'] = true;
+               $errors['password']['check'] = true;
                $errors['login_pass']['desc'] = 'Неправильний Нікнейм або Пароль';
             }
          }

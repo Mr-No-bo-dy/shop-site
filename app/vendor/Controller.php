@@ -10,6 +10,12 @@
          }
       }
 
+      public function redirect(string $url)
+      {
+         header('Location: ' . $url);
+         exit;
+      }
+
       // Redirect to Views & import from array $data to variables
       public function view(string $viewName, array $data = [])
       {
@@ -17,22 +23,25 @@
          if (file_exists($viewPath)) {
             extract($data, EXTR_OVERWRITE);
             include $viewPath;
-         } else {
-            require_once 'app/resource/views/templates/404.php';
          }
       }
 
       // Get data from Post
       public function getPost(string $key = '')
       {
-         $result = [];
+         $postData = [];
          if (isset($_POST)) {
-            $result = $_POST;
+            $postData = $_POST;
             if (!empty($_POST[$key])) {
-               $result = $_POST[$key];
+               $postData = $_POST[$key];
             }
          }
-         return $result;
+         return $postData;
+      }
+      
+      public function actionLogout()
+      {
+         $this->view('home/logout');
       }
    }
 ?>
