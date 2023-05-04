@@ -49,7 +49,14 @@
                $stmt->execute();
                $dbPassword = $stmt->fetchColumn();
                if (password_verify($postData['password'], $dbPassword)) {
-                  $_SESSION['users']['admin'] = 'admin';
+                  // Save user's ID into $_SESSION
+                  $stmt = $connection->prepare('SELECT id_user FROM ' . $this->dataBaseName . '.users WHERE login = :login');
+                  $stmt->bindParam(':login', $postData['login']);
+                  $stmt->execute();
+                  $dbIdUser = $stmt->fetchColumn();
+                  $_SESSION['user']['id_user'] = $dbIdUser;
+                  $_SESSION['user']['login'] = $dbLogin;
+                  
                } else {
                   $errors['login']['check'] = true;
                   $errors['password']['check'] = true;
@@ -65,29 +72,30 @@
          return $errors;
       }
 
-      // Витягнути інфу про 'users' і додати до неї суму замовлень з таблиці `orders`:
-      public function getAllUsers()
-      {
-         $users = $this->getAll();
+      // // Витягнути інфу про 'users' і додати до неї суму замовлень з таблиці `orders`:
+      // public function getAllUsers()
+      // {
+      //    $users = $this->getAll();
 
-         foreach ($users as $user) {
-            $builder = $this->builder();
-            $stmt = $builder->prepare('SELECT total_price FROM ' . $this->dataBaseName . '.orders WHERE id_user = ' . $user['id_user'] . '');
-            $stmt->execute();
-            $orders[] = $stmt->fetch();
-         }
+      //    foreach ($users as $user) {
+      //       $builder = $this->builder();
+      //       $stmt = $builder->prepare('SELECT total_price FROM ' . $this->dataBaseName . '.orders WHERE id_user = ' . $user['id_user'] . '');
+      //       $stmt->execute();
+      //       $orders[] = $stmt->fetch();
+      //    }
 
-         foreach ($orders as $order) {
-            if (!empty($order['total_price'])) {
-               foreach ($users as &$user) {
-                  if ($user['id_user'] === $order['id_user']) {
-                     $user['total_price'] = $order['total_price'];
-                  }
-               }
-            }
-         }
+      //    foreach ($orders as $order) {
+      //       if (!empty($order['total_price'])) {
+      //          foreach ($users as &$user) {
+      //             if ($user['id_user'] === $order['id_user']) {
+      //                $user['total_price'] = $order['total_price'];
+      //             }
+      //          }
+      //       }
+      //    }
           
-         return $users;
-      }
+      //    return $users;
+      // }
+      
    }
 ?>

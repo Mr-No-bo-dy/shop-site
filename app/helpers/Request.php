@@ -8,6 +8,7 @@
       public function checkPost($postData)
       {
          $errors = [];
+         unset($postData['update']);
          foreach ($postData as $key => $val) {
             if (empty($val)) {
                $errors[$key]['check'] = true;
@@ -21,31 +22,47 @@
       // Verification of all fields during user Registration
       public function checkUserRegister(array $postData)
       {
+            // Connection to DB
+         $pdo = new DataBase();
+         $connection = $pdo->connection();
+
          $errors = $this->checkPost($postData);
-         if (!empty($errors)) {
-            return $errors;
 
-         } else {
-            // Get data from DB
-            $pdo = new DataBase();
-
-            $connection = $pdo->connection();
-            $stmt = $connection->prepare('SELECT login, email, password FROM shop_db.users');
-            $stmt->execute();
-            $db = $stmt->fetchAll();
-
+         if (empty($errors)) {
+            // $connection = $pdo->connection();    // Як краще: одне з'єднання з Бд тут, чи два потім за певних умов?
+            
             // Check login
             if (!preg_match_all('#^(?!\s)[a-zA-Z0-9_-]{4,20}$#', $postData['login'])) {
                $errors['login']['check'] = true;
                $errors['login']['desc'] = 'Юзернейм повинен містити лише літери, цифри, - чи _ та мати довжину від 4 до 20 символів';
-            }
-
-            // Check unique login
-            foreach ($db as $row) {
-               if ($postData['login'] == $row['login']) {
+            } else {
+               // Check unique login
+               $stmt = $connection->prepare('SELECT login FROM shop_db.users WHERE login = :login');
+               $stmt->bindParam(':login', $postData['login']);
+               $stmt->execute();
+               $dbLogin = $stmt->fetchColumn();
+               if ($postData['login'] == $dbLogin) {
                   $errors['login']['check'] = true;
                   $errors['login']['desc'] = 'Такий Юзернейм вже зареєстрований';
-                  break;
+               }
+            }
+
+            // Check email
+            if (!preg_match('#^[a-zA-Z0-9-.]+@[a-z]+\.[a-z]{2,3}$#', $postData['email'])) {
+               $errors['email']['check'] = true;
+               $errors['email']['desc'] = 'Такої електронної адреси не існує';
+            } elseif (preg_match('#(ru|rus)$#', $postData['email'])) {
+               $errors['email']['check'] = true;
+               $errors['email']['desc'] = 'Московитським окупантам тут не місце!';
+            } else {
+               // Check unique email
+               $stmt = $connection->prepare('SELECT email FROM shop_db.users WHERE email = :email');
+               $stmt->bindParam(':email', $postData['email']);
+               $stmt->execute();
+               $dbEmail = $stmt->fetchColumn();
+               if ($postData['email'] == $dbEmail) {
+                  $errors['email']['check'] = true;
+                  $errors['email']['desc'] = 'Така Електронна адреса вже зареєстрована';
                }
             }
 
@@ -55,31 +72,13 @@
                $errors['password']['desc'] = 'Пароль повинен містити лише латинські літери, цифри, - чи _ та мати довжину від 8 до 32 символів';
             }
 
-            // Check email
-            if (preg_match('#(ru|rus)$#', $postData['email'])) {
-               $errors['email']['check'] = true;
-               $errors['email']['desc'] = 'Московитським окупантам тут не місце!';
-            } elseif (!preg_match('#^[a-zA-Z0-9-.]+@[a-z]+\.[a-z]{2,3}$#', $postData['email'])) {
-               $errors['email']['check'] = true;
-               $errors['email']['desc'] = 'Такої електронної адреси не існує';
-            }
-
-            // Check unique email
-            foreach ($db as $row) {
-               if ($postData['email'] == $row['email']) {
-                  $errors['email']['check'] = true;
-                  $errors['email']['desc'] = 'Така Електронна адреса вже зареєстрована';
-                  break;
-               }
-            }
-
             // Check phone
-            if (preg_match('#^7#', $postData['phone'])) {
-               $errors['phone']['check'] = true;
-               $errors['phone']['desc'] = 'Московитським окупантам тут не місце!';
-            } elseif (!preg_match('#^[0-9]{10,12}$#', $postData['phone'])) {
+            if (!preg_match('#^[0-9]{10,12}$#', $postData['phone'])) {
                $errors['phone']['check'] = true;
                $errors['phone']['desc'] = 'Введіть номер телефону без ніяких додаткових символів';
+            } elseif (preg_match('#^7#', $postData['phone'])) {
+               $errors['phone']['check'] = true;
+               $errors['phone']['desc'] = 'Московитським окупантам тут не місце!';
             }
             
             // Check first_name

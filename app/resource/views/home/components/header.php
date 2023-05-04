@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="/app/resource/css/styles.css">
-	<!-- Using Bootstrap v5.2.3 -->
+	<!-- Using bootstrap.min.css v5.2.3 -->
 	<link rel="stylesheet" href="/app/resource/css/bootstrap.min.css">
 	<title></title>
 </head>
@@ -21,7 +21,7 @@
 				<li><a class="nav-link" href="status">Categories</a></li>
 				<li><a class="nav-link" href="#">Products</a></li>
 				<li><a class="nav-link" href="#">Partners</a></li>
-				<?php if(!isset($_SESSION['users']['admin'])) { ?>
+				<?php if(!isset($_SESSION['user']['id_user'])) { ?>
 					<li><a class="nav-link" href="register">Register</a></li>
 					<li><a class="nav-link" href="login">Login</a></li>
 				<?php } else { ?>

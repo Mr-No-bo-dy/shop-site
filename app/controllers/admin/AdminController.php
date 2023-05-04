@@ -7,9 +7,10 @@
    {      
       // public function __construct()
       // {
-      //    if (!isset($_SESSION['users']['admin']) && $_SERVER['REQUEST_URI'][0] == 'admin') {
-      //       $this->view('admin/login/login');
-      //       exit;
+      //    if (!isset($_SESSION['user']['id_user']) && $_SERVER['REQUEST_URI'][0] == 'admin') {
+      //       // $this->view('admin/login/login');
+      //       // exit;
+      //       $this->redirect('/app/resource/views/admin/login/login.php');
       //    }
       // }
 
@@ -25,11 +26,10 @@
             if (!empty($errors)) {
                $data['errors'] = $errors;
             } else {
-               $data['user'] = $postData;
                $userModel->saveUser($postData);
                
-               return $this->view('admin/login/login', $data);    // Перенаправить на Логін із заповненими даними
-               // return $this->actionLogin();                       // Відразу заЛогінить
+               return $this->view('admin/login/login');     // Перенаправить на Логін
+               // return $this->actionLogin();                 // Відразу заЛогінить
             }
          }
          $this->view('admin/login/register', $data);
@@ -37,8 +37,8 @@
 
       public function actionLogin()
       {
-         // Логаут, якщо  вже залогінений адмін, заходить на логін
-         if (isset($_SESSION['users']['admin'])) {
+         // Якщо Адмін вже залогінений адмін, - кидає на Логаут
+         if (isset($_SESSION['user']['id_user'])) {
             header('Location: logout');
          }
 
@@ -51,8 +51,7 @@
             if (!empty($errors)) {
                $data['errors'] = $errors;
             } else {
-               $data['user'] = $postData;
-               // $idUser = $_SESSION['id_user']; // і потім перевірки логінізації по $idUser. І цей id передавати на в'юшки
+               $data['user'] = $_SESSION['user'];
                
                return $this->actionIndex($data);
             }
@@ -62,7 +61,7 @@
       
       public function actionIndex(array $data = [])
       {
-         if (!isset($_SESSION['users']['admin'])) {
+         if (!isset($_SESSION['user']['id_user'])) {
             $this->actionLogin();
          } else {
             $this->view('admin/dashboard/index', $data);

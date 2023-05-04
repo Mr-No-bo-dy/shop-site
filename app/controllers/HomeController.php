@@ -1,27 +1,29 @@
 <?php 
    use app\vendor\Controller;
-   use app\helpers\Request;
    use app\models\Product;
+   use app\models\User;
+   use app\models\Status;
 
    class HomeController extends Controller
    {
       public function actionIndex()
       {
-         $name = 'Olex';
-
-         // $userModel = new User();
-         // $users = $userModel->getAll();
+         $userModel = new User();
+         $users = $userModel->getAll();
          
          $productModel = new Product();
          $products = $productModel->getAllProducts();
+         
+         $statusModel = new Status();
+         $status = $statusModel->getOne(14);
          // echo '<pre>';
-         // var_dump($products);
-         // die;
+         // var_dump($status);
+         // die;         
 
          $this->view('home/index',
             [
-               'name' => $name,
-               // 'users' => $users,
+               'users' => $users,
+               'status' => $status,
                'products' => $products,
             ]
          );

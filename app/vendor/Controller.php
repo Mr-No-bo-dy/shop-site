@@ -27,13 +27,18 @@
       }
 
       // Get data from Post
-      public function getPost(string $key = '')
+      public function getPost(string $key = null)
       {
          $postData = [];
          if (isset($_POST)) {
             $postData = $_POST;
-            if (!empty($_POST[$key])) {
-               $postData = $_POST[$key];
+            if (!is_null($key)) {
+               // if (!empty($_POST[$key])) {
+               if (!empty($_POST[$key]) && isset($_POST[$key])) {
+                  $postData = $_POST[$key];
+               } elseif (!isset($_POST[$key])) {
+                  $postData = 'Error: undefined POST key ' . $key . '.';
+               }
             }
          }
          return $postData;

@@ -90,13 +90,43 @@
          $dbFields = implode(', ', $fields);
          $postFields = ':' . implode(', :', $fields);
 
-         $sql = 'INSERT INTO ' . $this->dataBaseName . '.' . $table . ' (' . $dbFields . ')'. ' VALUES (' . $postFields . ')';
+         $sql = 'INSERT INTO ' . $this->dataBaseName . '.' . $table . ' (' . $dbFields . ') VALUES (' . $postFields . ')';
          $stmt = $this->builder()
                      ->prepare($sql)
                      ->execute($data);
-
          // var_dump($this->builder()->lastInsertId($this->getInheritedClassName()));
       }
 
+      // Update entity in DB
+      public function update(int $id, array $data)
+      {
+         $table = $this->properties['table'];
+         $primaryKey = $this->properties['primaryKey'];
+
+         // Clean $data from $primaryKey
+         unset($data[$primaryKey]);
+
+         // $sql = '';
+         foreach ($data as $key => $val) {
+            $sql = 'UPDATE ' . $this->dataBaseName . '.' . $table . ' SET ' . $key . ' = \'' . $val . '\' WHERE ' . $primaryKey . ' = ' . $id . '';
+            // $sql .= 'UPDATE ' . $this->dataBaseName . '.' . $table . ' SET ' . $key . ' = \'' . $val . '\' WHERE ' . $primaryKey . ' = ' . $id . '; ';
+            $this->builder()
+               ->prepare($sql)
+               ->execute();
+         }
+      }
+
+      // Delete entity from DB
+      public function delete(int $id)
+      {
+         $id = intval($id);
+         $table = $this->properties['table'];
+         $primaryKey = $this->properties['primaryKey'];
+
+         $sql = 'DELETE FROM ' . $this->dataBaseName . '.' . $table . ' WHERE ' . $primaryKey . ' = ' . $id . '';
+         $this->builder()
+               ->prepare($sql)
+               ->execute();
+      }
    }
 ?>
