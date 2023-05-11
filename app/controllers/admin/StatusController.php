@@ -17,44 +17,51 @@
          return $this->view('admin/status/index', $content);
       }
       
+      // Control which method would be used
+      public function actionChange()
+      {
+         $post = $this->getPost();
+         if (isset($post['create'])) {
+            $this->actionCreate($post);
+         } elseif (isset($post['update'])) {
+            $this->actionUpdate($post);
+         } elseif (isset($post['delete'])) {
+            $this->actionDelete($post['delete']);
+         }
+      }
+
       // Create new Category
-      public function actionCreate()
+      public function actionCreate(array $data)
       {
          $request = new Request();
          
-         $errors = $request->checkPost($this->getPost());
+         $statusModel = new Status();
+         $setStatusData = [
+            'name' => $data['name'],
+            'category' => $data['category'],
+         ];
+         $errors = $request->checkPost($setStatusData);
          if (empty($errors)) {
-            $statusModel = new Status();
-            $statusModel->insert($this->getPost());
+            $statusModel->insert($setStatusData);
          }
          
          return $this->redirect('../status');
       }
 
-      public function actionChange()
-      {
-         if (isset($_POST['update'])) {
-            $this->actionUpdate();
-         } elseif (isset($_POST['delete'])) {
-            $this->actionDelete();
-         }
-      }
-
       // Update existing Category
-      public function actionUpdate()
+      public function actionUpdate(array $data = [])
       {
          $statusModel = new Status();
          $request = new Request();
          
-         $errors = $request->checkPost($this->getPost());
+         $setStatusData = [
+            'name' => $data['name'],
+            'category' => $data['category'],
+         ];
+         
+         $errors = $request->checkPost($setStatusData);
          if (empty($errors)) {
-            $data = [
-               'id_status' => $this->getPost('id_status'),
-               'name' => $this->getPost('name'),
-               'category' => $this->getPost('category'),
-            ];
-   
-            $statusModel->update($this->getPost('id_status'), $data);
+            $statusModel->update($data['id_status'], $setStatusData);
          }
  
          return $this->redirect('../status');

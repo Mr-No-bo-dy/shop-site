@@ -18,7 +18,7 @@
 			<ul class="nav">
 				<li><a class="nav-link" href="/">Home</a></li>
 				<li><a class="nav-link" href="#">Staff</a></li>
-				<li><a class="nav-link" href="status">Categories</a></li>
+				<li><a class="nav-link" href="#">Categories</a></li>
 				<li><a class="nav-link" href="#">Products</a></li>
 				<li><a class="nav-link" href="#">Partners</a></li>
 				<?php if(!isset($_SESSION['user']['id_user'])) { ?>

@@ -91,6 +91,7 @@
          $postFields = ':' . implode(', :', $fields);
 
          $sql = 'INSERT INTO ' . $this->dataBaseName . '.' . $table . ' (' . $dbFields . ') VALUES (' . $postFields . ')';
+
          $stmt = $this->builder()
                      ->prepare($sql)
                      ->execute($data);
@@ -103,17 +104,17 @@
          $table = $this->properties['table'];
          $primaryKey = $this->properties['primaryKey'];
 
-         // Clean $data from $primaryKey
-         unset($data[$primaryKey]);
-
-         // $sql = '';
+         $updateFields = '';
          foreach ($data as $key => $val) {
-            $sql = 'UPDATE ' . $this->dataBaseName . '.' . $table . ' SET ' . $key . ' = \'' . $val . '\' WHERE ' . $primaryKey . ' = ' . $id . '';
-            // $sql .= 'UPDATE ' . $this->dataBaseName . '.' . $table . ' SET ' . $key . ' = \'' . $val . '\' WHERE ' . $primaryKey . ' = ' . $id . '; ';
-            $this->builder()
-               ->prepare($sql)
-               ->execute();
+            $updateFields .= $key . "='" . $val . "',";
          }
+         $updateFields = rtrim($updateFields, ', ');
+
+         $sql = 'UPDATE ' . $this->dataBaseName . '.' . $table . ' SET ' . $updateFields . ' WHERE ' . $primaryKey . ' = ' . $id . '';
+
+         $this->builder()
+            ->prepare($sql)
+            ->execute();
       }
 
       // Delete entity from DB

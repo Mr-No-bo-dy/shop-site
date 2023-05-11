@@ -59,12 +59,12 @@
          $this->view('admin/login/login', $data);
       }
       
-      public function actionIndex(array $data = [])
+      public function actionIndex()
       {
          if (!isset($_SESSION['user']['id_user'])) {
             $this->actionLogin();
          } else {
-            $this->view('admin/dashboard/index', $data);
+            $this->view('admin/dashboard/index');
          }
       }
 

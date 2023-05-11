@@ -2,6 +2,8 @@
    namespace app\models;
 
    use app\vendor\BaseModel;
+   use app\models\Status;
+   use app\models\Order;
 
    class User extends BaseModel
    {
@@ -72,6 +74,34 @@
          return $errors;
       }
 
+      // // // Витягнути інфу про 'users' і додати до неї суму замовлень з таблиці `orders`:
+      // public function getAllUsers()
+      // {
+      //    $orderModel = new Order();
+
+      //    $users = $this->getAll();
+      //    $idsUser = array_column($users, 'id_user');
+      //    $orders = $orderModel->getAll(['id_user' => $idsUser]);
+         
+      //    $preparedUsers = [];
+      //    foreach ($users as $user) {
+      //       unset($user['password']);
+      //       $preparedUsers[$user['id_user']] = $user;
+      //       if ($orders[$user['id_user']]) {
+      //           // таким чином НЕ виведе Замовлення з такими ж id, з якими id не існує юзерів
+      //          $preparedUsers[$user['id_user']]['orders']['id_order'] = $orders[$user['id_user']]['id_order'];
+      //          // echo '<pre>';
+      //          // var_dump($orders[$user['id_user']]);
+      //          // die;
+      //          $preparedUsers[$user['id_user']]['orders']['total_price'] = $orders[$user['id_user']]['total_price'];
+      //       } else {
+      //          $preparedUsers[$user['id_user']]['orders']['total_price'] = [];
+      //       }
+      //    }
+      //    return $preparedUsers;
+      // }
+      
+
       // // Витягнути інфу про 'users' і додати до неї суму замовлень з таблиці `orders`:
       // public function getAllUsers()
       // {
@@ -96,6 +126,6 @@
           
       //    return $users;
       // }
-      
+
    }
 ?>

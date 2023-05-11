@@ -16,6 +16,16 @@
          exit;
       }
 
+      public function getBaseURL(string $string = '')
+      {
+         $url = explode('/', $_SERVER['REQUEST_URI']);
+         if ($url[1] == 'admin') {
+            $url[1] .= '/' . $string;
+         }
+         
+         return !isset($url[2]) ? $url[1] : $string;
+      }
+
       // Redirect to Views & import from array $data to variables
       public function view(string $viewName, array $data = [])
       {
@@ -33,7 +43,6 @@
          if (isset($_POST)) {
             $postData = $_POST;
             if (!is_null($key)) {
-               // if (!empty($_POST[$key])) {
                if (!empty($_POST[$key]) && isset($_POST[$key])) {
                   $postData = $_POST[$key];
                } elseif (!isset($_POST[$key])) {

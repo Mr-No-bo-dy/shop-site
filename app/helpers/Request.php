@@ -8,7 +8,6 @@
       public function checkPost($postData)
       {
          $errors = [];
-         unset($postData['update']);
          foreach ($postData as $key => $val) {
             if (empty($val)) {
                $errors[$key]['check'] = true;
