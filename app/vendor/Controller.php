@@ -5,7 +5,7 @@
    {
       public function __construct()
       {
-         if (session_status() == PHP_SESSION_NONE) {
+         if (session_status() === PHP_SESSION_NONE) {
             session_start();
          }
       }
@@ -19,7 +19,7 @@
       public function getBaseURL(string $string = '')
       {
          $url = explode('/', $_SERVER['REQUEST_URI']);
-         if ($url[1] == 'admin') {
+         if ($url[1] === 'admin') {
             $url[1] .= '/' . $string;
          }
          
@@ -36,7 +36,7 @@
          }
       }
 
-      // Get data from Post
+      // Get data from POST
       public function getPost(string $key = null)
       {
          $postData = [];
@@ -46,13 +46,50 @@
                if (!empty($_POST[$key]) && isset($_POST[$key])) {
                   $postData = $_POST[$key];
                } elseif (!isset($_POST[$key])) {
-                  $postData = 'Error: undefined POST key ' . $key . '.';
+                  $postData = null;    // 'Error: undefined POST key ' . $key . '.';
                }
             }
          }
+
          return $postData;
       }
       
+      // Get data from GET
+      public function getGet(string $key = null)
+      {
+         $getData = [];
+         if (isset($_GET)) {
+            $getData = $_GET;
+            if (!is_null($key)) {
+               if (!empty($_GET[$key]) && isset($_GET[$key])) {
+                  $getData = $_GET[$key];
+               } elseif (!isset($_GET[$key])) {
+                  $getData = null;    // 'Error: undefined GET key ' . $key . '.';
+               }
+            }
+         }
+
+         return $getData;
+      }
+
+      // Get data from Files
+      public function getFiles(string $key = null)
+      {
+         $filesData = [];
+         if (isset($_FILES)) {
+            $filesData = $_FILES;
+            if (!is_null($key)) {
+               if (!empty($_FILES[$key]) && isset($_FILES[$key])) {
+                  $filesData = $_FILES[$key];
+               } elseif (!isset($_FILES[$key])) {
+                  $filesData = null;    // 'Error: undefined Files key ' . $key . '.';
+               }
+            }
+         }
+
+         return $filesData;
+      }
+
       public function actionLogout()
       {
          $this->view('home/logout');

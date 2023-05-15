@@ -45,7 +45,7 @@
             $stmt->execute();
             $dbLogin = $stmt->fetchColumn();
 
-            if ($postData['login'] == $dbLogin) {
+            if ($postData['login'] === $dbLogin) {
                $stmt = $connection->prepare('SELECT password FROM ' . $this->dataBaseName . '.users WHERE login = :login');
                $stmt->bindParam(':login', $postData['login']);
                $stmt->execute();

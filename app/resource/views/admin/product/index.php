@@ -2,59 +2,43 @@
 
 <h4>Products</h4>
 
-<h5>Create Product</h5>
-<form action="product/change" method="post">
-   <input type="number" name="id_status" value="<?= isset($id_status['id_status']) ? $id_status['id_status'] : '' ?>" placeholder="ID Status">
-   <input type="text" name="name" value="<?= isset($name['name']) ? $name['name'] : '' ?>" placeholder="Name">
-   <input type="text" name="description" value="<?= isset($description['description']) ? $description['description'] : '' ?>" placeholder="Description">
-   <input type="text" name="main_image" value="<?= isset($main_image['main_image']) ? $main_image['main_image'] : '' ?>" placeholder="Image">
-   <input type="number" name="quantity" value="<?= isset($quantity['quantity']) ? $quantity['quantity'] : '' ?>" placeholder="Quantity">
-   <button type="submit" name="create">Create</button>
-</form>
+<hr>
+<div><a style="text-decoration: none;" href="<?= $this->getBaseURL('product/create') ?>">Create New</a></div>
+<hr>
 
-<h5>All Products</h5>
-<!-- <table class="table_input">
+<table>
    <thead>
       <tr>
-         <th rowspan="2">ID</th>
-         <th rowspan="2">Product</th>
-         <th rowspan="2">Description</th>
-         <th rowspan="2">Image</th>
-         <th rowspan="2">Quantity</th>
-         <th colspan="3">Prices</th>
-      </tr>
-      <tr>
-         <th>Wholesale</th>
-         <th>Retail</th>
-         <th>Discount</th>
+         <th>ID</th>
+         <th>Name</th>
+         <th>Description</th>
+         <th>Status</th>
+         <th>Quantity</th>
+         <th>Image</th>
+         <th>Prices</th>
+         <th>More Info</th>
       </tr>
    </thead>
-</table> -->
-<?php foreach ($products as $product) { ?>
-   <form action="product/change" method="post">
-      <table class="table_input">
-         <tbody>
-            <tr class="inputs">
-               <td><input type="number" name="id_product" value="<?= $product['id_product']; ?>" readonly></td>
-               <td><input type="text" name="name" value="<?= $product['name']; ?>" readonly></td>
-               <td><input type="text" name="description" value="<?= $product['description']; ?>" readonly></td>
-               <td><input type="text" name="main_image" value="<?= $product['main_image']; ?>" readonly></td>
-               <td><input type="number" name="quantity" value="<?= $product['quantity']; ?>" readonly></td>
-               <td><input type="number" name="prices<?//= [1]['price'] ?>" value="<?= isset($product['prices'][1]) ? $product['prices'][1]['price'] : '' ?>" readonly></td>
-               <td><input type="number" name="prices<?//= [2]['price'] ?>" value="<?= isset($product['prices'][2]) ? $product['prices'][2]['price'] : '' ?>" readonly></td>
-               <td><input type="number" name="prices<?//= [3]['price'] ?>" value="<?= isset($product['prices'][3]) ? $product['prices'][3]['price'] : '' ?>" readonly></td>
-               <td>
-                  <button class="update" type="button">Update</button>
-                  <button class="save" type="submit" style="display: none;" name="update">Save</button>
-               </td>
-               <td>
-                  <button type="submit" name="delete" value="<?= $product['id_product'] ?>">Delete</button>
-               </td>
-            </tr>
-         </tbody>
-      </table>
-   </form>
-<?php } ?>
+   <tbody>
+   <?php foreach ($products as $product) { ?>
+      <tr>
+         <td><?= $product['id_product'] ?></td>
+         <td><?= $product['name'] ?></td>
+         <td><?= $product['description'] ?></td>
+         <td><?= $product['status_name'] ?></td>
+         <td><?= $product['quantity'] ?></td>
+         <td><?= $product['main_image'] ?></td>
+         <td>
+         <?php foreach ($product['prices'] as $prices) { ?>
+            <?php foreach ($prices as $status => $price) { ?>
+               <p class="m-0"><?= $status ?> <?= $price ?></p>
+            <?php } ?>
+         <?php } ?>
+         </td>
+         <td><a style="text-decoration: none;" href="<?= $this->getBaseURL('product') . '?id=' . $product['id_product']. '&name=' . $product['name'] ?>">See more...</a></td>
+      </tr>
+   <?php } ?>
+   </tbody>
+</table>
 
-<script src='/app/resource/js/scripts.js'></script>
 <?php require 'app/resource/views/admin/components/footer.php'; ?>

@@ -31,7 +31,11 @@ table td {
 }
 
 input[type="number"] {
-   max-width: 60px;
+   max-width: 90px;
+}
+
+select {
+   min-height: 28.91px;
 }
 
 .table_input td {

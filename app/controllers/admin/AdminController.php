@@ -7,7 +7,7 @@
    {      
       // public function __construct()
       // {
-      //    if (!isset($_SESSION['user']['id_user']) && $_SERVER['REQUEST_URI'][0] == 'admin') {
+      //    if (!isset($_SESSION['user']['id_user']) && $_SERVER['REQUEST_URI'][0] === 'admin') {
       //       // $this->view('admin/login/login');
       //       // exit;
       //       $this->redirect('/app/resource/views/admin/login/login.php');

@@ -1,6 +1,7 @@
 <?php 
    namespace app\vendor;
 
+   use PDO;
    use ReflectionClass;
    use app\vendor\DataBase;
 
@@ -44,11 +45,11 @@
          $builder = $this->builder();
 
          // Added filter for SQL-query
-         $sql = '';
+         $sqlFilters = '';
          if (!empty($filters)) {
-            $sql = ' WHERE ' . key($filters) . ' IN (' . implode(', ', $filters[key($filters)]) . ')';
+            $sqlFilters = ' WHERE ' . key($filters) . ' IN (' . implode(', ', $filters[key($filters)]) . ')';
          }
-         $stmt = $builder->prepare('SELECT ' . implode(', ', $fields) . ' FROM ' . $this->dataBaseName . '.' . $table . $sql . '');
+         $stmt = $builder->prepare('SELECT ' . implode(', ', $fields) . ' FROM ' . $this->dataBaseName . '.' . $table . $sqlFilters . '');
          $stmt->execute();
 
          $items = [];
@@ -90,12 +91,20 @@
          $dbFields = implode(', ', $fields);
          $postFields = ':' . implode(', :', $fields);
 
-         $sql = 'INSERT INTO ' . $this->dataBaseName . '.' . $table . ' (' . $dbFields . ') VALUES (' . $postFields . ')';
+         $sql = 'INSERT INTO ' . $this->dataBaseName . '.' . $table . ' (' . $dbFields . ') 
+                  VALUES (' . $postFields . ')';
 
          $stmt = $this->builder()
                      ->prepare($sql)
                      ->execute($data);
-         // var_dump($this->builder()->lastInsertId($this->getInheritedClassName()));
+
+         // var_dump($this->builder()->errorInfo());
+         // var_dump(DataBase::connection()->lastInsertId());
+         // $id = $this->builder()->lastInsertId();
+         // $id = $this->builder()->lastInsertId($this->getInheritedClassName());
+         // $id = $this->builder()->query("SELECT LAST_INSERT_ID()")->fetchColumn();
+         // var_dump($id);
+         // die;
       }
 
       // Update entity in DB

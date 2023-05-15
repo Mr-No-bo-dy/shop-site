@@ -12,9 +12,12 @@
       'admin/status' => 'admin/status/index',
       'admin/status/change' => 'admin/status/change',
 
-      'admin/product' => 'admin/product/index',
-      'admin/product/change' => 'admin/product/change',
-      
+      'admin/products' => 'admin/product/index',
+      'admin/product' => 'admin/product/open',
+      // 'admin/product/change' => 'admin/product/change',
+      'admin/product/create' => 'admin/product/create',
+      // 'admin/product/update' => 'admin/product/update',
+
       // 'admin/user' => 'admin/user/index',
 
       'admin/logout' => 'home/logout',

@@ -53,7 +53,7 @@
             if (isset($routePath[0]) && isset($routePath[1])) {
                $controllerName = $routePath[0];
                $actionName = $routePath[1];
-               if ($routePath[0] == 'admin') {
+               if ($routePath[0] === 'admin') {
                   $this->dirController .= 'admin/';
                   $controllerName = $routePath[1];
                   $actionName = $routePath[2];

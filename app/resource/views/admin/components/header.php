@@ -23,7 +23,7 @@
                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark">
                   <li><a class="dropdown-item" href="#">Profile</a></li>
                   <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="logout">Logout</a></li>
+                  <li><a class="dropdown-item" href="<?= $this->getBaseURL('logout') ?>">Logout</a></li>
                </ul>
             </div>
             <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
@@ -40,7 +40,7 @@
                      <a class="nav-link" href="<?= $this->getBaseURL('status') ?>">Statuses</a>
                   </li>
                   <li class="nav-item">
-                     <a class="nav-link" href="<?= $this->getBaseURL('product') ?>">Products</a>
+                     <a class="nav-link" href="<?= $this->getBaseURL('products') ?>">Products</a>
                   </li>
                   <li class="nav-item">
                      <a class="nav-link" href="user">Users</a>

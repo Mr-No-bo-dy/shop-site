@@ -30,12 +30,12 @@
          }
       }
 
-      // Create new Category
+      // Create new Status
       public function actionCreate(array $data)
       {
          $request = new Request();
-         
          $statusModel = new Status();
+
          $setStatusData = [
             'name' => $data['name'],
             'category' => $data['category'],
@@ -48,11 +48,11 @@
          return $this->redirect('../status');
       }
 
-      // Update existing Category
+      // Update existing Status
       public function actionUpdate(array $data = [])
       {
-         $statusModel = new Status();
          $request = new Request();
+         $statusModel = new Status();
          
          $setStatusData = [
             'name' => $data['name'],
@@ -67,11 +67,12 @@
          return $this->redirect('../status');
       }
 
-      // Delete some Category
+      // Delete some Status
       public function actionDelete()
       {
          if ($this->getPost('delete')) {
             $statusModel = new Status();
+            
             $idStatus = $this->getPost('delete');
             $statusModel->delete($idStatus);
          }

@@ -42,5 +42,4 @@
    </form>
 <?php } ?>
 
-<script src='/app/resource/js/scripts.js'></script>
 <?php require 'app/resource/views/admin/components/footer.php'; ?>

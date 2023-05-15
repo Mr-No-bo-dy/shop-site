@@ -2,6 +2,7 @@
    namespace app\helpers;
 
    use app\vendor\DataBase;
+   use app\vendor\Controller;
 
    class Request
    {
@@ -21,15 +22,13 @@
       // Verification of all fields during user Registration
       public function checkUserRegister(array $postData)
       {
-            // Connection to DB
+         // Connection to DB
          $pdo = new DataBase();
          $connection = $pdo->connection();
 
          $errors = $this->checkPost($postData);
 
-         if (empty($errors)) {
-            // $connection = $pdo->connection();    // Як краще: одне з'єднання з Бд тут, чи два потім за певних умов?
-            
+         if (empty($errors)) {            
             // Check login
             if (!preg_match_all('#^(?!\s)[a-zA-Z0-9_-]{4,20}$#', $postData['login'])) {
                $errors['login']['check'] = true;
@@ -40,7 +39,7 @@
                $stmt->bindParam(':login', $postData['login']);
                $stmt->execute();
                $dbLogin = $stmt->fetchColumn();
-               if ($postData['login'] == $dbLogin) {
+               if ($postData['login'] === $dbLogin) {
                   $errors['login']['check'] = true;
                   $errors['login']['desc'] = 'Такий Юзернейм вже зареєстрований';
                }
@@ -59,7 +58,7 @@
                $stmt->bindParam(':email', $postData['email']);
                $stmt->execute();
                $dbEmail = $stmt->fetchColumn();
-               if ($postData['email'] == $dbEmail) {
+               if ($postData['email'] === $dbEmail) {
                   $errors['email']['check'] = true;
                   $errors['email']['desc'] = 'Така Електронна адреса вже зареєстрована';
                }
@@ -100,6 +99,28 @@
          }
          
          return $errors;
+      }
+
+      // Задання імені і збереження медіа-файлу:
+      public function saveMedia()
+      {
+         $controller = new Controller();
+
+         $fileData = $controller->getFiles();
+         $postData = $controller->getPost();
+
+         $entity['imageName'] = '';
+         if ($fileData['main_image']['error'] === UPLOAD_ERR_OK) {
+            $uploads_dir = 'app\resource\uploads';
+            $type = explode('/', $fileData['main_image']['type']);
+            $tmp_name = $fileData['main_image']['tmp_name'];
+            $extension = $type[1];
+            $fileName = $postData['name'] . '.' . $extension;
+            move_uploaded_file($tmp_name, $uploads_dir . '/' . $fileName);
+            $entity['imageName'] = $fileName;
+         }
+
+         return $entity['imageName'];
       }
    }
 ?>

@@ -26,7 +26,7 @@
 
       //    foreach ($products as $product) {
       //       foreach ($orders as &$order) {
-      //          if ($order['id_product'] == $product['id_product']) {
+      //          if ($order['id_product'] === $product['id_product']) {
       //             $order['name'] = $product['name'];
       //          }
       //       }

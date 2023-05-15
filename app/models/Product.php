@@ -13,11 +13,10 @@
       // Витягнути інфу про 'products', додати до неї ціни з таблиці `prices` і статуси з таблиці `statuses`:
       public function getAllProducts()
       {
-
-         $sql = 'SELECT prs.name AS product_status_name, 
-                  ps.name AS price_status_name, 
-                  -- pr.id_status AS product_status, 
+         $sql = 'SELECT pr.id_status AS product_status, 
+                  prs.name AS product_status_name, 
                   p.id_status AS price_status, 
+                  ps.name AS price_status_name, 
                   p.price, 
                   pr.id_product, 
                   pr.name, 
@@ -37,24 +36,14 @@
             $preparedProducts[$product['id_product']]['id_product'] = $product['id_product'];
             $preparedProducts[$product['id_product']]['name'] = $product['name'];
             $preparedProducts[$product['id_product']]['description'] = $product['description'];
-            $preparedProducts[$product['id_product']]['main_image'] = $product['main_image'];
+            $preparedProducts[$product['id_product']]['status_name'] = $product['product_status_name'];
             $preparedProducts[$product['id_product']]['quantity'] = $product['quantity'];
-            // // product_status_name у мене в БД немає, тому поки закоментував цю колонку:
-            // $preparedProducts[$product['id_product']]['product_status_name'] = $product['product_status_name'];
-            // // price_status_name не використовую, тому поки закоментував цю колонку:
-            // $preparedProducts[$product['id_product']]['prices'][$product['price_status']]['status'] = $product['price_status_name'];
-            $preparedProducts[$product['id_product']]['prices'][$product['price_status']]['price'] = $product['price'];
+            $preparedProducts[$product['id_product']]['main_image'] = $product['main_image'];
+            $preparedProducts[$product['id_product']]['prices'][] = [$product['price_status_name'] => $product['price']];
          }
-         // echo '<pre>';
-         // var_dump($preparedProducts);
-         // die;
 
          return $preparedProducts;
       }
 
-      public function getOneProduct()
-      {
-         
-      }
    }
 ?>
