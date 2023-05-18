@@ -101,7 +101,7 @@
          return $errors;
       }
 
-      // Задання імені і збереження медіа-файлу:
+      // Set name and save madia-file
       public function saveMedia()
       {
          $controller = new Controller();
@@ -111,7 +111,7 @@
 
          $entity['imageName'] = '';
          if ($fileData['main_image']['error'] === UPLOAD_ERR_OK) {
-            $uploads_dir = 'app\resource\uploads';
+            $uploads_dir = 'app/resource/uploads';
             $type = explode('/', $fileData['main_image']['type']);
             $tmp_name = $fileData['main_image']['tmp_name'];
             $extension = $type[1];

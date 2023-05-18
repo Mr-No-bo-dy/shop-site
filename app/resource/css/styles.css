@@ -41,3 +41,14 @@ select {
 .table_input td {
    border: 2px solid #212529;
 }
+
+textarea {
+   max-width: 240px;
+   resize: vertical;
+   min-height: 70px;
+   max-height: 140px;
+}
+
+td a {
+   text-decoration: none;
+}

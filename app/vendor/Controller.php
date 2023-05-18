@@ -26,6 +26,12 @@
          return !isset($url[2]) ? $url[1] : $string;
       }
 
+      // Return view-file of <img>
+      public function getImage(array $data)
+      {
+         return $this->view('admin/components/image', $data);
+      }
+
       // Redirect to Views & import from array $data to variables
       public function view(string $viewName, array $data = [])
       {
@@ -36,7 +42,7 @@
          }
       }
 
-      // Get data from POST
+      // Get data from $_POST
       public function getPost(string $key = null)
       {
          $postData = [];
@@ -54,7 +60,7 @@
          return $postData;
       }
       
-      // Get data from GET
+      // Get data from $_GET
       public function getGet(string $key = null)
       {
          $getData = [];
@@ -72,7 +78,7 @@
          return $getData;
       }
 
-      // Get data from Files
+      // Get data from $_FILES
       public function getFiles(string $key = null)
       {
          $filesData = [];

@@ -13,19 +13,19 @@
       // Витягнути інфу про 'products', додати до неї ціни з таблиці `prices` і статуси з таблиці `statuses`:
       public function getAllProducts()
       {
-         $sql = 'SELECT pr.id_status AS product_status, 
-                  prs.name AS product_status_name, 
+         $sql = 'SELECT pd.id_status AS product_status, 
+                  pds.name AS product_status_name, 
                   p.id_status AS price_status, 
                   ps.name AS price_status_name, 
                   p.price, 
-                  pr.id_product, 
-                  pr.name, 
-                  pr.description, 
-                  pr.main_image, 
-                  pr.quantity 
-                  FROM ' . $this->dataBaseName . '.products AS pr
-                  LEFT JOIN ' . $this->dataBaseName . '.statuses as prs ON prs.id_status = pr.id_status
-                  LEFT JOIN ' . $this->dataBaseName . '.prices AS p ON pr.id_product = p.id_product
+                  pd.id_product, 
+                  pd.name, 
+                  pd.description, 
+                  pd.main_image, 
+                  pd.quantity 
+                  FROM ' . $this->dataBaseName . '.products AS pd
+                  LEFT JOIN ' . $this->dataBaseName . '.statuses as pds ON pds.id_status = pd.id_status
+                  LEFT JOIN ' . $this->dataBaseName . '.prices AS p ON pd.id_product = p.id_product
                   LEFT JOIN ' . $this->dataBaseName . '.statuses as ps ON ps.id_status = p.id_status';
          $stmt = $this->builder()
                   ->query($sql);
@@ -44,6 +44,5 @@
 
          return $preparedProducts;
       }
-
    }
 ?>

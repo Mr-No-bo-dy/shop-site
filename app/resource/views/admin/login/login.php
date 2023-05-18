@@ -12,11 +12,11 @@
                <form action="login" method="post" enctype="multipart/form-data">
                   <div class="text-danger"><?= $errors['login_pass']['desc'] ?? '' ?></div>
                   <div class="mb-3">
-                     <label>Username</label><input class="form-control <?= isset($errors['login']['check']) ? 'is-invalid' : 'was-validated' ?>" type="text" name="login" value="<?= $_POST['login'] ?? '' ?>" placeholder="Enter Username">
+                     <label>Username</label><input class="form-control <?= isset($errors['login']['check']) ? 'is-invalid' : '' ?>" type="text" name="login" value="<?= $_POST['login'] ?? '' ?>" placeholder="Enter Username">
                      <div class="invalid-feedback"><?= $errors['login']['desc'] ?? '' ?></div>
                   </div>
                   <div>
-                     <label>Password</label><input class="form-control <?= isset($errors['password']['check']) ? 'is-invalid' : 'was-validated' ?>" type="password" name="password" value="<?= $_POST['password'] ?? '' ?>" placeholder="Enter Password">
+                     <label>Password</label><input class="form-control <?= isset($errors['password']['check']) ? 'is-invalid' : '' ?>" type="password" name="password" value="<?= $_POST['password'] ?? '' ?>" placeholder="Enter Password">
                      <div class="invalid-feedback"><?= $errors['password']['desc'] ?? '' ?></div>
                   </div>
                   <div class="text-center mt-4"><button class="btn btn-primary btn-lg" type="submit">Login</button></div>

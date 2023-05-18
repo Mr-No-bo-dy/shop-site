@@ -1,7 +1,6 @@
 <?php 
    namespace app\vendor;
 
-   use PDO;
    use ReflectionClass;
    use app\vendor\DataBase;
 
@@ -94,17 +93,11 @@
          $sql = 'INSERT INTO ' . $this->dataBaseName . '.' . $table . ' (' . $dbFields . ') 
                   VALUES (' . $postFields . ')';
 
-         $stmt = $this->builder()
-                     ->prepare($sql)
-                     ->execute($data);
+         $this->builder()
+               ->prepare($sql)
+               ->execute($data);
 
-         // var_dump($this->builder()->errorInfo());
-         // var_dump(DataBase::connection()->lastInsertId());
-         // $id = $this->builder()->lastInsertId();
-         // $id = $this->builder()->lastInsertId($this->getInheritedClassName());
-         // $id = $this->builder()->query("SELECT LAST_INSERT_ID()")->fetchColumn();
-         // var_dump($id);
-         // die;
+         return $this->builder()->lastInsertId();
       }
 
       // Update entity in DB
@@ -122,8 +115,8 @@
          $sql = 'UPDATE ' . $this->dataBaseName . '.' . $table . ' SET ' . $updateFields . ' WHERE ' . $primaryKey . ' = ' . $id . '';
 
          $this->builder()
-            ->prepare($sql)
-            ->execute();
+               ->prepare($sql)
+               ->execute();
       }
 
       // Delete entity from DB

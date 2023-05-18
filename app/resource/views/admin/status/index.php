@@ -2,14 +2,17 @@
 
 <h4>Statuses</h4>
 
-<h5>Create Category</h5>
-<form action="status/change" method="post">
-   <input type="text" name="name" value="<?= isset($name['name']) ? $name['name'] : '' ?>" placeholder="Status Name">
-   <input type="text" name="category" value="<?= isset($category['category']) ? $category['category'] : '' ?>" placeholder="Status Category">
+<h5 class="mt-3">Create Status</h5>
+<!-- <form action="<?//= $this->getBaseURL('status/check') ?>" method="post"> -->
+<form action="<?= $this->getBaseURL('status') ?>" method="post">
+   <input class="<?= isset($errors['name']['check']) ? 'is-invalid' : '' ?>" type="text" name="name" value="<?= $name['name'] ?? '' ?>" placeholder="Name">
+   <div class="invalid-feedback"><?= $errors['name']['desc'] ?? '' ?></div>
+   <input class="<?= isset($errors['category']['check']) ? 'is-invalid' : '' ?>" type="text" name="category" value="<?= $category['category'] ?? '' ?>" placeholder="Category">
+   <div class="invalid-feedback"><?= $errors['category']['desc'] ?? '' ?></div>
    <button type="submit" name="create">Create</button>
 </form>
 
-<h5>All Categories</h5>
+<h5 class="mt-3">All Statuses</h5>
 <!-- <table class="table_input">
    <thead>
       <tr class="inputs">
@@ -22,7 +25,8 @@
    </thead>
 </table> -->
 <?php foreach ($allStatuses as $status) { ?>
-   <form action="status/change" method="post">
+   <!-- <form action="<?//= $this->getBaseURL('status/check') ?>" method="post"> -->
+   <form action="<?= $this->getBaseURL('status') ?>" method="post">
       <table class="table_input">
          <tbody>
             <tr class="inputs">

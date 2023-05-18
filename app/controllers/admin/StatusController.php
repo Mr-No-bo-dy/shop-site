@@ -5,6 +5,22 @@
 
    class StatusController extends Controller
    {
+      // Control which method would be used
+      public function actionCheck()
+      {
+         $post = $this->getPost();
+         if (isset($post['create'])) {
+            $this->actionCreate($post);
+         } elseif (isset($post['update'])) {
+            $this->actionUpdate($post);
+         } elseif (isset($post['delete'])) {
+            $this->actionDelete($post['delete']);
+         } else {
+            $this->actionIndex();
+         }
+      }
+
+      // Show all Statuses
       public function actionIndex()
       {
          $statusModel = new Status();
@@ -15,19 +31,6 @@
          ];
 
          return $this->view('admin/status/index', $content);
-      }
-      
-      // Control which method would be used
-      public function actionChange()
-      {
-         $post = $this->getPost();
-         if (isset($post['create'])) {
-            $this->actionCreate($post);
-         } elseif (isset($post['update'])) {
-            $this->actionUpdate($post);
-         } elseif (isset($post['delete'])) {
-            $this->actionDelete($post['delete']);
-         }
       }
 
       // Create new Status
@@ -45,7 +48,8 @@
             $statusModel->insert($setStatusData);
          }
          
-         return $this->redirect('../status');
+         // return $this->redirect('../status');
+         return $this->actionIndex();
       }
 
       // Update existing Status
@@ -64,7 +68,8 @@
             $statusModel->update($data['id_status'], $setStatusData);
          }
  
-         return $this->redirect('../status');
+         // return $this->redirect('../status');
+         return $this->actionIndex();
       }
 
       // Delete some Status
@@ -77,7 +82,8 @@
             $statusModel->delete($idStatus);
          }
 
-         return $this->redirect('../status');
+         // return $this->redirect('../status');
+         return $this->actionIndex();
       }
    }
 
