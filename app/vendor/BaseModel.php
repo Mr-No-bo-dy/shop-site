@@ -120,13 +120,18 @@
       }
 
       // Delete entity from DB
-      public function delete(int $id)
+      public function delete($data, $field = null)
       {
-         $id = intval($id);
          $table = $this->properties['table'];
          $primaryKey = $this->properties['primaryKey'];
 
-         $sql = 'DELETE FROM ' . $this->dataBaseName . '.' . $table . ' WHERE ' . $primaryKey . ' = ' . $id . '';
+         $fieldDelete = !is_null($field) ? $field : $primaryKey;
+         if (!is_array($data)) {
+            $sql = 'DELETE FROM ' . $this->dataBaseName . '.' . $table . ' WHERE ' . $fieldDelete . ' = ' . $data . '';
+         } elseif (is_array($data)) {
+            $sql = 'DELETE FROM ' . $this->dataBaseName . '.' . $table . ' WHERE ' . $fieldDelete . ' IN (' . implode(',', $data) . ')';
+         }
+
          $this->builder()
                ->prepare($sql)
                ->execute();

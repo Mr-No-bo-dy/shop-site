@@ -4,6 +4,8 @@
    use app\models\Product;
    use app\models\Price;
    use app\models\Status;
+   use app\models\ProductCategory;
+   use app\models\Order;
 
    class ProductController extends Controller
    {
@@ -113,13 +115,13 @@
       // Update existing Product
       public function actionUpdate()
       {
-         $id = $this->getGet('id');
          $request = new Request();
          $productModel = new Product();
          $priceModel = new Price();
          $statusModel = new Status();
 
          // Отримання з БД всіх даних одного продукту
+         $id = $this->getGet('id');
          $product = $productModel->getOne($id);
          $productPrices = $priceModel->getAll(['id_product' => [$id]]);
          $idsPriceStatus = array_column($productPrices, 'id_status');
@@ -134,7 +136,7 @@
                   $allPriceStatuses[] = $status;
                   break;
                case 'product':
-                  $allProductStatuses[] = $status;               
+                  $allProductStatuses[] = $status;
                   break;
             }
          }
@@ -151,7 +153,25 @@
          // Підготовка і виконання Апдейту даних
          if (!is_null($this->getPost('update'))) {
             $postData = $this->getPost();
-            $imageName = $request->saveMedia();
+            $idProduct = $postData['id_product'];
+
+            $fileData = $this->getFiles('main_image');
+            if (!empty($fileData['name'])) {
+               // Видалення старого зображення
+               $productImage = $product['main_image'];
+               $imgLocation = 'app/resource/uploads/' . $productImage;
+               // Видалення старого зображення, лише якщо до цього ніякого не було
+               $imgLocArray = explode('/', $imgLocation);
+               if (!empty(end($imgLocArray))) {
+                  unlink($imgLocation);
+               }
+               // Збереження нового зображення
+               $imageName = $request->saveMedia();
+            } else {
+               // Залишаєтсья старе зображення
+               $imageName = $product['main_image'];
+            }
+            
             $setProductData = [
                'name' => $postData['name'],
                'description' => $postData['description'],
@@ -159,16 +179,47 @@
                'quantity' => $postData['quantity'],
                'main_image' => $imageName,
             ];
-            $productModel->update($id, $setProductData);
 
-            $setPriceData = [];
-            foreach ($productPrices as $idPrice => $price) {
-               $setPriceData = [
-                  'id_product' => $id,
-                  'id_status' => $postData['priceStatus'][$idPrice],
-                  'price' => $postData['price'][$idPrice],
-               ];
-               $priceModel->update($productPrices[$idPrice]['id_price'], $setPriceData);
+            // Перевірка перед Апдейтом: чи змілось хоч одне поле
+            $isSmthChanged = false;
+            foreach ($setProductData as $key => $setProductItem) {
+               if ($setProductItem != $product[$key]) {
+                  $isSmthChanged = true;
+               } else {
+               }
+            }
+            foreach ($productPrices as $idPrice => $productPrice) {
+               if ($productPrice['price'] != $postData['price'][$idPrice]) {
+                  $isSmthChanged = true;
+               } else {
+               }
+            }
+            //    // var_dump($idPrice);
+            // foreach ($priceStatuses as $idStatus => $priceStatus) {
+            //    if ($priceStatus['id_status'] != $postData['priceStatus'][$idPrice]) {      // $priceStatus['id_status'] is $idStatus
+            //       $isSmthChanged = true;
+            //       echo 'changed status, ';
+            //    } else {
+            //       echo 'same status, ';
+            //    }
+            // }
+            // echo '<pre>';
+            // var_dump($productPrices);
+            // die;
+
+            // В БД все одно коли апдейтиш БЕЗ зміни даних дата оновлення НЕ змінюється, то чи треба ця перевірка?
+            if ($isSmthChanged) {
+               $productModel->update($idProduct, $setProductData);
+   
+               $setPriceData = [];
+               foreach ($productPrices as $idPrice => $price) {
+                  $setPriceData = [
+                     'id_product' => $idProduct,
+                     'id_status' => $postData['priceStatus'][$idPrice],
+                     'price' => $postData['price'][$idPrice],
+                  ];
+                  $priceModel->update($productPrices[$idPrice]['id_price'], $setPriceData);
+               }
             }
          }
          
@@ -179,20 +230,37 @@
       public function actionDelete()
       {
          if ($this->getPost('delete')) {
-            $idProduct = $this->getPost('delete');
-
             $productModel = new Product();
+            $productCategoryModel = new ProductCategory();
             $priceModel = new Price();
+            $orderModel = new Order();
 
+            $idProduct = $this->getPost('delete');
+            $product = $productModel->getOne($idProduct);
+            $productCategories = $productCategoryModel->getAll(['id_product' => [$idProduct]]);
             $productPrices = $priceModel->getAll(['id_product' => [$idProduct]]);
-            foreach ($productPrices as $price) {
-               $id_price = $price['id_price'];
-               $priceModel->delete($id_price);
+            $productOrders = $orderModel->getAll(['id_product' => [$idProduct]]);
+            $productImage = $product['main_image'];
+            $imgLocation = 'app/resource/uploads/' . $productImage;
+
+            $imgLocArray = explode('/', $imgLocation);
+            if (!empty(end($imgLocArray))) {
+               unlink($imgLocation);
+            }
+            if (!empty($productCategories)) {
+               $productCategoryModel->delete(array_column($productCategories, 'id_product'), 'id_product');
+
+            }
+            if (!empty($productPrices)) {
+               $priceModel->delete(array_column($productPrices, 'id_product'), 'id_product');
+
+            }
+            if (!empty($productOrders)) {
+               $orderModel->delete(array_column($productOrders, 'id_product'), 'id_product');
             }
             $productModel->delete($idProduct);
          }
 
-         return $this->actionIndex();
-         // return $this->redirect('../products');
+         return $this->redirect('../products');
       }
    }

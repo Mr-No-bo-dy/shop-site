@@ -1,5 +1,7 @@
 <?php require 'app/resource/views/admin/components/header.php'; ?>
 
+<a href="<?= $this->getBaseURL('products') ?>">View All Products</a>
+
 <h4>Product</h4>
 
 <figure>

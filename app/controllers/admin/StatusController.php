@@ -21,13 +21,14 @@
       }
 
       // Show all Statuses
-      public function actionIndex()
+      public function actionIndex(array $data = [])
       {
          $statusModel = new Status();
 
          $allStatuses = $statusModel->getAll();
          $content = [
             'allStatuses' => $allStatuses,
+            'errors' => $data,
          ];
 
          return $this->view('admin/status/index', $content);
@@ -47,9 +48,10 @@
          if (empty($errors)) {
             $statusModel->insert($setStatusData);
          }
+         $setStatusData['errors'] = $errors;
          
          // return $this->redirect('../status');
-         return $this->actionIndex();
+         return $this->actionIndex($setStatusData['errors']);
       }
 
       // Update existing Status

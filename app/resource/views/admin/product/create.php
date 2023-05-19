@@ -1,5 +1,7 @@
 <?php require 'app/resource/views/admin/components/header.php'; ?>
 
+<a href="<?= $this->getBaseURL('../products') ?>">View All Products</a>
+
 <h4>Create Product</h4>
 <form action="" method="post" enctype="multipart/form-data">
    <p><b>Name: </b><input type="text" name="name" value="<?= $_POST['name'] ?? '' ?>" placeholder="Name"></p>
