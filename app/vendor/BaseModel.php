@@ -49,7 +49,7 @@
             $sqlFilters = ' WHERE ' . key($filters) . ' IN (' . implode(', ', $filters[key($filters)]) . ')';
          }
          $stmt = $builder->prepare('SELECT ' . implode(', ', $fields) . ' FROM ' . $this->dataBaseName . '.' . $table . $sqlFilters . '');
-         $stmt->execute();
+         $stmt->execute();         
 
          $items = [];
          $result = $stmt->fetchAll();
@@ -59,7 +59,7 @@
 
          return $items;
       }
-      
+
       // Get all info of one entity
       public function getOne(int $id)
       {

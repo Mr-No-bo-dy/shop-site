@@ -24,6 +24,14 @@
       <input type="number" name="price[<?= $idPrice ?>]" value="<?= $prices[$idPrice]['price'] ?? '' ?>" placeholder="Price">
    </p>
    <?php } ?>
+   <p><b>Add Price: </b>
+      <select name="newPriceStatus">
+         <?php foreach ($allPriceStatuses as $status) { ?>
+            <option value="<?= $status['id_status'] ?>"><?= $status['name'] ?></option>
+         <?php } ?>
+      </select>
+      <input type="number" name="newPrice" placeholder="Price">
+   </p>
    <div><?= $this->getImage([
                'name' => $product['main_image'],
                'alt' => $product['name'] . '_image',
@@ -31,8 +39,8 @@
                'id' => 'img' . $product['id_product'],
             ]); ?></div>
    <p><input type="file" name="main_image" value="<?= $product['main_image'] ?>"></p>
-   <input type="hidden" name="id_product" value="<?= $product['id_product'] ?>">
-   <button type="submit" name="update" value="2">Update</button>
+   <!-- <input type="hidden" name="id_product" value="<?//= $product['id_product'] ?>"> -->
+   <button type="submit" name="update" value="<?= $product['id_product'] ?>">Update</button>
 </form>
 
 <?php require 'app/resource/views/admin/components/footer.php'; ?>

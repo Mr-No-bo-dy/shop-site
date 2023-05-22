@@ -15,24 +15,8 @@
          $productModel = new Product();
 
          $allProducts = $productModel->getAllProducts();
-         
-         // $products = [];
-         // foreach ($allProducts as $key => $product) {
-         //    // $products[$key]['name'] = $product['name'];
-         //    $products[$key] = $product;
-         //    $products[$key]['main_image'] = $this->getImage([
-         //       'name' => $product['main_image'],
-         //       'alt' => $product['name'] . '_image',
-         //       'class' => 'image',
-         //       'id' => 'img' . [$key],
-         //    ]);
-         // }
-         // echo '<pre>';
-         // var_dump($products);
-         // die;
          $content = [
             'products' => $allProducts,
-            // 'products' => $products,
          ];
             
          return $this->view('admin/product/index', $content);
@@ -41,21 +25,24 @@
       // Show one Product
       public function actionShow()
       {
-         $id = $this->getGet('id');
          $productModel = new Product();
          $priceModel = new Price();
          $statusModel = new Status();
 
+         $id = $this->getGet('id');
          $product = $productModel->getOne($id);
          $productPrices = $priceModel->getAll(['id_product' => [$id]]);
          $idsPriceStatus = array_column($productPrices, 'id_status');
-         $priceStatuses = $statusModel->getAll(['id_status' => $idsPriceStatus]);
+         $priceStatuses = [];
+         if (!empty($idsPriceStatus)) {
+            $priceStatuses = $statusModel->getAll(['id_status' => $idsPriceStatus]);
+         }
          $content = [
             'product' => $product,
             'prices' => $productPrices,
             'statuses' => $priceStatuses,
          ];
-            
+         
          return $this->view('admin/product/view', $content);
       }
 
@@ -95,18 +82,15 @@
                'main_image' => $imageName,
             ];
             
-            // $errors = $request->checkPost($setProductData);
-            // if (empty($errors)) {
-               $idProduct = $productModel->insert($setProductData);
-               if (!empty($idProduct)) {
-                  $setPriceData = [
-                     'id_product' => $idProduct,
-                     'id_status' => $postData['priceStatus'],
-                     'price' => $postData['price'],
-                  ];
-                  $priceModel->insert($setPriceData);
-               }
-            // }
+            $idProduct = $productModel->insert($setProductData);
+            if (!empty($idProduct)) {
+               $setPriceData = [
+                  'id_product' => $idProduct,
+                  'id_status' => $postData['priceStatus'],
+                  'price' => $postData['price'],
+               ];
+               $priceModel->insert($setPriceData);
+            }
          }
          
          return $this->view('admin/product/create', $content);
@@ -119,14 +103,16 @@
          $productModel = new Product();
          $priceModel = new Price();
          $statusModel = new Status();
-
+         
          // Отримання з БД всіх даних одного продукту
          $id = $this->getGet('id');
          $product = $productModel->getOne($id);
          $productPrices = $priceModel->getAll(['id_product' => [$id]]);
          $idsPriceStatus = array_column($productPrices, 'id_status');
-         $priceStatuses = $statusModel->getAll(['id_status' => $idsPriceStatus]);
-
+         $priceStatuses = [];
+         if (!empty($idsPriceStatus)) {
+            $priceStatuses = $statusModel->getAll(['id_status' => $idsPriceStatus]);
+         }
          // Отримання з БД і розділення всіх статусів на статуси_продуктів і _цін для виведення в різних select'ах
          $allStatuses = $statusModel->getAll();
          $allPriceStatuses = $allProductStatuses = [];
@@ -140,7 +126,6 @@
                   break;
             }
          }
-
          // Формування даних на В'юшку
          $content = [
             'product' => $product,
@@ -153,7 +138,7 @@
          // Підготовка і виконання Апдейту даних
          if (!is_null($this->getPost('update'))) {
             $postData = $this->getPost();
-            $idProduct = $postData['id_product'];
+            $idProduct = $postData['update'];
 
             $fileData = $this->getFiles('main_image');
             if (!empty($fileData['name'])) {
@@ -171,7 +156,7 @@
                // Залишаєтсья старе зображення
                $imageName = $product['main_image'];
             }
-            
+
             $setProductData = [
                'name' => $postData['name'],
                'description' => $postData['description'],
@@ -185,43 +170,73 @@
             foreach ($setProductData as $key => $setProductItem) {
                if ($setProductItem != $product[$key]) {
                   $isSmthChanged = true;
-               } else {
                }
             }
             foreach ($productPrices as $idPrice => $productPrice) {
-               if ($productPrice['price'] != $postData['price'][$idPrice]) {
+               if (($productPrice['price'] != $postData['price'][$idPrice]) || ($productPrices[$idPrice]['id_status'] != $postData['priceStatus'][$idPrice])) {
                   $isSmthChanged = true;
-               } else {
                }
             }
-            //    // var_dump($idPrice);
-            // foreach ($priceStatuses as $idStatus => $priceStatus) {
-            //    if ($priceStatus['id_status'] != $postData['priceStatus'][$idPrice]) {      // $priceStatus['id_status'] is $idStatus
-            //       $isSmthChanged = true;
-            //       echo 'changed status, ';
-            //    } else {
-            //       echo 'same status, ';
-            //    }
-            // }
-            // echo '<pre>';
-            // var_dump($productPrices);
-            // die;
 
             // В БД все одно коли апдейтиш БЕЗ зміни даних дата оновлення НЕ змінюється, то чи треба ця перевірка?
             if ($isSmthChanged) {
                $productModel->update($idProduct, $setProductData);
    
                $setPriceData = [];
-               foreach ($productPrices as $idPrice => $price) {
+               foreach ($postData['price'] as $idPrice => $price) {
                   $setPriceData = [
-                     'id_product' => $idProduct,
-                     'id_status' => $postData['priceStatus'][$idPrice],
-                     'price' => $postData['price'][$idPrice],
+                     'price' => $price,
                   ];
-                  $priceModel->update($productPrices[$idPrice]['id_price'], $setPriceData);
+                  $priceModel->update($idPrice, $setPriceData);
+               }
+               foreach ($postData['priceStatus'] as $idPrice => $id_status) {
+                  $setPriceData = [
+                     'id_status' => $id_status,
+                  ];
+                  $priceModel->update($idPrice, $setPriceData);
+               }
+               // Додавання нової ціни
+               if (!empty($postData['newPrice']) && !empty($postData['newPriceStatus'])) {
+                  $insertPriceData = [
+                     'id_product' => $idProduct,
+                     'id_status' => $postData['newPrice'],
+                     'price' => $postData['newPriceStatus'],
+                  ];
+                  $priceModel->insert($insertPriceData);
                }
             }
          }
+
+         // Отримання з БД всіх даних одного продукту
+         $id = $this->getGet('id');
+         $product = $productModel->getOne($id);
+         $productPrices = $priceModel->getAll(['id_product' => [$id]]);
+         $idsPriceStatus = array_column($productPrices, 'id_status');
+         $priceStatuses = [];
+         if (!empty($idsPriceStatus)) {
+            $priceStatuses = $statusModel->getAll(['id_status' => $idsPriceStatus]);
+         }
+         // Отримання з БД і розділення всіх статусів на статуси_продуктів і _цін для виведення в різних select'ах
+         $allStatuses = $statusModel->getAll();
+         $allPriceStatuses = $allProductStatuses = [];
+         foreach ($allStatuses as $status) {
+            switch ($status['category']) {
+               case 'price':
+                  $allPriceStatuses[] = $status;
+                  break;
+               case 'product':
+                  $allProductStatuses[] = $status;
+                  break;
+            }
+         }
+         // Формування даних на В'юшку
+         $content = [
+            'product' => $product,
+            'prices' => $productPrices,
+            'statuses' => $priceStatuses,
+            'allPriceStatuses' => $allPriceStatuses,
+            'allProductStatuses' => $allProductStatuses,
+         ];
          
          return $this->view('admin/product/update', $content);
       }

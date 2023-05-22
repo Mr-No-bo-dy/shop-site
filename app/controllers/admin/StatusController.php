@@ -84,8 +84,7 @@
             $statusModel->delete($idStatus);
          }
 
-         // return $this->redirect('../status');
-         return $this->actionIndex();
+         return $this->redirect('status');
       }
    }
 
