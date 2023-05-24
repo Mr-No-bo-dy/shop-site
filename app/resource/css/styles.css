@@ -8,6 +8,10 @@
    margin-top: 60px;
 }
 
+a {
+   text-decoration: none;
+}
+
 table th,
 table td {
    /* padding: 5px; */
@@ -35,6 +39,7 @@ input[type="number"] {
 }
 
 select {
+   width: 188px;
    min-height: 28.91px;
 }
 
@@ -43,12 +48,9 @@ select {
 }
 
 textarea {
+   /* resize: vertical; */
+   width: 188px;
    max-width: 240px;
-   resize: vertical;
    min-height: 70px;
    max-height: 140px;
-}
-
-td a {
-   text-decoration: none;
 }

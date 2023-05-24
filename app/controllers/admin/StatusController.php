@@ -21,14 +21,14 @@
       }
 
       // Show all Statuses
-      public function actionIndex(array $data = [])
+      public function actionIndex(array $errors = [])
       {
          $statusModel = new Status();
 
          $allStatuses = $statusModel->getAll();
          $content = [
             'allStatuses' => $allStatuses,
-            'errors' => $data,
+            'errors' => $errors,
          ];
 
          return $this->view('admin/status/index', $content);

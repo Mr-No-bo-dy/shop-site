@@ -61,14 +61,28 @@
       }
 
       // Get all info of one entity
-      public function getOne(int $id)
+      public function getOne(int $id, array $options = [])
       {
          $table = $this->properties['table'];
          $primaryKey = $this->properties['primaryKey'];
          $fields = $this->properties['fields'];
 
+         $fieldsList = implode(', ', $fields);
+
+         // Add option to get data from same table by value of another (not $primaryKey) column
+         if (!empty($options['field'])) {
+            $primaryKey = $options['field'];
+            $fieldsList = '*';
+         }
+
+         // Add option to get data from another related table
+         if (!empty($options['table'])) {
+            $table = $options['table'];
+            $fieldsList = '*';
+         }
+
          $builder = $this->builder();
-         $stmt = $builder->prepare('SELECT ' . implode(', ', $fields) . ' FROM ' . $this->dataBaseName . '.' . $table . 
+         $stmt = $builder->prepare('SELECT ' . $fieldsList . ' FROM ' . $this->dataBaseName . '.' . $table . 
                                     ' WHERE ' . $primaryKey . ' = ' . $id . '');
          $stmt->execute();
 
@@ -101,7 +115,7 @@
       }
 
       // Update entity in DB
-      public function update(int $id, array $data)
+      public function update(int $id, array $data, array $options = [])
       {
          $table = $this->properties['table'];
          $primaryKey = $this->properties['primaryKey'];
@@ -111,6 +125,13 @@
             $updateFields .= $key . "='" . $val . "',";
          }
          $updateFields = rtrim($updateFields, ', ');
+
+         if (!empty($options['table'])) {
+            $table = $options['table'];
+         }
+         if (!empty($options['field'])) {
+            $primaryKey = $options['field'];
+         }
 
          $sql = 'UPDATE ' . $this->dataBaseName . '.' . $table . ' SET ' . $updateFields . ' WHERE ' . $primaryKey . ' = ' . $id . '';
 

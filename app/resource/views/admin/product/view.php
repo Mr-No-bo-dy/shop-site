@@ -1,7 +1,5 @@
 <?php require 'app/resource/views/admin/components/header.php'; ?>
 
-<a href="<?= $this->getBaseURL('products') ?>">View All Products</a>
-
 <h4>Product</h4>
 
 <figure>
@@ -15,6 +13,8 @@
       <h5 class="my-3">Name: <strong><?= $product['name'] ?></strong></h5>
       <p><b>ID:</b> <?= $product['id_product'] ?></p>
       <p><b>Description:</b> <?= $product['description'] ?></p>
+      <p><b>Category: </b><?= ucfirst($category) ?></p>
+      <p><b>Status: </b><?= ucfirst($status) ?></p>
       <p><b>Quantity:</b> <?= $product['quantity'] ?></p>
       <p><b>Prices:</b></p>
       <?php foreach ($statuses as $status) { ?>
@@ -26,5 +26,7 @@
       <?php } ?>
    </figcaption>
 </figure>
+
+<a class="btn btn-secondary" href="<?= $this->getBaseURL('products') ?>">Back</a>
 
 <?php require 'app/resource/views/admin/components/footer.php'; ?>

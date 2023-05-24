@@ -1,10 +1,16 @@
 <?php require 'app/resource/views/admin/components/header.php'; ?>
 
-<a href="<?= $this->getBaseURL('../products') ?>">View All Products</a>
-
 <h4>Create Product</h4>
 <form action="" method="post" enctype="multipart/form-data">
    <p><b>Name: </b><input type="text" name="name" value="<?= $_POST['name'] ?? '' ?>" placeholder="Name"></p>
+   <div><b>Description: </b></div><p><textarea name="description" cols="30" rows="3" placeholder="Description"><?= $_POST['description'] ?? '' ?></textarea></p>
+   <p><b>Category: </b>
+      <select name="id_category">
+         <?php foreach ($allCategories as $category) { ?>
+            <option value="<?= $category['id_category'] ?>"><?= ucfirst($category['name']) ?></option>
+         <?php } ?>
+      </select>
+   </p>
    <p><b>Status: </b>
       <select name="productStatus">
          <?php foreach ($allProductStatuses as $status) { ?>
@@ -12,9 +18,9 @@
          <?php } ?>
       </select>
    </p>
-   <div><b>Description: </b></div><textarea name="description" cols="30" rows="3" placeholder="Description"><?= $_POST['description'] ?? '' ?></textarea>
    <p><b>Quantity: </b><input type="number" name="quantity" value="<?= $_POST['quantity'] ?? '' ?>" placeholder="Quantity"></p>
-   <p><b>Price: </b>
+   <div><b>Price: </b></div>
+   <p>
       <select name="priceStatus">
          <?php foreach ($allPriceStatuses as $status) { ?>
             <option value="<?= $status['id_status'] ?>"><?= $status['name'] ?></option>
@@ -24,6 +30,7 @@
    </p>
    <p><input type="file" name="main_image"></p>
    <button type="submit" name="create" value="1">Create</button>
+   <a class="btn btn-secondary" href="<?= $this->getBaseURL('../products') ?>">Back</a>
 </form>
 
 <?php require 'app/resource/views/admin/components/footer.php'; ?>

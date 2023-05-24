@@ -12,6 +12,8 @@
       // 'admin/status' => 'admin/status/index',
       // 'admin/status/check' => 'admin/status/check',
       'admin/status' => 'admin/status/check',
+      'admin/category' => 'admin/category/check',
+      'admin/subcategory' => 'admin/subcategory/check',
 
       'admin/products' => 'admin/product/index',
       'admin/product' => 'admin/product/show',

@@ -40,10 +40,13 @@
                      <a class="nav-link" href="<?= $this->getBaseURL('status') ?>">Statuses</a>
                   </li>
                   <li class="nav-item">
-                     <a class="nav-link" href="<?= $this->getBaseURL('products') ?>">Products</a>
+                     <a class="nav-link" href="<?= $this->getBaseURL('category') ?>">Categories</a>
                   </li>
                   <li class="nav-item">
-                     <a class="nav-link" href="user">Users</a>
+                     <a class="nav-link" href="<?= $this->getBaseURL('subcategory') ?>">SubCategories</a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" href="<?= $this->getBaseURL('products') ?>">Products</a>
                   </li>
                </ul>
                <form class="d-flex mt-3" role="search">

@@ -26,12 +26,6 @@
          return !isset($url[2]) ? $url[1] : $string;
       }
 
-      // Return view-file of <img>
-      public function getImage(array $data)
-      {
-         return $this->view('admin/components/image', $data);
-      }
-
       // Redirect to Views & import from array $data to variables
       public function view(string $viewName, array $data = [])
       {
@@ -40,6 +34,12 @@
             extract($data, EXTR_OVERWRITE);
             include $viewPath;
          }
+      }
+
+      // Return view-file of <img>
+      public function getImage(array $data)
+      {
+         return $this->view('admin/components/image', $data);
       }
 
       // Get data from $_POST
