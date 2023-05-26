@@ -3,7 +3,6 @@
    use app\helpers\Request;
    use app\models\Category;
    use app\models\SubCategory;
-   use app\models\ProductCategory;
 
    class CategoryController extends Controller
    {
@@ -23,14 +22,14 @@
       }
 
       // Show all Categories
-      public function actionIndex(array $data = [])
+      public function actionIndex(array $errors = [])
       {
          $categoryModel = new Category();
 
          $allCategories = $categoryModel->getAll();
          $content = [
             'allCategories' => $allCategories,
-            'errors' => $data,
+            'errors' => $errors,
          ];
 
          return $this->view('admin/category/index', $content);
@@ -80,14 +79,13 @@
          if ($this->getPost('delete')) {
             $categoryModel = new Category();
             $subCategoryModel = new SubCategory();
-            $productCategoryModel = new ProductCategory();
 
             $idCategory = $this->getPost('delete');
-            $productCategories = $productCategoryModel->getAll(['id_category' => [$idCategory]]);
+            $productCategories = $categoryModel->getAll(['id_category' => [$idCategory]], ['table' => 'products_categories']);
             $subCategory = $subCategoryModel->getAll(['id_category' => [$idCategory]]);
 
             if (!empty($productCategories)) {
-               $productCategoryModel->delete(array_column($productCategories, 'id_category'), 'id_category');
+               $categoryModel->delete(array_column($productCategories, 'id_category'), ['table' => 'products_categories']);
             }
             if (!empty($subCategory)) {
                $subCategoryModel->delete(array_column($subCategory, 'id_category'), 'id_category');

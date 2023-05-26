@@ -9,6 +9,5 @@
       public $table = 'statuses';
       public $primaryKey = 'id_status';
       public $fields = ['id_status', 'name', 'category'];
-
    }
 ?>

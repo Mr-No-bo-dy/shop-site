@@ -16,14 +16,20 @@
          exit;
       }
 
-      public function getBaseURL(string $string = '')
-      {
-         $url = explode('/', $_SERVER['REQUEST_URI']);
-         if ($url[1] === 'admin') {
-            $url[1] .= '/' . $string;
+      public function getBaseURL(string $urlString = '') {
+         $urlArray = explode('/', $_SERVER['REQUEST_URI']);
+         $baseURL = '';
+      
+         for ($i = 1; $i < count($urlArray); $i++) {
+            if ($urlArray[$i] === 'admin') {
+               $baseURL .= '/admin/' . $urlString;
+               break;
+            } else {
+               $baseURL .= '/' . $urlArray[$i];
+            }
          }
          
-         return !isset($url[2]) ? $url[1] : $string;
+         return $baseURL;
       }
 
       // Redirect to Views & import from array $data to variables

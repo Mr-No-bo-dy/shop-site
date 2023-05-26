@@ -8,9 +8,9 @@
 
       'admin/register' => 'admin/admin/register',
       'admin/login' => 'admin/admin/login',
+      'admin/logout' => 'home/logout',
+      'logout' => 'home/logout',
       
-      // 'admin/status' => 'admin/status/index',
-      // 'admin/status/check' => 'admin/status/check',
       'admin/status' => 'admin/status/check',
       'admin/category' => 'admin/category/check',
       'admin/subcategory' => 'admin/subcategory/check',
@@ -20,9 +20,6 @@
       'admin/product/create' => 'admin/product/create',
       'admin/product/update' => 'admin/product/update',
       'admin/product/delete' => 'admin/product/delete',
-
-      'admin/logout' => 'home/logout',
-      'logout' => 'home/logout',
 
       '' => 'home/index',
       'home' => 'home/index',

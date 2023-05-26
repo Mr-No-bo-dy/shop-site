@@ -6,11 +6,11 @@
 <!-- <form action="<?//= $this->getBaseURL('status/check') ?>" method="post"> -->
 <form action="<?= $this->getBaseURL('status') ?>" method="post">
    <div>
-      <input class="<?= isset($errors['name']['check']) ? 'is-invalid' : '' ?>" type="text" name="name" value="<?= $name['name'] ?? '' ?>" placeholder="Name">
+      <input class="<?= isset($errors['name']['check']) ? 'is-invalid' : '' ?>" type="text" name="name" value="<?= $_POST['name'] ?? '' ?>" placeholder="Name">
       <div class="invalid-feedback"><?= $errors['name']['desc'] ?? '' ?></div>
    </div>
    <div>
-      <input class="<?= isset($errors['category']['check']) ? 'is-invalid' : '' ?>" type="text" name="category" value="<?= $category['category'] ?? '' ?>" placeholder="Category">
+      <input class="<?= isset($errors['category']['check']) ? 'is-invalid' : '' ?>" type="text" name="category" value="<?= $_POST['category'] ?? '' ?>" placeholder="Category">
       <div class="invalid-feedback"><?= $errors['category']['desc'] ?? '' ?></div>
    </div>
    <button type="submit" name="create">Create</button>

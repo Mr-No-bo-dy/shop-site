@@ -35,20 +35,28 @@
       }
 
       // Get all info of all entities
-      public function getAll(array $filters = [])
+      public function getAll(array $filters = [], array $options = [])
       {
          $table = $this->properties['table'];
          $primaryKey = $this->properties['primaryKey'];
          $fields = $this->properties['fields'];
 
          $builder = $this->builder();
-
+         
+         // Add option to get data from another related table
+         $fieldKeys = key($filters);
+         $preparedFields = implode(', ', $fields);
+         if (!empty($options['table'])) {
+            $table = $options['table'];
+            $preparedFields = '*';
+         }
+         
          // Added filter for SQL-query
          $sqlFilters = '';
          if (!empty($filters)) {
-            $sqlFilters = ' WHERE ' . key($filters) . ' IN (' . implode(', ', $filters[key($filters)]) . ')';
+            $sqlFilters = ' WHERE ' . $fieldKeys . ' IN (' . implode(', ', $filters[key($filters)]) . ')';
          }
-         $stmt = $builder->prepare('SELECT ' . implode(', ', $fields) . ' FROM ' . $this->dataBaseName . '.' . $table . $sqlFilters . '');
+         $stmt = $builder->prepare('SELECT ' . $preparedFields . ' FROM ' . $this->dataBaseName . '.' . $table . $sqlFilters . '');
          $stmt->execute();         
 
          $items = [];
@@ -72,9 +80,7 @@
          // Add option to get data from same table by value of another (not $primaryKey) column
          if (!empty($options['field'])) {
             $primaryKey = $options['field'];
-            $fieldsList = '*';
          }
-
          // Add option to get data from another related table
          if (!empty($options['table'])) {
             $table = $options['table'];
@@ -90,19 +96,22 @@
       }
       
       // Insert entity into DB
-      public function insert(array $data)
+      public function insert(array $data, array $options = [])
       {
          $table = $this->properties['table'];
-         $primaryKey = $this->properties['primaryKey'];
          $fields = $this->properties['fields'];
 
-         // Clean $fields from $primaryKey
-         $fields = array_flip($fields);
-         unset($fields[$primaryKey]);
-         $fields = array_flip($fields);
-
+         $fields = [];
+         foreach ($data as $key => $val) {
+            $fields[] = $key;
+         }
          $dbFields = implode(', ', $fields);
          $postFields = ':' . implode(', :', $fields);
+
+         // Add option to get data from another related table
+         if (!empty($options['table'])) {
+            $table = $options['table'];
+         }
 
          $sql = 'INSERT INTO ' . $this->dataBaseName . '.' . $table . ' (' . $dbFields . ') 
                   VALUES (' . $postFields . ')';
@@ -126,11 +135,13 @@
          }
          $updateFields = rtrim($updateFields, ', ');
 
-         if (!empty($options['table'])) {
-            $table = $options['table'];
-         }
+         // Add option to get data from same table by value of another (not $primaryKey) column
          if (!empty($options['field'])) {
             $primaryKey = $options['field'];
+         }
+         // Add option to get data from another related table
+         if (!empty($options['table'])) {
+            $table = $options['table'];
          }
 
          $sql = 'UPDATE ' . $this->dataBaseName . '.' . $table . ' SET ' . $updateFields . ' WHERE ' . $primaryKey . ' = ' . $id . '';
@@ -141,16 +152,24 @@
       }
 
       // Delete entity from DB
-      public function delete($data, $field = null)
+      public function delete($data, $options = [])
       {
          $table = $this->properties['table'];
          $primaryKey = $this->properties['primaryKey'];
 
-         $fieldDelete = !is_null($field) ? $field : $primaryKey;
+         // Add option to get data from same table by value of another (not $primaryKey) column
+         if (!empty($options['field'])) {
+            $primaryKey = $options['field'];
+         }
+         // Add option to get data from another related table
+         if (!empty($options['table'])) {
+            $table = $options['table'];
+         }
+
          if (!is_array($data)) {
-            $sql = 'DELETE FROM ' . $this->dataBaseName . '.' . $table . ' WHERE ' . $fieldDelete . ' = ' . $data . '';
+            $sql = 'DELETE FROM ' . $this->dataBaseName . '.' . $table . ' WHERE ' . $primaryKey . ' = ' . $data . '';
          } elseif (is_array($data)) {
-            $sql = 'DELETE FROM ' . $this->dataBaseName . '.' . $table . ' WHERE ' . $fieldDelete . ' IN (' . implode(',', $data) . ')';
+            $sql = 'DELETE FROM ' . $this->dataBaseName . '.' . $table . ' WHERE ' . $primaryKey . ' IN (' . implode(',', $data) . ')';
          }
 
          $this->builder()

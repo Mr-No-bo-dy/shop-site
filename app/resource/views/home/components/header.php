@@ -22,8 +22,8 @@
 				<li><a class="nav-link" href="#">Products</a></li>
 				<li><a class="nav-link" href="#">Partners</a></li>
 				<?php if(!isset($_SESSION['user']['id_user'])) { ?>
-					<li><a class="nav-link" href="register">Register</a></li>
-					<li><a class="nav-link" href="login">Login</a></li>
+					<li><a class="nav-link" href="<?= $this->getBaseURL('register') ?>">Register</a></li>
+					<li><a class="nav-link" href="<?= $this->getBaseURL('login') ?>">Login</a></li>
 				<?php } else { ?>
 					<li><a class="nav-link" href="logout">Logout</a></li>
 				<?php } ?>

@@ -5,11 +5,11 @@
 <h5 class="mt-3">Create Category</h5>
 <form action="<?= $this->getBaseURL('category') ?>" method="post">
    <div>
-      <input class="<?= isset($errors['name']['check']) ? 'is-invalid' : '' ?>" type="text" name="name" value="<?= $name['name'] ?? '' ?>" placeholder="Name">
+      <input class="<?= isset($errors['name']['check']) ? 'is-invalid' : '' ?>" type="text" name="name" value="<?= $_POST['name'] ?? '' ?>" placeholder="Name">
       <div class="invalid-feedback"><?= $errors['name']['desc'] ?? '' ?></div>
    </div>
    <div>
-      <textarea class="<?= isset($errors['description']['check']) ? 'is-invalid' : '' ?>" name="description" value="<?= $description['description'] ?? '' ?>"  cols="23" rows="3" placeholder="Description"></textarea>
+      <textarea class="<?= isset($errors['description']['check']) ? 'is-invalid' : '' ?>" name="description" cols="23" rows="3" placeholder="Description"><?= $_POST['description'] ?? '' ?></textarea>
       <div class="invalid-feedback"><?= $errors['description']['desc'] ?? '' ?></div>
    </div>
    <button type="submit" name="create">Create</button>
@@ -33,7 +33,7 @@
          <tbody>
             <tr class="inputs">
                <td><input type="number" name="id_category" value="<?= $category['id_category']; ?>" readonly></td>
-               <td><input type="text" name="name" value="<?= $category['name']; ?>" readonly></td>
+               <td><input type="text" name="name" value="<?= ucfirst($category['name']); ?>" readonly></td>
                <td><input type="text" name="description" value="<?= $category['description']; ?>" readonly></td>
                <td>
                   <button class="update" type="button">Update</button>

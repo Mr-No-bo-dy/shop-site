@@ -9,6 +9,5 @@
       public $table = 'categories';
       public $primaryKey = 'id_category';
       public $fields = ['id_category', 'name', 'description'];
-
    }
 ?>

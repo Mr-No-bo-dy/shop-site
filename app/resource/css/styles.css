@@ -8,18 +8,17 @@
    margin-top: 60px;
 }
 
-a {
-   text-decoration: none;
-}
-
 table th,
 table td {
-   /* padding: 5px; */
    border: 2px solid #333;
 }
 
 .table_input {
    margin-top: -2px;
+}
+
+.table_input td {
+   border: 2px solid #212529;
 }
 
 .table_input input {
@@ -34,23 +33,19 @@ table td {
    border: 2px solid #444;
 }
 
-input[type="number"] {
-   max-width: 90px;
-}
-
 select {
    width: 188px;
    min-height: 28.91px;
 }
 
-.table_input td {
-   border: 2px solid #212529;
-}
-
 textarea {
-   /* resize: vertical; */
    width: 188px;
    max-width: 240px;
    min-height: 70px;
    max-height: 140px;
+}
+
+/* Warning: Bootstrap' styles changed! */
+.offcanvas {
+   --bs-offcanvas-width: 20vw;
 }

@@ -2,7 +2,6 @@
    use app\vendor\Controller;
    use app\helpers\Request;
    use app\models\Product;
-   use app\models\ProductCategory;
    use app\models\Category;
    use app\models\Price;
    use app\models\Status;
@@ -14,10 +13,33 @@
       public function actionIndex()
       {
          $productModel = new Product();
+         $categoryModel = new Category();
 
-         $allProducts = $productModel->getAllProducts();
+         $filters = [
+            'id_category' => 0,
+         ];
+         $idCategory = $this->getPost('id_category');
+         if (!empty($idCategory)) {
+            $filters['id_category'] = $idCategory;
+         }
+         $resetFilters = $this->getPost('resetFilters');
+         if (!empty($resetFilters)) {
+            unset($_SESSION['filters']);
+         }
+         if (!empty($filters['id_category'])) {
+            $_SESSION['filters'] = $filters;
+         }
+         if (!empty($_SESSION['filters'])) {
+            $filters = $_SESSION['filters'];
+         }
+         
+         $allProducts = $productModel->getAllProducts($filters);
+         $allCategories = $categoryModel->getAll();
+
          $content = [
             'products' => $allProducts,
+            'allCategories' => $allCategories,
+            'filters' => $filters,
          ];
             
          return $this->view('admin/product/index', $content);
@@ -31,14 +53,14 @@
          $priceModel = new Price();
          $statusModel = new Status();
 
-         $id = $this->getGet('id');
-         $product = $productModel->getOne($id);
-         $productCategory = $productModel->getOne($id, ['field' => 'id_product', 'table' => 'products_categories']);
+         $idProduct = $this->getGet('id');
+         $product = $productModel->getOne($idProduct);
+         $productCategory = $productModel->getOne($idProduct, ['table' => 'products_categories']);
          if (!empty($productCategory['id_category'])) {
             $category = $categoryModel->getOne($productCategory['id_category']);
          }
-         $productStatus = $statusModel->getOne($product['id_status'], ['field' => 'id_status', 'table' => 'statuses']);
-         $productPrices = $priceModel->getAll(['id_product' => [$id]]);
+         $productStatus = $statusModel->getOne($product['id_status']);
+         $productPrices = $priceModel->getAll(['id_product' => [$idProduct]]);
          $idsPriceStatus = array_column($productPrices, 'id_status');
          $priceStatuses = [];
          if (!empty($idsPriceStatus)) {
@@ -61,7 +83,6 @@
          $request = new Request();
          $productModel = new Product();
          $categoryModel = new Category();
-         $productCategoryModel = new ProductCategory();
          $statusModel = new Status();
          $priceModel = new Price();
 
@@ -108,7 +129,7 @@
                   'id_product' => $idProduct,
                   'id_category' => $postData['id_category'],
                ];
-               $productCategoryModel->insert($setProductCategoryData);
+               $productModel->insert($setProductCategoryData, ['table' => 'products_categories']);
             }
          }
          
@@ -120,17 +141,16 @@
       {
          $request = new Request();
          $productModel = new Product();
-         $productCategoryModel = new ProductCategory();
          $categoryModel = new Category();
          $priceModel = new Price();
          $statusModel = new Status();
          
          // Отримання з БД всіх даних одного продукту
-         $id = $this->getGet('id');
-         $product = $productModel->getOne($id);
+         $idProduct = $this->getGet('id');
+         $product = $productModel->getOne($idProduct);
          $allCategories = $categoryModel->getAll();
-         $productCategory = $productModel->getOne($id, ['field' => 'id_product', 'table' => 'products_categories']);
-         $productPrices = $priceModel->getAll(['id_product' => [$id]]);
+         $productCategory = $productModel->getOne($idProduct, ['table' => 'products_categories']);
+         $productPrices = $priceModel->getAll(['id_product' => [$idProduct]]);
          $idsPriceStatus = array_column($productPrices, 'id_status');
          $priceStatuses = [];
          if (!empty($idsPriceStatus)) {
@@ -163,8 +183,8 @@
             $idProduct = $postData['update'];
 
             // Image update
-            $fileData = $this->getFiles('main_image');
-            if (!empty($fileData['name'])) {
+            $fieldata = $this->getFiles('main_image');
+            if (!empty($fieldata['name'])) {
                // Delete old image
                $productImage = $product['main_image'];
                $imgLocation = 'app/resource/uploads/' . $productImage;
@@ -209,7 +229,7 @@
                }
             }
             foreach ($allCategories as $category) {
-               if ($category['id_category'] != $setCategoryData['id_category']) {
+               if ($category['id_category'] != $postData['id_category']) {
                   $isSmthChanged = true;
                }
             }
@@ -218,10 +238,9 @@
                   $isSmthChanged = true;
                }
             }
-            // В БД все одно коли апдейтиш БЕЗ зміни даних дата оновлення НЕ змінюється, то чи треба ця перевірка?
             if ($isSmthChanged) {
                $productModel->update($idProduct, $setProductData);
-               $productCategoryModel->update($productCategory['id_product_category'], $setCategoryData);
+               $productModel->update($productCategory['id_product_category'], $setCategoryData, ['field' => 'id_product_category', 'table' => 'products_categories']);
 
                $setPriceData = [];
                foreach ($postData['price'] as $idPrice => $price) {
@@ -240,11 +259,11 @@
          }
 
          // Отримання з БД всіх даних одного продукту
-         $id = $this->getGet('id');
-         $product = $productModel->getOne($id);
+         $idProduct = $this->getGet('id');
+         $product = $productModel->getOne($idProduct);
          $allCategories = $categoryModel->getAll();
-         $productCategory = $productModel->getOne($id, ['field' => 'id_product', 'table' => 'products_categories']);
-         $productPrices = $priceModel->getAll(['id_product' => [$id]]);
+         $productCategory = $productModel->getOne($idProduct, ['table' => 'products_categories']);
+         $productPrices = $priceModel->getAll(['id_product' => [$idProduct]]);
          $idsPriceStatus = array_column($productPrices, 'id_status');
          $priceStatuses = [];
          if (!empty($idsPriceStatus)) {
@@ -269,27 +288,26 @@
             'product' => $product,
             'prices' => $productPrices,
             'statuses' => $priceStatuses,
-            'allPriceStatuses' => $allPriceStatuses,
-            'allProductStatuses' => $allProductStatuses,
+            'idCategory' => $productCategory['id_category'],
             'allCategories' => $allCategories,
-            'productCategory' => $productCategory,
+            'allProductStatuses' => $allProductStatuses,
+            'allPriceStatuses' => $allPriceStatuses,
          ];
          
          return $this->view('admin/product/update', $content);
       }
 
-      // Delete some Product with it's prices
+      // Delete some Product
       public function actionDelete()
       {
          if ($this->getPost('delete')) {
             $productModel = new Product();
-            $productCategoryModel = new ProductCategory();
             $priceModel = new Price();
             $orderModel = new Order();
 
             $idProduct = $this->getPost('delete');
             $product = $productModel->getOne($idProduct);
-            $productCategories = $productCategoryModel->getAll(['id_product' => [$idProduct]]);
+            $productCategories = $productModel->getAll(['id_product' => [$idProduct]], ['table' => 'products_categories']);
             $productPrices = $priceModel->getAll(['id_product' => [$idProduct]]);
             $productOrders = $orderModel->getAll(['id_product' => [$idProduct]]);
             $productImage = $product['main_image'];
@@ -300,13 +318,13 @@
                unlink($imgLocation);
             }
             if (!empty($productCategories)) {
-               $productCategoryModel->delete(array_column($productCategories, 'id_product'), 'id_product');
+               $productModel->delete(array_column($productCategories, 'id_product'), ['table' => 'products_categories']);
             }
             if (!empty($productPrices)) {
-               $priceModel->delete(array_column($productPrices, 'id_product'), 'id_product');
+               $priceModel->delete(array_column($productPrices, 'id_product'), ['field' => 'id_product']);
             }
             if (!empty($productOrders)) {
-               $orderModel->delete(array_column($productOrders, 'id_product'), 'id_product');
+               $orderModel->delete(array_column($productOrders, 'id_product'), ['field' => 'id_product']);
             }
             $productModel->delete($idProduct);
          }

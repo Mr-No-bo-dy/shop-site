@@ -16,11 +16,11 @@
       <p><b>Category: </b><?= ucfirst($category) ?></p>
       <p><b>Status: </b><?= ucfirst($status) ?></p>
       <p><b>Quantity:</b> <?= $product['quantity'] ?></p>
-      <p><b>Prices:</b></p>
+      <div><b>Prices:</b></div>
       <?php foreach ($statuses as $status) { ?>
          <?php foreach ($prices as $price) { ?>
             <?php if ($status['id_status'] === $price['id_status']) { ?>
-               <p><?= ucfirst($status['name']) ?>: <?= $price['price'] ?>$</p>
+               <div><?= ucfirst($status['name']) ?>: <?= $price['price'] ?>$</div>
             <?php } ?>
          <?php } ?>
       <?php } ?>

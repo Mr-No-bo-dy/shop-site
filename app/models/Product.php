@@ -10,8 +10,8 @@
       public $primaryKey = 'id_product';
       public $fields = ['id_product', 'id_status', 'name', 'description', 'main_image', 'quantity'];
 
-      // Витягнути інфу про 'products', додати до неї ціни з таблиці `prices` і статуси з таблиці `statuses`:
-      public function getAllProducts()
+      // Витягнути інфу про 'products', додати до неї всі необхідні дані з інших таблиць:
+      public function getAllProducts(array $filters = [])
       {
          $sql = 'SELECT pd.id_status AS product_status, 
                   pds.name AS product_status_name, 
@@ -31,6 +31,10 @@
                   LEFT JOIN ' . $this->dataBaseName . '.statuses as ps ON ps.id_status = p.id_status
                   LEFT JOIN ' . $this->dataBaseName . '.products_categories as ppc ON ppc.id_product = pd.id_product
                   LEFT JOIN ' . $this->dataBaseName . '.categories as pc ON pc.id_category = ppc.id_category';
+         if (!empty($filters['id_category'])) {
+            $sql .= ' WHERE ppc.id_category = '. $filters['id_category'] .'';
+         }
+         
          $stmt = $this->builder()
                   ->query($sql);
          $products = $stmt->fetchAll();

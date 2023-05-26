@@ -7,29 +7,29 @@
    <p><b>Category: </b>
       <select name="id_category">
          <?php foreach ($allCategories as $category) { ?>
-            <option value="<?= $category['id_category'] ?>" <?= isset($productCategory['id_category']) && $productCategory['id_category'] !== $category['id_category'] ?: 'selected' ?>><?= ucfirst($category['name']) ?></option>
+            <option value="<?= $category['id_category'] ?>" <?= isset($idCategory) && $idCategory !== $category['id_category'] ?: 'selected' ?>><?= ucfirst($category['name']) ?></option>
          <?php } ?>
       </select>
    </p>
    <p><b>Status: </b>
       <select name="productStatus">
          <?php foreach ($allProductStatuses as $status) { ?>
-            <option value="<?= $status['id_status'] ?>" <?= $status['id_status'] !== $product['id_status'] ?: 'selected' ?>><?= $status['name'] ?></option>
+            <option value="<?= $status['id_status'] ?>" <?= $status['id_status'] !== $product['id_status'] ?: 'selected' ?>><?= ucfirst($status['name']) ?></option>
          <?php } ?>
       </select>
    </p>
    <p><b>Quantity: </b><input type="number" name="quantity" value="<?= $product['quantity'] ?>" placeholder="Quantity"></p>
    <?php foreach ($prices as $idPrice => $price) { ?>
       <div><b>Prices: </b></div>
-      <p>
+      <div>
          <select name="priceStatus[<?= $idPrice ?>]">
             <?php foreach ($allPriceStatuses as $status) { ?>
-               <option value="<?= $status['id_status'] ?>" <?= $status['id_status'] !== $prices[$idPrice]['id_status'] ?: 'selected' ?>><?= $status['name'] ?></option>
+               <option value="<?= $status['id_status'] ?>" <?= $status['id_status'] !== $prices[$idPrice]['id_status'] ?: 'selected' ?>><?= ucfirst($status['name']) ?></option>
             <?php } ?>
          </select>
          <input type="number" name="price[<?= $idPrice ?>]" value="<?= $prices[$idPrice]['price'] ?? '' ?>" placeholder="Price">
-         <button type="submit" name="deletePrice" value="<?= $idPrice ?>">Delete</button>
-      </p>
+         <button class="btn btn-danger" type="submit" name="deletePrice" value="<?= $idPrice ?>">Delete</button>
+      </div>
    <?php } ?>
    <div><b>Add Price: </b></div>
    <p>
@@ -47,8 +47,8 @@
                'id' => 'img' . $product['id_product'],
             ]); ?></div>
    <p><input type="file" name="main_image" value="<?= $product['main_image'] ?>"></p>
-   <button type="submit" name="update" value="<?= $product['id_product'] ?>">Update</button>
-   <a class="btn btn-secondary" href="<?= $this->getBaseURL('../products') ?>">Back</a>
+   <button class="btn btn-primary" type="submit" name="update" value="<?= $product['id_product'] ?>">Update</button>
+   <a class="btn btn-secondary" href="<?= $this->getBaseURL('products') ?>">Back</a>
 </form>
 
 <?php require 'app/resource/views/admin/components/footer.php'; ?>
