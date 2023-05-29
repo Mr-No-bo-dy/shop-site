@@ -17,17 +17,23 @@
 
          $filters = [
             'id_category' => 0,
+            'price' => [],
          ];
          $idCategory = $this->getPost('id_category');
          if (!empty($idCategory)) {
             $filters['id_category'] = $idCategory;
          }
+         $price = $this->getPost('price');
+         if (!empty($price)) {
+            $filters['price'] = $price;
+         }
          $resetFilters = $this->getPost('resetFilters');
          if (!empty($resetFilters)) {
             unset($_SESSION['filters']);
          }
-         if (!empty($filters['id_category'])) {
-            $_SESSION['filters'] = $filters;
+
+         if (!empty($filters['id_category']) || !empty($filters['price'])) {
+            $this->setSession('filters', $filters);
          }
          if (!empty($_SESSION['filters'])) {
             $filters = $_SESSION['filters'];
@@ -35,6 +41,19 @@
          
          $allProducts = $productModel->getAllProducts($filters);
          $allCategories = $categoryModel->getAll();
+         $allCategories = array_merge($allCategories, [0 => ['id_category' => 'all', 'name' => 'All Categories']]);
+
+         // if (!empty($filters['price'])) {
+         //    foreach ($allProducts as $idProduct => $product) {
+         //       foreach ($product['prices'] as $index => $onePriceStatus) {
+         //          foreach ($onePriceStatus as $priceStatus => $price) {
+         //             if ($price < $filters['price']['min'] || $price > $filters['price']['max']) {
+         //                unset($allProducts[$idProduct]);
+         //             }
+         //          }
+         //       }
+         //    }
+         // }
 
          $content = [
             'products' => $allProducts,

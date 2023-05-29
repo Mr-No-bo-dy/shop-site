@@ -55,7 +55,7 @@
          if (isset($_POST)) {
             $postData = $_POST;
             if (!is_null($key)) {
-               if (!empty($_POST[$key]) && isset($_POST[$key])) {
+               if (isset($_POST[$key]) && !empty($_POST[$key])) {
                   $postData = $_POST[$key];
                } elseif (!isset($_POST[$key])) {
                   $postData = null;    // 'Error: undefined POST key ' . $key . '.';
@@ -73,7 +73,7 @@
          if (isset($_GET)) {
             $getData = $_GET;
             if (!is_null($key)) {
-               if (!empty($_GET[$key]) && isset($_GET[$key])) {
+               if (isset($_GET[$key]) && !empty($_GET[$key])) {
                   $getData = $_GET[$key];
                } elseif (!isset($_GET[$key])) {
                   $getData = null;    // 'Error: undefined GET key ' . $key . '.';
@@ -91,7 +91,7 @@
          if (isset($_FILES)) {
             $filesData = $_FILES;
             if (!is_null($key)) {
-               if (!empty($_FILES[$key]) && isset($_FILES[$key])) {
+               if (isset($_FILES[$key]) && !empty($_FILES[$key])) {
                   $filesData = $_FILES[$key];
                } elseif (!isset($_FILES[$key])) {
                   $filesData = null;    // 'Error: undefined Files key ' . $key . '.';
@@ -100,6 +100,58 @@
          }
 
          return $filesData;
+      }
+
+      // // Get data from $_SESSION
+      // public function getSession0(string $key)
+      // {
+      //    $sessionData = [];
+      //    if (isset($_SESSION)) {
+      //       $sessionData = $_SESSION;
+      //       if (!is_null($key)) {
+      //          if (isset($_SESSION[$key]) && !empty($_SESSION[$key])) {
+      //             $sessionData = $_SESSION[$key];
+      //          } elseif (!isset($_SESSION[$key])) {
+      //             $sessionData = null;    // 'Error: undefined Files key ' . $key . '.';
+      //          }
+      //       }
+      //    }
+
+      //    return $sessionData;
+      // }
+
+      // Get data from $_SESSION
+      public function getSession(string $key)
+      {
+         if(isset($_SESSION[$key]) && !empty($_SESSION[$key])) {
+            return $_SESSION[$key];
+         }
+      }
+
+      // Insert data into $_SESSION;
+      public function setSession(mixed $data, mixed $value = null)
+      {
+         if (is_array($data)) {
+            foreach ($data as $key => $val) {
+               if (is_int($key)) {
+                  $_SESSION[$val] = null;
+               } else {
+                  $_SESSION[$key] = $val;
+               }
+            }
+            return;
+         }
+
+         $_SESSION[$data] = $value;
+      }
+
+      // unset Session[$key]
+      public function unsetSession(string $key, string $resetKey)
+      {
+         $reset = $this->getPost($resetKey);
+         if (!empty($reset)) {
+            unset($_SESSION[$key]);
+         }
       }
 
       public function actionLogout()

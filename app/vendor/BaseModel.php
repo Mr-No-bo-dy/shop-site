@@ -176,5 +176,18 @@
                ->prepare($sql)
                ->execute();
       }
+
+      // Add condition / filter keyword to SQL Query
+      public function addFilter(string $sql)
+      {
+         $sqlFilterAdd = '';
+         if (str_contains($sql, 'WHERE')) {
+            $sqlFilterAdd = ' AND ';
+         } else {
+            $sqlFilterAdd = ' WHERE ';
+         }
+
+         return $sqlFilterAdd;
+      }
    }
 ?>

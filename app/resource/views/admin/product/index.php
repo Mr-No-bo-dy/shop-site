@@ -1,5 +1,10 @@
 <?php require 'app/resource/views/admin/components/header.php'; ?>
 
+<?php
+// echo '<pre>';
+// var_dump($allCategories);
+// die;
+?>
 <h4>Products</h4>
 <div class="my-3"><a class="btn btn-success" href="<?= $this->getBaseURL('product/create') ?>">Create New</a></div>
 <p><b>Category: </b>
@@ -9,6 +14,10 @@
             <option value="<?= $category['id_category'] ?>" <?= !empty($filters['id_category']) && $filters['id_category'] != $category['id_category'] ?: 'selected' ?>><?= ucfirst($category['name']) ?></option>
          <?php } ?>
       </select>
+      <div style="display: inline-block;" class="price_filter">
+         <input type="number" name="price[min]" placeholder="Minimum">
+         <input type="number" name="price[max]" placeholder="Maximum">
+      </div>
       <button class="btn btn-primary" type="submit" name="show">Show</button>
    </form>
    <form style="display: inline-block;" action="" method="post">
