@@ -54,10 +54,10 @@
          // Added filter for SQL-query
          $sqlFilters = '';
          if (!empty($filters)) {
-            $sqlFilters = ' WHERE ' . $fieldKeys . ' IN (' . implode(', ', $filters[key($filters)]) . ')';
+            $sqlFilters = ' WHERE ' . $fieldKeys . ' IN (\'' . implode(', ', $filters[key($filters)]) . '\')';
          }
          $stmt = $builder->prepare('SELECT ' . $preparedFields . ' FROM ' . $this->dataBaseName . '.' . $table . $sqlFilters . '');
-         $stmt->execute();         
+         $stmt->execute();
 
          $items = [];
          $result = $stmt->fetchAll();
@@ -177,7 +177,7 @@
                ->execute();
       }
 
-      // Add condition / filter keyword to SQL Query
+      // Add condition / filter KEYWORD to SQL Query
       public function addFilter(string $sql)
       {
          $sqlFilterAdd = '';

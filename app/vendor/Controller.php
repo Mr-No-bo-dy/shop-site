@@ -5,9 +5,17 @@
    {
       public function __construct()
       {
+         // Start Session, if not already
          if (session_status() === PHP_SESSION_NONE) {
             session_start();
          }
+
+         // // NOT allow anyone to get into Admin panel:
+         // $uri = explode('/', $_SERVER['REQUEST_URI']);
+         // if (session_status() != PHP_SESSION_NONE && !isset($_SESSION['user']['id_user']) && $uri[1] == 'admin') {
+         //    $this->view('admin/login/login');
+         //    exit;
+         // }
       }
 
       public function redirect(string $url)
@@ -19,7 +27,6 @@
       public function getBaseURL(string $urlString = '') {
          $urlArray = explode('/', $_SERVER['REQUEST_URI']);
          $baseURL = '';
-      
          for ($i = 1; $i < count($urlArray); $i++) {
             if ($urlArray[$i] === 'admin') {
                $baseURL .= '/admin/' . $urlString;
@@ -55,7 +62,7 @@
          if (isset($_POST)) {
             $postData = $_POST;
             if (!is_null($key)) {
-               if (isset($_POST[$key]) && !empty($_POST[$key])) {
+               if (isset($_POST[$key])) {
                   $postData = $_POST[$key];
                } elseif (!isset($_POST[$key])) {
                   $postData = null;    // 'Error: undefined POST key ' . $key . '.';
@@ -73,7 +80,7 @@
          if (isset($_GET)) {
             $getData = $_GET;
             if (!is_null($key)) {
-               if (isset($_GET[$key]) && !empty($_GET[$key])) {
+               if (isset($_GET[$key])) {
                   $getData = $_GET[$key];
                } elseif (!isset($_GET[$key])) {
                   $getData = null;    // 'Error: undefined GET key ' . $key . '.';
@@ -91,7 +98,7 @@
          if (isset($_FILES)) {
             $filesData = $_FILES;
             if (!is_null($key)) {
-               if (isset($_FILES[$key]) && !empty($_FILES[$key])) {
+               if (isset($_FILES[$key])) {
                   $filesData = $_FILES[$key];
                } elseif (!isset($_FILES[$key])) {
                   $filesData = null;    // 'Error: undefined Files key ' . $key . '.';
@@ -101,24 +108,6 @@
 
          return $filesData;
       }
-
-      // // Get data from $_SESSION
-      // public function getSession0(string $key)
-      // {
-      //    $sessionData = [];
-      //    if (isset($_SESSION)) {
-      //       $sessionData = $_SESSION;
-      //       if (!is_null($key)) {
-      //          if (isset($_SESSION[$key]) && !empty($_SESSION[$key])) {
-      //             $sessionData = $_SESSION[$key];
-      //          } elseif (!isset($_SESSION[$key])) {
-      //             $sessionData = null;    // 'Error: undefined Files key ' . $key . '.';
-      //          }
-      //       }
-      //    }
-
-      //    return $sessionData;
-      // }
 
       // Get data from $_SESSION
       public function getSession(string $key)
@@ -145,7 +134,7 @@
          $_SESSION[$data] = $value;
       }
 
-      // unset Session[$key]
+      // unset $_SESSION[$key]
       public function unsetSession(string $key, string $resetKey)
       {
          $reset = $this->getPost($resetKey);

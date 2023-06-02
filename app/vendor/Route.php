@@ -53,11 +53,13 @@
             if (isset($routePath[0]) && isset($routePath[1])) {
                $controllerName = $routePath[0];
                $actionName = $routePath[1];
-               if ($routePath[0] === 'admin') {
-                  $this->dirController .= 'admin/';
+               // if ($routePath[0] === 'admin') {
+                  // $this->dirController .= 'admin/';
+                  // НЕ буде працювати, якщо контролер буде без папки, тоді треба буде ще робити перевірку на к-ть ел-ів в $routePath
+                  $this->dirController .= $routePath[0] . '/';
                   $controllerName = $routePath[1];
                   $actionName = $routePath[2];
-               }
+               // }
             }
             $this->setControllerName($controllerName);
             $this->setActionName($actionName);

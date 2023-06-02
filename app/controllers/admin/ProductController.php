@@ -3,6 +3,7 @@
    use app\helpers\Request;
    use app\models\Product;
    use app\models\Category;
+   use app\models\SubCategory;
    use app\models\Price;
    use app\models\Status;
    use app\models\Order;
@@ -14,14 +15,31 @@
       {
          $productModel = new Product();
          $categoryModel = new Category();
+         $subCategoryModel = new SubCategory();
+         $statusModel = new Status();
 
          $filters = [
+            'productName' => '',
             'id_category' => 0,
+            'id_sub_category' => 0,
+            'id_status' => 0,
             'price' => [],
          ];
+         $productName = $this->getPost('productName');
+         if (!empty($productName)) {
+            $filters['productName'] = $productName;
+         }
          $idCategory = $this->getPost('id_category');
          if (!empty($idCategory)) {
             $filters['id_category'] = $idCategory;
+         }
+         $idSubCategory = $this->getPost('id_sub_category');
+         if (!empty($idSubCategory)) {
+            $filters['id_sub_category'] = $idSubCategory;
+         }
+         $idStatus = $this->getPost('id_status');
+         if (!empty($idStatus)) {
+            $filters['id_status'] = $idStatus;
          }
          $price = $this->getPost('price');
          if (!empty($price)) {
@@ -31,33 +49,23 @@
          if (!empty($resetFilters)) {
             unset($_SESSION['filters']);
          }
-
-         if (!empty($filters['id_category']) || !empty($filters['price'])) {
+         if (!empty($filters['productName']) || !empty($filters['id_category']) || !empty($filters['id_sub_category']) || !empty($filters['id_status']) || !empty($filters['price'])) {
             $this->setSession('filters', $filters);
          }
          if (!empty($_SESSION['filters'])) {
-            $filters = $_SESSION['filters'];
+            $filters = array_merge($filters, $this->getSession('filters'));
          }
-         
-         $allProducts = $productModel->getAllProducts($filters);
-         $allCategories = $categoryModel->getAll();
-         $allCategories = array_merge($allCategories, [0 => ['id_category' => 'all', 'name' => 'All Categories']]);
 
-         // if (!empty($filters['price'])) {
-         //    foreach ($allProducts as $idProduct => $product) {
-         //       foreach ($product['prices'] as $index => $onePriceStatus) {
-         //          foreach ($onePriceStatus as $priceStatus => $price) {
-         //             if ($price < $filters['price']['min'] || $price > $filters['price']['max']) {
-         //                unset($allProducts[$idProduct]);
-         //             }
-         //          }
-         //       }
-         //    }
-         // }
+         $allCategories = $categoryModel->getAll();
+         $allSubCategories = $subCategoryModel->getAll();
+         $allStatuses = $statusModel->getAll(['category' => ['product']]);
+         $allProducts = $productModel->getAllProducts($filters);
 
          $content = [
             'products' => $allProducts,
-            'allCategories' => $allCategories,
+            'allSubCategories' => array_merge([0 => ['id_sub_category' => 0, 'name' => 'All SubCategories']], $allSubCategories),
+            'allCategories' => array_merge([0 => ['id_category' => 0, 'name' => 'All Categories']], $allCategories),
+            'allStatuses' => array_merge([0 => ['id_status' => 0, 'name' => 'All Statuses']], $allStatuses),
             'filters' => $filters,
          ];
             
