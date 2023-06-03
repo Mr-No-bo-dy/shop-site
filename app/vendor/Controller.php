@@ -5,7 +5,7 @@
    {
       public function __construct()
       {
-         // Start Session, if not already
+         // Start Session, if not started already
          if (session_status() === PHP_SESSION_NONE) {
             session_start();
          }
@@ -13,7 +13,8 @@
          // // NOT allow anyone to get into Admin panel:
          // $uri = explode('/', $_SERVER['REQUEST_URI']);
          // if (session_status() != PHP_SESSION_NONE && !isset($_SESSION['user']['id_user']) && $uri[1] == 'admin') {
-         //    $this->view('admin/login/login');
+         //    echo 'if';
+         //    $this->view('home/login');
          //    exit;
          // }
       }

@@ -1,11 +1,14 @@
 <?php require 'app/resource/views/home/components/header.php'; ?>
 
-<p>Welcome to Shop, <b><?//= $name ?></b></p>
-<p><a class="btn btn-secondary" href="<?//= $this->getBaseURL('home') ?>/home">Back</a>
-<a class="btn btn-success" href="<?//= $this->getBaseURL('home/cart') ?>home/cart">Cart</a></p>
+<div>
+   <form action="<?//= $this->getBaseURL('home') ?>home" method="post">
+      <button class="btn btn-secondary" type="submit" name="resetFilters" value="1">Back</button>
+   </form>
+</div>
+<div><a class="btn btn-success" href="<?//= $this->getBaseURL('home/cart') ?>home/cart">Cart</a></div>
 
 <div class="m-2">
-   <h2>Filtered Products</h2>
+   <h2>Filtered</h2>
    <div class="flex">
       <?php foreach ($products as $product) { ?>
          <figure class="figure">

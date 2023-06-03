@@ -12,10 +12,6 @@
                   ]); ?></div>
             <h5 class="my-3">Name: <strong><?= $product['name'] ?></strong></h5>
             <p><b>ID: </b><?= $product['id_product'] ?></p>
-            <p><b>Description: </b><?= $product['description'] ?></p>
-            <p><b>Category: </b><?= ucfirst($product['category_name']) ?></p>
-            <p><b>Status: </b><?= ucfirst($product['status_name']) ?></p>
-
             <p><b>Quantity: </b>
                <?php foreach ($productCounts as $idProduct => $countArray) { ?>
                   <?php if ($idProduct === $product['id_product']) { ?>
@@ -23,7 +19,13 @@
                   <?php } ?>
                <?php } ?>
             </p>
-            
+            <p><b>Price: </b>
+               <?php foreach ($prices as $idProduct => $price) { ?>
+                  <?php if ($idProduct === $product['id_product']) { ?>
+                     <?= $price ?>
+                  <?php } ?>
+               <?php } ?>
+            </p>
             <p><b>Total Price: </b>
                <?php foreach ($totalPrices as $idProduct => $totalPrice) { ?>
                   <?php if ($idProduct === $product['id_product']) { ?>
@@ -31,7 +33,6 @@
                   <?php } ?>
                <?php } ?>
             </p>
-
             <form action="" method="post">
                <button class="btn btn-primary" type="submit" name="remove_cart" value="<?= $product['id_product'] ?>">Видалити з кошика</button>
             </form>

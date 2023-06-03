@@ -23,6 +23,7 @@
 				<?php if(!isset($_SESSION['user']['id_user'])) { ?>
 					<li><a class="nav-link" href="<?//= $this->getBaseURL('register') ?>/admin/register">Register</a></li>
 					<li><a class="nav-link" href="<?//= $this->getBaseURL('login') ?>/admin/login">Login</a></li>
+					<!-- <li><a class="nav-link" href="login">Login</a></li> -->
 				<?php } else { ?>
 					<li><a class="nav-link" href="/admin">Admin</a></li>
 					<li><a class="nav-link" href="logout">Logout</a></li>
