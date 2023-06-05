@@ -1,9 +1,8 @@
 <?php require 'app/resource/views/home/components/header.php'; ?>
 
-<p>Welcome to Shop, <b><?//= $name ?></b></p>
-<p><a class="btn btn-success" href="<?//= $this->getBaseURL('home/cart') ?>home/cart">Cart</a></p>
+<div class="container-lg">
+   <p>Welcome to Shop, <b><?//= $name ?></b></p>
 
-<div class="m-2">
    <h2>Products</h2>
    <div class="mb-3"><p class="m-0"><b>Filters: </b></p>
       <form class="filters" style="display: inline-block;" action="" method="post">
@@ -49,35 +48,31 @@
          </div>
          <button class="btn btn-primary" type="submit" name="show">Show</button>
       </form>
-      <form style="display: inline-block;" action="<?= $this->getBaseURL('home/view') ?>" method="post">
+      <form style="display: inline-block;" action="<?= $this->getBaseURL('home/filtered') ?>" method="post">
          <button class="btn btn-secondary" type="submit" name="resetFilters" value="1">Reset Filters</button>
       </form>
    </div>
-   <div class="flex">
-      <?php foreach ($products as $product) { ?>
-         <figure class="figure">
-            <figcaption>
-               <div><?= $this->getImage([
-                        'name' => $product['main_image'],
-                        'alt' => $product['name'] . '_image',
-                        'class' => 'image',
-                        'id' => 'img' . $product['id_product'],
-                     ]); ?></div>
-               <h5 class="my-3">Name: <strong><?= $product['name'] ?></strong></h5>
-               <p><b>Description:</b> <?= $product['description'] ?></p>
-               <p><b>Category: </b><?= ucfirst($product['category_name']) ?></p>
-               <p><b>Status: </b><?= ucfirst($product['status_name']) ?></p>
-               <div><b>Prices:</b></div>
-               <?php foreach ($product['prices'] as $prices) { ?>
-                  <?php foreach ($prices as $status => $price) { ?>
-                     <p class="m-0"><?= ucfirst($status) ?> <?= $price ?></p>
-                  <?php } ?>
-               <?php } ?>
-               <form action="" method="post">
-                  <button class="btn btn-primary" type="submit" name="cart" value="<?= $product['id_product'] ?>">В кошик</button>
-               </form>
-            </figcaption>
-         </figure>
+   
+   <div class="row">
+      <?php foreach ($allProducts as $product) { ?>
+         <div class="col-md-3">
+            <figure class="p-3 card">
+               <figcaption>
+                  <div><?= $this->getImage([
+                           'name' => $product['main_image'],
+                           'alt' => $product['name'] . '_image',
+                           'class' => 'image',
+                           'id' => 'img' . $product['id_product'],
+                        ]); ?></div>
+                  <h5 class="my-3"><strong><?= $product['name'] ?></strong></h5>
+                  <p><b>Status: </b><?= ucfirst($product['status_name']) ?></p>
+                  <p><b>Price: </b><?= $product['price'] ?> $</p>
+                  <form action="" method="post">
+                     <button class="btn btn-primary" type="submit" name="cart" value="<?= $product['id_product'] ?>">Add to Cart</button>
+                  </form>
+               </figcaption>
+            </figure>
+         </div>
       <?php } ?>
    </div>
 </div>

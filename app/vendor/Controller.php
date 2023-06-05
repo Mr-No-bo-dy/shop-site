@@ -135,18 +135,26 @@
          $_SESSION[$data] = $value;
       }
 
-      // unset $_SESSION[$key]
-      public function unsetSession(string $key, string $resetKey)
+      // unset $_SESSION[$resetKey]
+      public function unsetSession(string $resetKey)
       {
          $reset = $this->getPost($resetKey);
          if (!empty($reset)) {
-            unset($_SESSION[$key]);
+            unset($_SESSION[$resetKey]);
          }
       }
 
       public function actionLogout()
       {
          $this->view('home/logout');
+      }
+      
+      // Simple handy var_dump
+      static function dd($var)
+      {
+         echo '<pre>';
+         var_dump($var);
+         die;
       }
    }
 ?>

@@ -8,23 +8,6 @@
    margin-top: 60px;
 }
 
-/* .flex {
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
-   flex-wrap: wrap;
-   column-gap: 15px;
-   row-gap: 15px;
-}
-
-.figure {
-   padding: 10px;
-   min-width: 300px;
-   min-height: 33vw;
-   border: 2px solid #333;
-   border-radius: 5px;
-} */
-
 table th,
 table td {
    border: 2px solid #333;
@@ -48,6 +31,10 @@ table td {
    outline: none;
    cursor: text;
    border: 2px solid #444;
+}
+
+[type="number"] {
+   width: 130px;
 }
 
 select {

@@ -189,5 +189,13 @@
 
          return $sqlFilterAdd;
       }
+
+      // Simple handy var_dump
+      static function dd($var)
+      {
+         echo '<pre>';
+         var_dump($var);
+         die;
+      }
    }
 ?>

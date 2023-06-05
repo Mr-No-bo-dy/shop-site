@@ -1,6 +1,6 @@
 <?php 
    use app\vendor\Controller;
-   use app\models\Product;   
+   use app\models\Product;
    use app\models\Category;
    use app\models\SubCategory;
    use app\models\Status;
@@ -52,13 +52,13 @@
             $filters = array_merge($filters, $this->getSession('filters'));
          }
 
-         $products = $productModel->getAllProducts($filters);
+         $allProducts = $productModel->getAllProducts($filters);
          $allCategories = $categoryModel->getAll();
          $allSubCategories = $subCategoryModel->getAll();
          $allStatuses = $statusModel->getAll(['category' => ['product']]);
 
          $content = [
-            'products' => $products,
+            'allProducts' => $allProducts,
             'allSubCategories' => array_merge([0 => ['id_sub_category' => 0, 'name' => 'All SubCategories']], $allSubCategories),
             'allCategories' => array_merge([0 => ['id_category' => 0, 'name' => 'All Categories']], $allCategories),
             'allStatuses' => array_merge([0 => ['id_status' => 0, 'name' => 'All Statuses']], $allStatuses),
@@ -76,16 +76,12 @@
             }
             $_SESSION['user'][$userIP]['cart'][$idProductCart]['count']++;
          }
-
-         // echo '<pre>';
-         // var_dump($_SESSION['user'][$userIP]['cart']);
-         // die;
          
          $viewFile = '';
          if (empty($filters['productName']) && empty($filters['id_category']) && empty($filters['id_sub_category']) && empty($filters['id_status']) && empty($filters['price'])) {
             $viewFile = $this->view('home/index', $content);
          } else {
-            $viewFile = $this->view('home/view', $content);
+            $viewFile = $this->view('home/filtered', $content);
          }
          return $viewFile;
       }
@@ -104,47 +100,36 @@
          }
          $productIDs = [];
          $productCounts = [];
-         foreach ($_SESSION['user'][$userIP]['cart'] as $idProduct => $count) {
+         foreach ($_SESSION['user'][$userIP]['cart'] as $idProduct => $countArray) {
             $productIDs[$idProduct] = $idProduct;
-            $productCounts[$idProduct] = $count;
+            $productCounts[$idProduct] = $countArray;
          }
-         
          $filters = [
             'ids_product' => [],
          ];
          if (!empty($productIDs)) {
             $filters['ids_product'] = $productIDs;
          }
+
          $viewFile = '';
          if (!empty($filters['ids_product'])) {
-            $allProducts = $productModel->getAllProducts($filters);
-            $prices = [];
-            $totalPrices = [];
-            foreach ($allProducts as $idProduct => $oneProduct) {
-               foreach ($oneProduct['prices'] as $idPrice => $onePrice) {
-                  foreach ($onePrice as $priceStatus => $price) {
-                     if ($priceStatus === 'retail') {
-                        $prices[$idProduct] = $allProducts[$idProduct]['prices'][$idPrice]['retail'];
-                        $totalPrices[$idProduct] = $allProducts[$idProduct]['prices'][$idPrice]['retail'] * $productCounts[$idProduct]['count'];
-                     // } elseif ($priceStatus === 'discount') {
-                     //    $price = $allProducts[$idProduct]['prices'][$idPrice]['discount'];
-                     //    $totalPrices[$idProduct] = $allProducts[$idProduct]['prices'][$idPrice]['discount'] * $productCounts[$idProduct]['count'];
-                     }
+            $cartProducts = $productModel->getAllProducts($filters);
+            foreach ($cartProducts as $idProduct => $product) {
+               foreach ($productCounts as $idProductCount => $countArray) {
+                  if ($idProduct === $idProductCount) {
+                     $cartProducts[$idProduct]['count'] = $countArray['count'];
+                     $cartProducts[$idProduct]['totalPrice'] = $countArray['count'] * $cartProducts[$idProduct]['price'];
                   }
                }
             }
             $content = [
-               'allProducts' => $allProducts,
-               'productCounts' => $productCounts,
-               'prices' => $prices,
-               'totalPrices' => $totalPrices,
+               'cartProducts' => $cartProducts,
             ];
 
             $viewFile = $this->view('home/cart', $content);
          } else {
             $viewFile = $this->view('templates/noCart');
          }
-
          return $viewFile;
       }
    }

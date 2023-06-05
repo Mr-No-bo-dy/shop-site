@@ -1,7 +1,5 @@
 <?php require 'app/resource/views/home/components/header.php'; ?>
 
-<?php var_dump($_SESSION['user']['id_user']); ?>
-
 <div class="mx-auto d-table h-100 col-xl-4 col-lg-6 col-md-7 col-sm-9 col-11">
    <div class="d-table-cell align-middle">
       <div class="text-center mt-2">

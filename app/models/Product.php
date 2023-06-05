@@ -18,6 +18,7 @@
                   p.id_price, 
                   p.id_status AS price_status, 
                   ps.name AS price_status_name, 
+                  p.active, 
                   c.id_category, 
                   c.name AS category_name, 
                   sc.id_sub_category, 
@@ -78,6 +79,11 @@
             $preparedProducts[$product['id_product']]['category_name'] = $product['category_name'] ?? '' ;
             $preparedProducts[$product['id_product']]['sub_categories'][$product['id_sub_category']] = $product['sub_category_name'] ?? '' ;
             $preparedProducts[$product['id_product']]['prices'][$product['id_price']] = [$product['price_status_name'] => $product['price']] ?? '' ;
+            if ($product['active']) {
+               $preparedProducts[$product['id_product']]['price'] = $product['price'];
+            } elseif (!isset($preparedProducts[$product['id_product']]['price'])) {
+               $preparedProducts[$product['id_product']]['price'] = '';
+            }
          }
 
          return $preparedProducts;

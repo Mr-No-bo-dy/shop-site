@@ -1,9 +1,15 @@
 <?php require 'app/resource/views/home/components/header.php'; ?>
 
 <div class="container-lg">
-   <h2>My Cart</h2>
+   <div>
+      <form action="<?//= $this->getBaseURL('home') ?>home" method="post">
+         <button class="btn btn-secondary" type="submit" name="resetFilters" value="1">Back</button>
+      </form>
+   </div>
+   
+   <h2>Filtered</h2>
    <div class="row">
-      <?php foreach ($cartProducts as $product) { ?>
+      <?php foreach ($allProducts as $product) { ?>
          <div class="col-md-3">
             <figure class="p-3 card">
                <figcaption>
@@ -14,12 +20,10 @@
                            'id' => 'img' . $product['id_product'],
                         ]); ?></div>
                   <h5 class="my-3"><strong><?= $product['name'] ?></strong></h5>
-                  <p><b>ID: </b><?= $product['id_product'] ?></p>
-                  <p><b>Quantity: </b><?= $product['count'] ?></p>
+                  <p><b>Status: </b><?= ucfirst($product['status_name']) ?></p>
                   <p><b>Price: </b><?= $product['price'] ?> $</p>
-                  <p><b>Total Price: </b><?= $product['totalPrice'] ?> $</p>
                   <form action="" method="post">
-                     <button class="btn btn-warning" type="submit" name="remove_cart" value="<?= $product['id_product'] ?>">Remove from Cart</button>
+                     <button class="btn btn-primary" type="submit" name="cart" value="<?= $product['id_product'] ?>">Add to Cart</button>
                   </form>
                </figcaption>
             </figure>

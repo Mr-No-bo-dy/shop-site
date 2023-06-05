@@ -20,6 +20,7 @@
 				<li><a class="nav-link" href="#">Staff</a></li>
 				<li><a class="nav-link" href="#">Categories</a></li>
 				<li><a class="nav-link" href="/">Products</a></li>
+				<li><a class="nav-link" href="<?//= $this->getBaseURL('home/cart') ?>home/cart">Cart</a></li>
 				<?php if(!isset($_SESSION['user']['id_user'])) { ?>
 					<li><a class="nav-link" href="<?//= $this->getBaseURL('register') ?>/admin/register">Register</a></li>
 					<li><a class="nav-link" href="<?//= $this->getBaseURL('login') ?>/admin/login">Login</a></li>

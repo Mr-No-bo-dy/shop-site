@@ -19,17 +19,18 @@
       </select>
    </p>
    <p><b>Quantity: </b><input type="number" name="quantity" value="<?= $product['quantity'] ?>" placeholder="Quantity"></p>
+   <div><b>Prices: </b></div>
    <?php foreach ($prices as $idPrice => $price) { ?>
-      <div><b>Prices: </b></div>
-      <div>
+      <p>
          <select name="priceStatus[<?= $idPrice ?>]">
             <?php foreach ($allPriceStatuses as $status) { ?>
                <option value="<?= $status['id_status'] ?>" <?= $status['id_status'] !== $prices[$idPrice]['id_status'] ?: 'selected' ?>><?= ucfirst($status['name']) ?></option>
             <?php } ?>
          </select>
          <input type="number" name="price[<?= $idPrice ?>]" value="<?= $prices[$idPrice]['price'] ?? '' ?>" placeholder="Price">
+         <label class="btn btn-warning"><input type="radio" name="active" value="<?= $idPrice ?>" <?= $price['active'] ? 'checked' : '' ?>> Choose</label>
          <button class="btn btn-danger" type="submit" name="deletePrice" value="<?= $idPrice ?>">Delete</button>
-      </div>
+      </p>
    <?php } ?>
    <div><b>Add Price: </b></div>
    <p>

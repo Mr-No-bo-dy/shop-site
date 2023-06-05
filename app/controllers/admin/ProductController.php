@@ -260,8 +260,9 @@
                   $isSmthChanged = true;
                }
             }
+            
             foreach ($productPrices as $idPrice => $productPrice) {
-               if (($productPrice['price'] != $postData['price'][$idPrice]) || ($productPrices[$idPrice]['id_status'] != $postData['priceStatus'][$idPrice])) {
+               if (($productPrice['price'] != $postData['price'][$idPrice]) || ($productPrices[$idPrice]['id_status'] != $postData['priceStatus'][$idPrice]) || !empty($postData['active'])) {
                   $isSmthChanged = true;
                }
             }
@@ -279,8 +280,16 @@
                foreach ($postData['priceStatus'] as $idPrice => $id_status) {
                   $setPriceData = [
                      'id_status' => $id_status,
+                     'active' => 0,
                   ];
                   $priceModel->update($idPrice, $setPriceData);
+               }
+               $idPriceActive = $this->getPost('active');
+               if ((!empty($idPriceActive))) {
+                  $setPriceData = [
+                     'active' => 1,
+                  ];
+                  $priceModel->update($idPriceActive, $setPriceData);
                }
             }
          }
