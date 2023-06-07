@@ -18,6 +18,7 @@
          $subCategoryModel = new SubCategory();
          $statusModel = new Status();
 
+         // Формування фільтрів
          $filters = [
             'productName' => '',
             'id_category' => 0,
@@ -56,11 +57,11 @@
             $filters = array_merge($filters, $this->getSession('filters'));
          }
 
+         // Витягування з БД даних і формування контенту на в'юшку
          $allCategories = $categoryModel->getAll();
          $allSubCategories = $subCategoryModel->getAll();
          $allStatuses = $statusModel->getAll(['category' => ['product']]);
          $allProducts = $productModel->getAllProducts($filters);
-
          $content = [
             'products' => $allProducts,
             'allSubCategories' => array_merge([0 => ['id_sub_category' => 0, 'name' => 'All SubCategories']], $allSubCategories),

@@ -8,6 +8,10 @@
    margin-top: 60px;
 }
 
+table {
+   width: 100%;
+}
+
 table th,
 table td {
    border: 2px solid #333;

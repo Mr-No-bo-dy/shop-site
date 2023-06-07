@@ -26,6 +26,8 @@
       'home' => 'site/home/index',
       'home/filtered' => 'site/home/filtered',
       'home/cart' => 'site/home/cart',
+      'home/createOrder' => 'site/home/createOrder',
+      'home/order' => 'site/home/order',
 
       // 'register' => 'site/home/register',
       'login' => 'site/home/login',
