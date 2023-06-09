@@ -1,7 +1,7 @@
 <?php require 'app/resource/views/home/components/header.php'; ?>
 
 <div class="text-center">
-   <h2>Your Cart is Empty</h2>
+   <h2>Order has been successfully done</h2>
    <p><a class="btn btn-secondary" href="/home">Return back</a></p>
 </div>
 

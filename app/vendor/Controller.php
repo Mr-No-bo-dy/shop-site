@@ -32,6 +32,9 @@
             if ($urlArray[$i] === 'admin') {
                $baseURL .= '/admin/' . $urlString;
                break;
+            // } elseif ($urlArray[$i] === 'home') {
+            //    $baseURL .= '/home/' . $urlString;
+            //    break;
             } else {
                $baseURL .= '/' . $urlArray[$i];
             }

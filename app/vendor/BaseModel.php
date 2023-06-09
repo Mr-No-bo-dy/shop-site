@@ -54,7 +54,7 @@
          // Added filter for SQL-query
          $sqlFilters = '';
          if (!empty($filters)) {
-            $sqlFilters = ' WHERE ' . $fieldKeys . ' IN (\'' . implode(', ', $filters[key($filters)]) . '\')';
+            $sqlFilters = ' WHERE ' . $fieldKeys . ' IN (' . implode(', ', array_map(fn($filter) => "'" . $filter . "'", $filters[key($filters)])) . ')';
          }
          $stmt = $builder->prepare('SELECT ' . $preparedFields . ' FROM ' . $this->dataBaseName . '.' . $table . $sqlFilters . '');
          $stmt->execute();
@@ -108,7 +108,7 @@
          $dbFields = implode(', ', $fields);
          $postFields = ':' . implode(', :', $fields);
 
-         // Add option to get data from another related table
+         // Add option to insesrt data into another related table
          if (!empty($options['table'])) {
             $table = $options['table'];
          }
@@ -135,11 +135,11 @@
          }
          $updateFields = rtrim($updateFields, ', ');
 
-         // Add option to get data from same table by value of another (not $primaryKey) column
+         // Add option to update data in same table by value of another (not $primaryKey) column
          if (!empty($options['field'])) {
             $primaryKey = $options['field'];
          }
-         // Add option to get data from another related table
+         // Add option to update data in another related table
          if (!empty($options['table'])) {
             $table = $options['table'];
          }
@@ -157,11 +157,11 @@
          $table = $this->properties['table'];
          $primaryKey = $this->properties['primaryKey'];
 
-         // Add option to get data from same table by value of another (not $primaryKey) column
+         // Add option to delete data from same table by value of another (not $primaryKey) column
          if (!empty($options['field'])) {
             $primaryKey = $options['field'];
          }
-         // Add option to get data from another related table
+         // Add option to delete data from another related table
          if (!empty($options['table'])) {
             $table = $options['table'];
          }

@@ -2,6 +2,7 @@
 
 <h4>Products</h4>
 <div class="my-3"><a class="btn btn-success" href="<?= $this->getBaseURL('product/create') ?>">Create New</a></div>
+
 <div class="mb-3"><p class="m-0"><b>Filters: </b></p>
       <form class="filters" style="display: inline-block;" action="" method="post">
          <div style="display: inline-block;" class="name_filter">
@@ -50,6 +51,7 @@
          <button class="btn btn-secondary" type="submit" name="resetFilters" value="1">Reset Filters</button>
       </form>
 </div>
+
 <table>
    <thead>
       <tr>

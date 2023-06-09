@@ -79,8 +79,6 @@
                $_SESSION['user'][$userIP]['cart'][$idProductCart]['count'] = 0;
             }
             $_SESSION['user'][$userIP]['cart'][$idProductCart]['count']++;
-            // $_SESSION['user'][$userIP]['cart'][$idProductCart]['price'] = $allProducts[$idProductCart]['price'];
-            // $_SESSION['user'][$userIP]['cart'][$idProductCart]['total_price'] = $allProducts[$idProductCart]['price'] * $_SESSION['user'][$userIP]['cart'][$idProductCart]['count'];
          }
 
          $viewFile = '';
@@ -125,7 +123,6 @@
             $cartData = [];
             foreach ($cartProducts as $idProduct => $product) {
                foreach ($productCounts as $idProductCount => $count) {
-                  // if (array_key_exists($idProductCount, $cartProducts)) {
                   if ($idProduct === $idProductCount) {
                      $cartData[$idProduct]['id_product'] = $idProduct;
                      $cartData[$idProduct]['main_image'] = $product['main_image'];;
@@ -182,7 +179,6 @@
                'email' => $customerNew['email'],
                'login' => null,
             ];
-            // self::dd($customerData);
             $idCustomer = $customerModel->insert($customerData);
             if (!empty($idCustomer)) {
                $cartData = $this->actionCartData();
@@ -203,7 +199,7 @@
                }
             }
 
-            return $this->actionIndex();
+            return $this->view('templates/orderDone');
          }
       }
    }

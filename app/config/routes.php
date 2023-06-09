@@ -21,6 +21,9 @@
       'admin/product/update' => 'admin/product/update',
       'admin/product/delete' => 'admin/product/delete',
 
+      // admin - order
+      'admin/orders' => 'admin/order/index',
+
       // site
       '' => 'site/home/index',
       'home' => 'site/home/index',

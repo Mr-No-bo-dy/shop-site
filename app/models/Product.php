@@ -13,7 +13,8 @@
       // Витягнути інфу про 'products', додати до неї всі необхідні дані з інших таблиць:
       public function getAllProducts(array $filters = [])
       {
-         $sql = 'SELECT pd.id_status AS product_status, 
+         $sql = 'SELECT 
+                  pd.id_status AS product_status, 
                   pds.name AS product_status_name, 
                   p.id_price, 
                   p.id_status AS price_status, 
@@ -64,7 +65,7 @@
          }
 
          $stmt = $this->builder()
-                  ->query($sql);
+                        ->query($sql);
          $products = $stmt->fetchAll();
 
          $preparedProducts = [];
