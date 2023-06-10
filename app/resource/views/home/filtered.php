@@ -2,8 +2,8 @@
 
 <div class="container-lg">
    <div>
-      <form action="<?//= $this->getBaseURL('home') ?>home" method="post">
-         <button class="btn btn-secondary" type="submit" name="resetFilters" value="1">Back</button>
+      <form action="<?= $this->getBaseURL('../home') ?>" method="post">
+         <button class="btn btn-secondary" type="submit" name="resetFilters" value="1">Reset Filters</button>
       </form>
    </div>
    

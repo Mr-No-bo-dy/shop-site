@@ -2,7 +2,7 @@
 
 <div class="container-lg">
    <h2>My Cart</h2>
-   <form class="mb-3" action="<?//= $this->getBaseURL('createOrder') ?>createOrder" method="post">
+   <form class="mb-3" action="<?= $this->getBaseURL('createOrder') ?>" method="post">
       <button class="btn btn-primary" type="submit" name="order" value="1">Make order</button>
    </form>
    <div class="row">

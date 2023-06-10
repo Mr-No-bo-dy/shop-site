@@ -170,6 +170,7 @@
             $sql = 'DELETE FROM ' . $this->dataBaseName . '.' . $table . ' WHERE ' . $primaryKey . ' = ' . $data . '';
          } elseif (is_array($data)) {
             $sql = 'DELETE FROM ' . $this->dataBaseName . '.' . $table . ' WHERE ' . $primaryKey . ' IN (' . implode(',', $data) . ')';
+            // $sql = 'DELETE FROM ' . $this->dataBaseName . '.' . $table . ' WHERE ' . $primaryKey . ' IN (' . implode(',', array_map(fn($filter) => "'" . $filter . "'", $data)) . ')';
          }
 
          $this->builder()

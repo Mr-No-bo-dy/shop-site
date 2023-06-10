@@ -3,3 +3,5 @@ app/resource/css/bootstrap.min.css
 app/resource/js/bootstrap.bundle.min.js
 app/resource/uploads/*
 app/helpers/unUsed_Session.php
+app/resource/views/home/unUsed_login.php
+app/resource/img/logo.png

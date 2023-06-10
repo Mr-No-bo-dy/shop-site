@@ -86,10 +86,9 @@
                            <option value="<?= $user['id_user'] ?>" <?= $user['id_user'] === $order['id_user'] ? 'selected' : '' ?>><?= $user['first_name'] ?> <?= $user['last_name'] ?></option>
                         <?php } ?>
                      </select>
-                     <?php // echo '<pre>'; var_dump($allUsers); die; ?>
                   </td>
                   <td>
-                     <form id="updateOrder_<?= $order['id_order'] ?>" action="" method="post">
+                     <form id="updateOrder_<?= $order['id_order'] ?>" action="<?//= $this->getBaseURL('orders/update') ?>" method="post">
                         <button type="submit" name="idOrderUpdate" value="<?= $order['id_order'] ?>">Update</button>
                      </form>
                   </td>

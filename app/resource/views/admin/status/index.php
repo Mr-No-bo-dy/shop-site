@@ -3,7 +3,6 @@
 <h4>Statuses</h4>
 
 <h5 class="mt-3">Create Status</h5>
-<!-- <form action="<?//= $this->getBaseURL('status/check') ?>" method="post"> -->
 <form action="<?= $this->getBaseURL('status') ?>" method="post">
    <div>
       <input class="<?= isset($errors['name']['check']) ? 'is-invalid' : '' ?>" type="text" name="name" value="<?= $_POST['name'] ?? '' ?>" placeholder="Name">
@@ -29,7 +28,6 @@
    </thead>
 </table> -->
 <?php foreach ($allStatuses as $status) { ?>
-   <!-- <form action="<?//= $this->getBaseURL('status/check') ?>" method="post"> -->
    <form action="<?= $this->getBaseURL('status') ?>" method="post">
       <table class="table_input">
          <tbody>

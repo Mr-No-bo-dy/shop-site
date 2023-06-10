@@ -7,6 +7,20 @@
 
    class OrderController extends Controller
    {
+
+      // Control which method would be used
+      public function actionCheck()
+      {
+         // $post = $this->getPost('idOrderUpdate');
+         // if (isset($post['idOrderUpdate'])) {
+         if (!is_null($this->getPost('idOrderUpdate'))) {
+            $this->actionUpdate();
+         } else {
+            $this->actionIndex();
+         }
+      }
+
+      // Show all Orders
       public function actionIndex()
       {
          $orderModel = new Order();
@@ -69,14 +83,18 @@
             'allUsers' => $allUsers,
             'filterStatuses' => array_merge([0 => ['id_status' => 0, 'name' => 'All Statuses']], $allStatuses),
             'filterUsers' => array_merge([0 => ['id_user' => 0, 'first_name' => 'All', 'last_name' => 'Sellers']], $allUsers),
-            'filterCustomers' => array_merge([0 => ['id_customer' => 0, 'first_name' => 'All', 'last_name' => 'Customer']], $allCustomers),
+            'filterCustomers' => array_merge([0 => ['id_customer' => 0, 'first_name' => 'All', 'last_name' => 'Customers']], $allCustomers),
             'filters' => $filters,
          ];
+            
+         return $this->view('admin/order/index', $content);
+      }
 
-         // $idOrder = $this->getPost('idOrderUpdate');
-         // if (!empty($idOrder)) {
-
-         // }
+      // Update some Order
+      public function actionUpdate()
+      {
+         $orderModel = new Order();
+         
          if (!is_null($this->getPost('idOrderUpdate'))) {
             $postData = $this->getPost();
             $idOrder = $postData['idOrderUpdate'];
@@ -84,16 +102,10 @@
                'id_status' => $postData['idStatusUpdate'],
                'id_user' => $postData['idUserUpdate'],
             ];
-            // self::dd($_SESSION);
             $orderModel->update($idOrder, $setOrderData);
          }
-            
-         return $this->view('admin/order/index', $content);
+
+         return $this->actionIndex();
       }
-
-      // public function actionUpdate()
-      // {
-
-      // }
    }
 ?>

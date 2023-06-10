@@ -74,7 +74,7 @@
       }
 
       // Show one Product
-      public function actionShow()
+      public function actionView()
       {
          $productModel = new Product();
          $categoryModel = new Category();

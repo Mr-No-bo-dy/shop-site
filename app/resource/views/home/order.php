@@ -36,7 +36,7 @@
             </table>
          </div>
 
-         <form action="<?//= $this->getBaseURL('order') ?>order" method="post" enctype="multipart/form-data">
+         <form action="<?= $this->getBaseURL('order') ?>" method="post" enctype="multipart/form-data">
             <label class="mt-2">First Name</label><input class="form-control <?= isset($errors['first_name']['check']) ? 'is-invalid' : 'was-validated' ?>" type="text" name="first_name" value="<?= $_POST['first_name'] ?? '' ?>" placeholder="Enter First Name">
             <label class="mt-2">Last Name</label><input class="form-control <?= isset($errors['last_name']['check']) ? 'is-invalid' : 'was-validated' ?>" type="text" name="last_name" value="<?= $_POST['last_name'] ?? '' ?>" placeholder="Enter Last Name">
             <label class="mt-2">Phone</label><input class="form-control <?= isset($errors['phone']['check']) ? 'is-invalid' : 'was-validated' ?>" type="tel" name="phone" value="<?= $_POST['phone'] ?? '' ?>" placeholder="Enter Phone ">

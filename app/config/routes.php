@@ -22,7 +22,9 @@
       'admin/product/delete' => 'admin/product/delete',
 
       // admin - order
-      'admin/orders' => 'admin/order/index',
+      // 'admin/orders' => 'admin/order/index',
+      // 'admin/orders/update' => 'admin/order/update',
+      'admin/orders' => 'admin/order/check',
 
       // site
       '' => 'site/home/index',
@@ -32,9 +34,9 @@
       'home/createOrder' => 'site/home/createOrder',
       'home/order' => 'site/home/order',
 
-      // 'register' => 'site/home/register',
-      'login' => 'site/home/login',
-      'logout' => 'site/home/logout',
+      // 'home/register' => 'site/home/register',
+      'home/login' => 'site/home/login',
+      'home/logout' => 'site/home/logout',
 
    ];
 ?>
