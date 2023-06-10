@@ -4,6 +4,7 @@
    use app\models\Status;
    use app\models\User;
    use app\models\Customer;
+   use app\helpers\Pagination;
 
    class OrderController extends Controller
    {
@@ -11,8 +12,6 @@
       // Control which method would be used
       public function actionCheck()
       {
-         // $post = $this->getPost('idOrderUpdate');
-         // if (isset($post['idOrderUpdate'])) {
          if (!is_null($this->getPost('idOrderUpdate'))) {
             $this->actionUpdate();
          } else {
@@ -77,14 +76,23 @@
             $idsCustomer[] = $idCustomer;
          }
          $allCustomers = $customerModel->getAll(['id_status' => $idsCustomer]);
+
+         // Pagination:
+         $pagination = new Pagination(5 , count($allOrders));
+         $page = $this->getGet('page') ?? 1;
+         $links = $pagination->getLinks($page);
+         $totalPages = $pagination->getTotalPages();
+
          $content = [
-            'allOrders' => $allOrders,
+            'allOrders' => $pagination->getItemsPerPage($page, $allOrders),
             'allStatuses' => $allStatuses,
             'allUsers' => $allUsers,
             'filterStatuses' => array_merge([0 => ['id_status' => 0, 'name' => 'All Statuses']], $allStatuses),
             'filterUsers' => array_merge([0 => ['id_user' => 0, 'first_name' => 'All', 'last_name' => 'Sellers']], $allUsers),
             'filterCustomers' => array_merge([0 => ['id_customer' => 0, 'first_name' => 'All', 'last_name' => 'Customers']], $allCustomers),
             'filters' => $filters,
+            'totalPages' => $totalPages,
+            'links' => $links,
          ];
             
          return $this->view('admin/order/index', $content);

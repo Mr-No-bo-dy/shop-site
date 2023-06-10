@@ -47,7 +47,7 @@
       </form>
    </div>
 
-   <div class="table_warp text-center">
+   <div class="table_warp text-center mb-2">
       <table>
          <thead>
             <tr>
@@ -88,7 +88,7 @@
                      </select>
                   </td>
                   <td>
-                     <form id="updateOrder_<?= $order['id_order'] ?>" action="<?//= $this->getBaseURL('orders/update') ?>" method="post">
+                     <form id="updateOrder_<?= $order['id_order'] ?>" action="" method="post">
                         <button type="submit" name="idOrderUpdate" value="<?= $order['id_order'] ?>">Update</button>
                      </form>
                   </td>
@@ -96,6 +96,18 @@
             <?php } ?>
          </tbody>
       </table>
+   </div>
+</div>
+
+<div class="row">
+   <div class="col">
+      <ul class="pagination justify-content-center">
+         <?php foreach ($links as $link) { ?>
+            <li class="page-item <?= (isset($link['active']) && $link['active']) ? 'active' : '' ?>">
+               <a href="?page=<?= $link['page'] ?>" class="page-link"><?= $link['label'] ?></a>
+            </li>
+         <?php } ?>
+      </ul>
    </div>
 </div>
 

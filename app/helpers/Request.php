@@ -122,5 +122,21 @@
 
          return $entity['imageName'];
       }
+
+      // Check if User already exist
+      public function isExist($postData)
+      {
+         // // Connection to DB
+         // $pdo = new DataBase();
+         // $connection = $pdo->connection();
+
+         // $errors = $this->checkPost($postData);
+         
+         // $stmt = $connection->prepare('SELECT email FROM shop_db.customers WHERE email = :email');
+         // $stmt->bindParam(':email', $postData['email']);
+         // $stmt->execute();
+         // $dbEmail = $stmt->fetchColumn();
+
+      }
    }
 ?>

@@ -13,6 +13,7 @@
       'admin/status' => 'admin/status/check',
       'admin/category' => 'admin/category/check',
       'admin/subcategory' => 'admin/subcategory/check',
+      'admin/orders' => 'admin/order/check',
 
       // admin - products
       'admin/products' => 'admin/product/index',
@@ -20,11 +21,6 @@
       'admin/product/create' => 'admin/product/create',
       'admin/product/update' => 'admin/product/update',
       'admin/product/delete' => 'admin/product/delete',
-
-      // admin - order
-      // 'admin/orders' => 'admin/order/index',
-      // 'admin/orders/update' => 'admin/order/update',
-      'admin/orders' => 'admin/order/check',
 
       // site
       '' => 'site/home/index',

@@ -138,18 +138,14 @@
             ];
          }
 
-         return $content ?? false;
+         return $content ?? [];
       }
 
       // Open Cart
       public function actionCart()
       {
          $cartData = $this->actionCartData();
-         if (!empty($cartData)) {
-            $viewFile = $this->view('home/cart', $cartData);
-         } else {
-            $viewFile = $this->view('templates/noCart');
-         }
+         $viewFile = $this->view('home/cart', $cartData);
 
          return $viewFile;
       }
@@ -171,6 +167,9 @@
          $order = $this->getPost('order');
          if (!empty($order)) {
             $customerNew = $this->getPost();
+
+            // ...
+
             $customerData = [
                'id_status' => 13,
                'first_name' => $customerNew['first_name'],
