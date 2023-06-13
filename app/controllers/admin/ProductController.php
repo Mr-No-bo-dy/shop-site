@@ -164,10 +164,9 @@
          return $this->view('admin/product/create', $content);
       }
 
-      // Update existing Product
-      public function actionUpdate()
+      // Get Data from DB for product's Update
+      public function actionUpdateData()
       {
-         $request = new Request();
          $productModel = new Product();
          $categoryModel = new Category();
          $priceModel = new Price();
@@ -197,6 +196,29 @@
                   break;
             }
          }
+
+         $updateData = [
+            'product' => $product,
+            'allCategories' => $allCategories,
+            'productCategory' => $productCategory,
+            'productPrices' => $productPrices,
+            'priceStatuses' => $priceStatuses,
+            'allPriceStatuses' => $allPriceStatuses,
+            'allProductStatuses' => $allProductStatuses,
+         ];
+         return $updateData;
+      }
+
+      // Update existing Product
+      public function actionUpdate()
+      {
+         $request = new Request();
+         $productModel = new Product();
+         $priceModel = new Price();
+
+         // Отримання з БД всіх даних одного продукту
+         $updateData = $this->actionUpdateData();
+         extract($updateData, EXTR_OVERWRITE);
 
          // Delete price
          if (!is_null($this->getPost('deletePrice'))) {
@@ -296,29 +318,8 @@
          }
 
          // Отримання з БД всіх даних одного продукту
-         $idProduct = $this->getGet('id');
-         $product = $productModel->getOne($idProduct);
-         $allCategories = $categoryModel->getAll();
-         $productCategory = $productModel->getOne($idProduct, ['table' => 'products_categories']);
-         $productPrices = $priceModel->getAll(['id_product' => [$idProduct]]);
-         $idsPriceStatus = array_column($productPrices, 'id_status');
-         $priceStatuses = [];
-         if (!empty($idsPriceStatus)) {
-            $priceStatuses = $statusModel->getAll(['id_status' => $idsPriceStatus]);
-         }
-            // Отримання з БД і розділення всіх статусів на статуси_продуктів і _цін для виведення в різних select'ах
-         $allStatuses = $statusModel->getAll();
-         $allPriceStatuses = $allProductStatuses = [];
-         foreach ($allStatuses as $status) {
-            switch ($status['category']) {
-               case 'price':
-                  $allPriceStatuses[] = $status;
-                  break;
-               case 'product':
-                  $allProductStatuses[] = $status;
-                  break;
-            }
-         }
+         $updateData = $this->actionUpdateData();
+         extract($updateData, EXTR_OVERWRITE);
  
          // Формування даних на В'юшку
          $content = [

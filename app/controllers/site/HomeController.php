@@ -1,4 +1,5 @@
-<?php 
+<?php
+   use app\helpers\Request;
    use app\vendor\Controller;
    use app\models\Product;
    use app\models\Category;
@@ -163,22 +164,39 @@
       {
          $customerModel = new Customer();
          $orderModel = new Order();
+         $request = new Request();
 
          $order = $this->getPost('order');
          if (!empty($order)) {
-            $customerNew = $this->getPost();
+            $postData = $this->getPost();
 
-            // ...
+            // Якщо такий покупець (імейл) вже є в БД: обновити його дані, нема що оновлювати, або створити нового:
+            $existingCustomer = $request->isCustomerExist($postData);
+            $idCustomer = '';
+            if (isset($existingCustomer['new'])) {
+               // echo 'newData <br>';
+               // self::dd($existingCustomer['new']);
+               $idCustomer = $existingCustomer['id_customer'];
+               $customerModel->update($idCustomer, $existingCustomer['new']);
+            } elseif (!empty($existingCustomer)) {
+               // echo 'oldData <br>';
+               // self::dd($existingCustomer);
+               $idCustomer = $existingCustomer['id_customer'];
+            } else {
+               // echo 'newCustomer <br>';
+               // self::dd($existingCustomer);
+               $setCustomerData = [
+                  'id_status' => 13,
+                  'first_name' => $postData['first_name'],
+                  'last_name' => $postData['last_name'],
+                  'phone' => $postData['phone'],
+                  'email' => $postData['email'],
+                  'login' => null,
+               ];
+               $idCustomer = $customerModel->insert($setCustomerData);
+            }
 
-            $customerData = [
-               'id_status' => 13,
-               'first_name' => $customerNew['first_name'],
-               'last_name' => $customerNew['last_name'],
-               'phone' => $customerNew['phone'],
-               'email' => $customerNew['email'],
-               'login' => null,
-            ];
-            $idCustomer = $customerModel->insert($customerData);
+            // Making Order itself
             if (!empty($idCustomer)) {
                $cartData = $this->actionCartData();
                foreach ($cartData as $cartProducts) {

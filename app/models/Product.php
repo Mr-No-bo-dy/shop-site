@@ -14,17 +14,17 @@
       public function getAllProducts(array $filters = [])
       {
          $sql = 'SELECT 
-                  pd.id_status AS product_status, 
-                  pds.name AS product_status_name, 
                   p.id_price, 
                   p.id_status AS price_status, 
-                  ps.name AS price_status_name, 
+                  p.price, 
                   p.active, 
+                  ps.name AS price_status_name, 
                   c.id_category, 
                   c.name AS category_name, 
                   sc.id_sub_category, 
                   sc.name AS sub_category_name, 
-                  p.price, 
+                  pds.name AS product_status_name, 
+                  -- pd.id_status AS product_status, 
                   pd.id_product, 
                   pd.name, 
                   pd.description, 

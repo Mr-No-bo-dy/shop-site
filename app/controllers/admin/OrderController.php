@@ -79,12 +79,14 @@
 
          // Pagination:
          $pagination = new Pagination(5 , count($allOrders));
+         
          $page = $this->getGet('page') ?? 1;
-         $links = $pagination->getLinks($page);
          $totalPages = $pagination->getTotalPages();
+         $links = $pagination->getLinks($page);
+         $allOrdersPerPage = $pagination->getItemsPerPage($page, $allOrders);
 
          $content = [
-            'allOrders' => $pagination->getItemsPerPage($page, $allOrders),
+            'allOrders' => $allOrdersPerPage,
             'allStatuses' => $allStatuses,
             'allUsers' => $allUsers,
             'filterStatuses' => array_merge([0 => ['id_status' => 0, 'name' => 'All Statuses']], $allStatuses),

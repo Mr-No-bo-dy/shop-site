@@ -9,6 +9,5 @@
       public $table = 'prices';
       public $primaryKey = 'id_price';
       public $fields = ['id_price', 'id_product', 'id_status', 'price', 'active'];
-
    }
 ?>

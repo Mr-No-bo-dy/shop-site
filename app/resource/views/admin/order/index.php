@@ -1,7 +1,7 @@
 <?php require 'app/resource/views/admin/components/header.php'; ?>
 
 <div class="container-xlg bg-light">
-   <h1 class="mt-2 h3 text-center">Orders</h1>
+   <h1 class="my-2 h3 text-center">Orders</h1>
    <div class="mb-3"><p class="m-0"><b>Filters: </b></p>
       <form class="filters" style="display: inline-block;" action="" method="post">
          <div style="display: inline-block;" class="name_filter">
@@ -47,7 +47,7 @@
       </form>
    </div>
 
-   <div class="table_warp text-center mb-2">
+   <div class="mb-3 text-center">
       <table>
          <thead>
             <tr>
@@ -89,7 +89,7 @@
                   </td>
                   <td>
                      <form id="updateOrder_<?= $order['id_order'] ?>" action="" method="post">
-                        <button type="submit" name="idOrderUpdate" value="<?= $order['id_order'] ?>">Update</button>
+                        <button class="btn btn-warning" type="submit" name="idOrderUpdate" value="<?= $order['id_order'] ?>">Update</button>
                      </form>
                   </td>
                </tr>
@@ -97,17 +97,17 @@
          </tbody>
       </table>
    </div>
-</div>
 
-<div class="row">
-   <div class="col">
-      <ul class="pagination justify-content-center">
-         <?php foreach ($links as $link) { ?>
-            <li class="page-item <?= (isset($link['active']) && $link['active']) ? 'active' : '' ?>">
-               <a href="?page=<?= $link['page'] ?>" class="page-link"><?= $link['label'] ?></a>
-            </li>
-         <?php } ?>
-      </ul>
+   <div class="row">
+      <div class="col-12">
+         <ul class="pagination justify-content-center">
+            <?php foreach ($links as $link) { ?>
+               <li class="page-item <?= (isset($link['active']) && $link['active']) ? 'active' : '' ?>">
+                  <a href="?page=<?= $link['page'] ?>" class="page-link"><?= $link['label'] ?></a>
+               </li>
+            <?php } ?>
+         </ul>
+      </div>
    </div>
 </div>
 

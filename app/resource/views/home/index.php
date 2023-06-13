@@ -1,8 +1,6 @@
 <?php require 'app/resource/views/home/components/header.php'; ?>
 
 <div class="container-lg">
-   <p>Welcome to Shop, <b><?//= $name ?></b></p>
-
    <h2>Products</h2>
    <div class="mb-3"><p class="m-0"><b>Filters: </b></p>
       <form class="filters" style="display: inline-block;" action="" method="post">

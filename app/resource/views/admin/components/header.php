@@ -62,4 +62,4 @@
          </div>
       </nav>
    </header>
-   <div class="wrapper ms-3 mb-3">
+   <div class="wrapper mx-3 mb-3">

@@ -10,13 +10,12 @@
             session_start();
          }
 
-         // // NOT allow anyone to get into Admin panel:
-         // $uri = explode('/', $_SERVER['REQUEST_URI']);
-         // if (session_status() != PHP_SESSION_NONE && !isset($_SESSION['user']['id_user']) && $uri[1] == 'admin') {
-         //    echo 'if';
-         //    $this->view('home/login');
-         //    exit;
-         // }
+         // NOT allow anyone to get into Admin panel (except login-page):
+         $uri = explode('/', $_SERVER['REQUEST_URI']);
+         if (session_status() != PHP_SESSION_NONE && !isset($_SESSION['user']['id_user']) && $uri[1] == 'admin' && $uri[2] != 'login') {
+            $this->view('home/login');
+            exit;
+         }
       }
 
       public function redirect(string $url)
@@ -25,6 +24,7 @@
          exit;
       }
 
+      // Create URL for routes
       public function getBaseURL(string $urlString = '') {
          $urlArray = explode('/', $_SERVER['REQUEST_URI']);
          $baseURL = '';
@@ -147,6 +147,7 @@
          }
       }
 
+      // Logout from site
       public function actionLogout()
       {
          $this->view('home/logout');

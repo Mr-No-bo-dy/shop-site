@@ -30,7 +30,7 @@
    </p>
    <p><input type="file" name="main_image"></p>
    <button class="btn btn-primary" type="submit" name="create" value="1">Create</button>
-   <a class="btn btn-secondary" href="<?= $this->getBaseURL('products') ?>">Back</a>
+   <a class="btn btn-secondary" href="<?= $this->getBaseURL('products') ?>">Cancel</a>
 </form>
 
 <?php require 'app/resource/views/admin/components/footer.php'; ?>

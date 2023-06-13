@@ -9,7 +9,7 @@
       'admin/login' => 'admin/admin/login',
       'admin/logout' => 'site/home/logout',
       
-      // admin: status, category, subcategory
+      // admin: status, category, subcategory, orders
       'admin/status' => 'admin/status/check',
       'admin/category' => 'admin/category/check',
       'admin/subcategory' => 'admin/subcategory/check',

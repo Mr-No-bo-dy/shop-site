@@ -3,6 +3,7 @@
 
    use app\vendor\DataBase;
    use app\vendor\Controller;
+   use app\models\Customer;
 
    class Request
    {
@@ -27,7 +28,6 @@
          $connection = $pdo->connection();
 
          $errors = $this->checkPost($postData);
-
          if (empty($errors)) {            
             // Check login
             if (!preg_match_all('#^(?!\s)[a-zA-Z0-9_-]{4,20}$#', $postData['login'])) {
@@ -44,7 +44,6 @@
                   $errors['login']['desc'] = 'Такий Юзернейм вже зареєстрований';
                }
             }
-
             // Check email
             if (!preg_match('#^[a-zA-Z0-9-.]+@[a-z]+\.[a-z]{2,3}$#', $postData['email'])) {
                $errors['email']['check'] = true;
@@ -63,13 +62,11 @@
                   $errors['email']['desc'] = 'Така Електронна адреса вже зареєстрована';
                }
             }
-
             // Check password
             if (!preg_match_all('#^(?!\s)[a-zA-Z0-9_-]{8,32}$#', $postData['password'])) {
                $errors['password']['check'] = true;
                $errors['password']['desc'] = 'Пароль повинен містити лише латинські літери, цифри, - чи _ та мати довжину від 8 до 32 символів';
             }
-
             // Check phone
             if (!preg_match('#^[0-9]{10,12}$#', $postData['phone'])) {
                $errors['phone']['check'] = true;
@@ -78,19 +75,16 @@
                $errors['phone']['check'] = true;
                $errors['phone']['desc'] = 'Московитським окупантам тут не місце!';
             }
-            
             // Check first_name
             if (!preg_match_all('#^[a-zA-Z0-9а-яА-ЯєЄіІ\s_-]{2,32}$#u', $postData['first_name'])) {
                $errors['first_name']['check'] = true;
                $errors['first_name']['desc'] = 'Ім\'я повинно містити лише літери, цифри, - чи _ та мати довжину від 2 до 32 символів';
             }
-            
             // Check last_name
             if (!preg_match_all('#^[a-zA-Z0-9а-яА-ЯєЄіІ\s_-]{2,32}$#u', $postData['last_name'])) {
                $errors['last_name']['check'] = true;
                $errors['last_name']['desc'] = 'Прізвище повинно містити лише літери, цифри, - чи _ та мати довжину від 2 до 32 символів';
             }
-            
             // Check id_status
             if ((int)$postData['id_status'] != $postData['id_status']) {
                $errors['id_status']['check'] = true;
@@ -123,20 +117,34 @@
          return $entity['imageName'];
       }
 
-      // Check if User already exist
-      public function isExist($postData)
+      // Check if User already exist & get new data
+      public function isCustomerExist($postData)
       {
-         // // Connection to DB
-         // $pdo = new DataBase();
-         // $connection = $pdo->connection();
-
-         // $errors = $this->checkPost($postData);
+         // Connection to DB
+         $pdo = new DataBase();
+         $customerModel = new Customer();
          
-         // $stmt = $connection->prepare('SELECT email FROM shop_db.customers WHERE email = :email');
-         // $stmt->bindParam(':email', $postData['email']);
-         // $stmt->execute();
-         // $dbEmail = $stmt->fetchColumn();
+         $connection = $pdo->connection();
+         $stmt = $connection->prepare('SELECT id_customer, email FROM shop_db.customers WHERE email = :email');
+         $stmt->bindParam(':email', $postData['email']);
+         $stmt->execute();
+         $isCustomerExist = $stmt->fetch();
 
+         $existingCustomer = [];
+         if ($isCustomerExist) {
+            $existingCustomer = $customerModel->getOne($isCustomerExist['id_customer']);
+            if ($existingCustomer['first_name'] != $postData['first_name']) {
+               $existingCustomer['new']['first_name'] = $postData['first_name'];
+            }
+            if ($existingCustomer['last_name'] != $postData['last_name']) {
+               $existingCustomer['new']['last_name'] = $postData['last_name'];
+            }
+            if ($existingCustomer['phone'] != $postData['phone']) {
+               $existingCustomer['new']['phone'] = $postData['phone'];
+            }
+         }
+
+         return $existingCustomer;
       }
    }
 ?>

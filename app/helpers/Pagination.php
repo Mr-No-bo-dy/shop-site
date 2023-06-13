@@ -22,7 +22,6 @@
       public function getItemsPerPage(int $pageNum, array $items)
       {
          $startIndex = ($pageNum - 1) * $this->perPage;
-         // $endIndex = $startIndex ... ;
 
          return array_slice($items, $startIndex, $this->perPage);
       }
@@ -40,12 +39,12 @@
                'page' => 1,
                'label' => '<<',
             ];
-         }         
+         }
          for ($i = $startLink; $i < $endLink; $i++) {
             $links[] =  [
                'page' => $i,
                'label' => $i,
-               'active' => ($i == $currentPage),
+               'active' => ($i === $currentPage),
             ];
          }
          if ($endLink < $totalPages) {

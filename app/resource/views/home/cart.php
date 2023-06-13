@@ -23,7 +23,7 @@
                      <p><b>Price: </b><?= $product['price'] ?> $</p>
                      <p><b>Total Price: </b><?= $product['total_price'] ?> $</p>
                      <form action="" method="post">
-                        <button class="btn btn-warning" type="submit" name="remove_cart" value="<?= $product['id_product'] ?>">Remove from Cart</button>
+                        <button class="btn btn-danger" type="submit" name="remove_cart" value="<?= $product['id_product'] ?>">Remove from Cart</button>
                      </form>
                   </figcaption>
                </figure>
