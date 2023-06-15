@@ -5,7 +5,7 @@
       <div class="text-center mt-2">
          <h1 class="h2">Registration</h1>
       </div>
-      <div class="card mb-4 bg-secondary shadow-lg">
+      <div class="card mb-4 bg-light shadow-lg">
          <div class="card-body">
             <div class="m-sm-4">
                <form action="<?= $this->getBaseURL('register') ?>" method="post" enctype="multipart/form-data">

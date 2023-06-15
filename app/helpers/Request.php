@@ -3,7 +3,6 @@
 
    use app\vendor\DataBase;
    use app\vendor\Controller;
-   use app\models\Customer;
 
    class Request
    {
@@ -68,7 +67,7 @@
                $errors['password']['desc'] = 'Пароль повинен містити лише латинські літери, цифри, - чи _ та мати довжину від 8 до 32 символів';
             }
             // Check phone
-            if (!preg_match('#^[0-9]{10,12}$#', $postData['phone'])) {
+            if (!preg_match('#^[0-9]{9,12}$#', $postData['phone'])) {
                $errors['phone']['check'] = true;
                $errors['phone']['desc'] = 'Введіть номер телефону без ніяких додаткових символів';
             } elseif (preg_match('#^7#', $postData['phone'])) {
@@ -115,36 +114,6 @@
          }
 
          return $entity['imageName'];
-      }
-
-      // Check if User already exist & get new data
-      public function isCustomerExist($postData)
-      {
-         // Connection to DB
-         $pdo = new DataBase();
-         $customerModel = new Customer();
-         
-         $connection = $pdo->connection();
-         $stmt = $connection->prepare('SELECT id_customer, email FROM shop_db.customers WHERE email = :email');
-         $stmt->bindParam(':email', $postData['email']);
-         $stmt->execute();
-         $isCustomerExist = $stmt->fetch();
-
-         $existingCustomer = [];
-         if ($isCustomerExist) {
-            $existingCustomer = $customerModel->getOne($isCustomerExist['id_customer']);
-            if ($existingCustomer['first_name'] != $postData['first_name']) {
-               $existingCustomer['new']['first_name'] = $postData['first_name'];
-            }
-            if ($existingCustomer['last_name'] != $postData['last_name']) {
-               $existingCustomer['new']['last_name'] = $postData['last_name'];
-            }
-            if ($existingCustomer['phone'] != $postData['phone']) {
-               $existingCustomer['new']['phone'] = $postData['phone'];
-            }
-         }
-
-         return $existingCustomer;
       }
    }
 ?>

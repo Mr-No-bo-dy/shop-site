@@ -10,10 +10,11 @@
             session_start();
          }
 
-         // NOT allow anyone to get into Admin panel (except login-page):
+         // NOT allow anyone to get into Admin panel (except login- or register-page):
          $uri = explode('/', $_SERVER['REQUEST_URI']);
-         if (session_status() != PHP_SESSION_NONE && !isset($_SESSION['user']['id_user']) && $uri[1] == 'admin' && $uri[2] != 'login') {
-            $this->view('home/login');
+         if (session_status() != PHP_SESSION_NONE && !isset($_SESSION['user']['id_user']) && $uri[1] == 'admin' 
+            && (isset($uri[2]) && $uri[2] != 'login')) {
+            $this->view('admin/login/login');
             exit;
          }
       }
@@ -150,7 +151,7 @@
       // Logout from site
       public function actionLogout()
       {
-         $this->view('home/logout');
+         $this->view('home/login/logout');
       }
       
       // Simple handy var_dump

@@ -32,6 +32,9 @@
 
          $startLink = max(1, $currentPage - ($this->numLinks / 2));
          $endLink = min($startLink + $this->numLinks, $totalPages) + 1;
+         if (($currentPage + ($this->numLinks / 2)) >= $totalPages) {
+            $startLink = $endLink - $this->numLinks - 1;
+         }
 
          $links = [];
          if ($startLink > 1) {
@@ -40,14 +43,26 @@
                'label' => '<<',
             ];
          }
+         if ($currentPage > 1) {
+            $links[] = [
+               'page' => $currentPage - 1,
+               'label' => '<',
+            ];
+         }
          for ($i = $startLink; $i < $endLink; $i++) {
             $links[] =  [
                'page' => $i,
                'label' => $i,
-               'active' => ($i === $currentPage),
+               'active' => ($i == $currentPage),   // Потрібне НЕточне порівняння
             ];
          }
-         if ($endLink < $totalPages) {
+         if ($currentPage < $totalPages) {
+            $links[] = [
+               'page' => $currentPage + 1,
+               'label' => '>',
+            ];
+         }
+         if ($endLink < $totalPages + 1) {      // Не зовсім розумію, чому тут потрібен "+1"
             $links[] = [
                'page' => $totalPages,
                'label' => '>>',

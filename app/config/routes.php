@@ -21,18 +21,19 @@
       'admin/product/create' => 'admin/product/create',
       'admin/product/update' => 'admin/product/update',
       'admin/product/delete' => 'admin/product/delete',
+      
+      // site - login
+      'home/register' => 'site/home/register',
+      'home/login' => 'site/home/login',
+      'home/logout' => 'site/home/logout',
 
       // site
       '' => 'site/home/index',
       'home' => 'site/home/index',
+      'home/index' => 'site/home/index',
       'home/filtered' => 'site/home/filtered',
       'home/cart' => 'site/home/cart',
       'home/createOrder' => 'site/home/createOrder',
       'home/order' => 'site/home/order',
-
-      // 'home/register' => 'site/home/register',
-      'home/login' => 'site/home/login',
-      'home/logout' => 'site/home/logout',
-
    ];
 ?>

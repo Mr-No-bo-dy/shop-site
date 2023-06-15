@@ -10,6 +10,51 @@
 
    class HomeController extends Controller
    {
+      public function actionRegister()
+      {
+         $request = new Request();
+         $customerModel = new Customer();
+
+         $postData = $this->getPost();
+         $data = [];
+         if (!empty($postData)) {
+            $errors = $request->checkUserRegister($postData);
+            if (!empty($errors)) {
+               $data['errors'] = $errors;
+            } else {
+               $customerModel->saveCustomer($postData);
+               
+               return $this->view('home/login/login');     // Перенаправить на Логін
+               // return $this->actionLogin();                 // Відразу заЛогінить
+            }
+         }
+         $this->view('home/login/register', $data);
+      }
+
+      public function actionLogin()
+      {
+         // Якщо Покупець вже залогінений, - кидає на Логаут
+         if (isset($_SESSION['customer']['id_customer'])) {
+            header('Location: logout');
+         }
+
+         $customerModel = new Customer();
+
+         $postData = $this->getPost();
+         $data = [];
+         if (!empty($postData)) {
+            $errors = $customerModel->loginCustomer($postData);
+            if (!empty($errors)) {
+               $data['errors'] = $errors;
+            } else {
+               $data['customer'] = $_SESSION['customer'];
+               
+               return $this->actionIndex($data);
+            }
+         }
+         $this->view('home/login/login', $data);
+      }
+
       public function actionIndex()
       {
          $productModel = new Product();
@@ -164,29 +209,41 @@
       {
          $customerModel = new Customer();
          $orderModel = new Order();
-         $request = new Request();
 
          $order = $this->getPost('order');
          if (!empty($order)) {
             $postData = $this->getPost();
 
-            // Якщо такий покупець (імейл) вже є в БД: обновити його дані, нема що оновлювати, або створити нового:
-            $existingCustomer = $request->isCustomerExist($postData);
+            // Checking if cutomer already exists in DB
+            $builder = $customerModel->builder();
+            $stmt = $builder->prepare('SELECT id_customer, email FROM shop_db.customers WHERE email = :email');
+            $stmt->bindParam(':email', $postData['email']);
+            $stmt->execute();
+            $isCustomerExist = $stmt->fetch();
+            $existingCustomer = [];
+            if ($isCustomerExist) {
+               $existingCustomer = $customerModel->getOne($isCustomerExist['id_customer']);
+               if ($existingCustomer['first_name'] != $postData['first_name']) {
+                  $existingCustomer['new']['first_name'] = $postData['first_name'];
+               }
+               if ($existingCustomer['last_name'] != $postData['last_name']) {
+                  $existingCustomer['new']['last_name'] = $postData['last_name'];
+               }
+               if ($existingCustomer['phone'] != $postData['phone']) {
+                  $existingCustomer['new']['phone'] = $postData['phone'];
+               }
+            }
+
+            // Update existing cutomer data, old data or create new customer
             $idCustomer = '';
             if (isset($existingCustomer['new'])) {
-               // echo 'newData <br>';
-               // self::dd($existingCustomer['new']);
                $idCustomer = $existingCustomer['id_customer'];
                $customerModel->update($idCustomer, $existingCustomer['new']);
             } elseif (!empty($existingCustomer)) {
-               // echo 'oldData <br>';
-               // self::dd($existingCustomer);
                $idCustomer = $existingCustomer['id_customer'];
             } else {
-               // echo 'newCustomer <br>';
-               // self::dd($existingCustomer);
                $setCustomerData = [
-                  'id_status' => 13,
+                  'id_status' => 13,   // ...
                   'first_name' => $postData['first_name'],
                   'last_name' => $postData['last_name'],
                   'phone' => $postData['phone'],
@@ -205,7 +262,7 @@
                         'id_user' => 1,
                         'id_customer' => $idCustomer,
                         'id_product' => $idProduct,
-                        'id_status' => 65,
+                        'id_status' => 65,      // ...
                         'total_quantity' => $product['count'],
                         'total_price' => $product['total_price'],
                      ];

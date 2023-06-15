@@ -16,19 +16,18 @@
       <div class="navbar"><a class="navbar-brand" href="<?= $this->getBaseURL('../home') ?>"><img src="/app/resource/img/logo.png" alt="Logo"></a></div>
 		<nav class="navbar navbar-text">
 			<ul class="nav">
-				<!-- <li><a class="nav-link" href="/home">Home</a></li> -->
 				<li><a class="nav-link" href="<?= $this->getBaseURL('../home') ?>">Home</a></li>
 				<li><a class="nav-link" href="#">Staff</a></li>
 				<li><a class="nav-link" href="#">Categories</a></li>
 				<li><a class="nav-link" href="<?= $this->getBaseURL('../home') ?>">Products</a></li>
-				<li><a class="nav-link" href="<?= $this->getBaseURL('cart') ?>">Cart</a></li>
-				<?php if(!isset($_SESSION['user']['id_user'])) { ?>
-					<li><a class="nav-link" href="<?= $this->getBaseURL('../admin/register') ?>">Register</a></li>
-					<li><a class="nav-link" href="<?= $this->getBaseURL('../admin/login') ?>">Login</a></li>
-					<!-- <li><a class="nav-link" href="<?//= $this->getBaseURL('register') ?>">Register</a></li> -->
-					<!-- <li><a class="nav-link" href="<?//= $this->getBaseURL('login') ?>">Login</a></li> -->
-				<?php } else { ?>
+				<li><a class="nav-link" href="<?= $this->getBaseURL('../home/cart') ?>">Cart</a></li>
+				<?php if(!isset($_SESSION['user']['id_user']) && !isset($_SESSION['customer']['id_customer'])) { ?>
+					<li><a class="nav-link" href="<?= $this->getBaseURL('../home/register') ?>">Register</a></li>
+					<li><a class="nav-link" href="<?= $this->getBaseURL('../home/login') ?>">Login</a></li>
+				<?php } elseif (isset($_SESSION['user']['id_user'])) { ?>
 					<li><a class="nav-link" href="<?= $this->getBaseURL('../admin') ?>">Admin</a></li>
+					<li><a class="nav-link" href="<?= $this->getBaseURL('logout') ?>">Logout</a></li>
+				<?php } else { ?>
 					<li><a class="nav-link" href="<?= $this->getBaseURL('logout') ?>">Logout</a></li>
 				<?php } ?>
 			</ul>

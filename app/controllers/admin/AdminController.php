@@ -28,7 +28,7 @@
 
       public function actionLogin()
       {
-         // Якщо Адмін вже залогінений адмін, - кидає на Логаут
+         // Якщо Адмін вже залогінений, - кидає на Логаут
          if (isset($_SESSION['user']['id_user'])) {
             header('Location: logout');
          }
