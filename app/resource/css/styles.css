@@ -37,9 +37,9 @@ table td {
    border: 2px solid #444;
 }
 
-[type="number"] {
+/* [type="number"] {
    width: 130px;
-}
+} */
 
 select {
    width: 188px;

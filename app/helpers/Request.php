@@ -1,8 +1,8 @@
 <?php 
    namespace app\helpers;
 
-   use app\vendor\DataBase;
    use app\vendor\Controller;
+   use app\models\User;
 
    class Request
    {
@@ -20,11 +20,9 @@
       }
 
       // Verification of all fields during user Registration
-      public function checkUserRegister(array $postData)
+      public function checkUserRegister(array $postData, string $table = '')
       {
-         // Connection to DB
-         $pdo = new DataBase();
-         $connection = $pdo->connection();
+         $userModel = new User();
 
          $errors = $this->checkPost($postData);
          if (empty($errors)) {            
@@ -34,10 +32,11 @@
                $errors['login']['desc'] = 'Юзернейм повинен містити лише літери, цифри, - чи _ та мати довжину від 4 до 20 символів';
             } else {
                // Check unique login
-               $stmt = $connection->prepare('SELECT login FROM shop_db.users WHERE login = :login');
-               $stmt->bindParam(':login', $postData['login']);
-               $stmt->execute();
-               $dbLogin = $stmt->fetchColumn();
+               if (empty($table)) {
+                  $dbLogin = $userModel->getColumn('login', ['login' => $postData['login']]);
+               } else {
+                  $dbLogin = $userModel->getColumn('login', ['login' => $postData['login']], $table);
+               }
                if ($postData['login'] === $dbLogin) {
                   $errors['login']['check'] = true;
                   $errors['login']['desc'] = 'Такий Юзернейм вже зареєстрований';
@@ -52,10 +51,11 @@
                $errors['email']['desc'] = 'Московитським окупантам тут не місце!';
             } else {
                // Check unique email
-               $stmt = $connection->prepare('SELECT email FROM shop_db.users WHERE email = :email');
-               $stmt->bindParam(':email', $postData['email']);
-               $stmt->execute();
-               $dbEmail = $stmt->fetchColumn();
+               if (empty($table)) {
+                  $dbEmail = $userModel->getColumn('email', ['email' => $postData['email']]);
+               } else {
+                  $dbEmail = $userModel->getColumn('email', ['email' => $postData['email']], $table);
+               }
                if ($postData['email'] === $dbEmail) {
                   $errors['email']['check'] = true;
                   $errors['email']['desc'] = 'Така Електронна адреса вже зареєстрована';

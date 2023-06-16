@@ -94,6 +94,25 @@
 
          return $stmt->fetch();
       }
+
+      // Get value of one column
+      public function getColumn(string $wantedField, array $filters = [], string $anotherTable = '')
+      {
+         if (empty($anotherTable)) {
+            $table = $this->properties['table'];
+         } else {
+            $table = $anotherTable;
+         }
+         $field = key($filters);
+         $value = $filters[key($filters)];
+
+         $builder = $this->builder();
+         $stmt = $builder->prepare('SELECT ' . $wantedField . ' FROM ' . $this->dataBaseName . '.' . $table . 
+                                    ' WHERE ' . $field . ' = \'' . $value . '\'');
+         $stmt->execute();
+
+         return $stmt->fetchColumn();
+      }
       
       // Insert entity into DB
       public function insert(array $data, array $options = [])

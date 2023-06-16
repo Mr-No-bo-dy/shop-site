@@ -37,23 +37,13 @@
             $postData['password'] = preg_replace('#[^a-zA-Z0-9_-]#', '', strip_tags($postData['password']));
 
             // Get data from DB
-            $connection = $this->builder();
-            $stmt = $connection->prepare('SELECT login FROM ' . $this->dataBaseName . '.customers WHERE login = :login');
-            $stmt->bindParam(':login', $postData['login']);
-            $stmt->execute();
-            $dbLogin = $stmt->fetchColumn();
-
+            $dbLogin = $this->getColumn('login', ['login' => $postData['login']]);
+            
             if ($postData['login'] === $dbLogin) {
-               $stmt = $connection->prepare('SELECT password FROM ' . $this->dataBaseName . '.customers WHERE login = :login');
-               $stmt->bindParam(':login', $postData['login']);
-               $stmt->execute();
-               $dbPassword = $stmt->fetchColumn();
+               $dbPassword = $this->getColumn('password', ['login' => $postData['login']]);
                if (password_verify($postData['password'], $dbPassword)) {
                   // Save customer's ID into $_SESSION
-                  $stmt = $connection->prepare('SELECT id_customer FROM ' . $this->dataBaseName . '.customers WHERE login = :login');
-                  $stmt->bindParam(':login', $postData['login']);
-                  $stmt->execute();
-                  $dbIdCustomer = $stmt->fetchColumn();
+                  $dbIdCustomer = $this->getColumn('id_customer', ['login' => $postData['login']]);
                   $_SESSION['customer']['id_customer'] = $dbIdCustomer;
                   $_SESSION['customer']['login'] = $dbLogin;
                   

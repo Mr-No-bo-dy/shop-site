@@ -1,4 +1,4 @@
-<?php require 'app/resource/views/home/components/header.php'; ?>
+<?php require 'app/resource/views/admin/components/header.php'; ?>
 
 <div class="mx-auto d-table h-100 col-xl-4 col-lg-6 col-md-7 col-sm-9 col-11">
    <div class="d-table-cell align-middle">
@@ -46,4 +46,4 @@
    </div>
 </div>
 
-<?php require 'app/resource/views/home/components/footer.php'; ?>
+<?php require 'app/resource/views/admin/components/footer.php'; ?>

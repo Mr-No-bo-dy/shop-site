@@ -21,8 +21,8 @@
             <div class="dropdown" aria-haspopup="true" >
                <a class="navbar-brand dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><?= $_SESSION['user']['login'] ?></a>
                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark">
-                  <li><a class="dropdown-item" href="#">Profile</a></li>
-                  <li><a class="dropdown-item" href="/home">Return to Site</a></li>
+                  <li><a class="dropdown-item" href="<?= $this->getBaseURL('register') ?>">Register</a></li>
+                  <li><a class="dropdown-item" href="<?= $this->getBaseURL('../home') ?>">Return to Site</a></li>
                   <li><hr class="dropdown-divider"></li>
                   <li><a class="dropdown-item" href="<?= $this->getBaseURL('logout') ?>">Logout</a></li>
                </ul>

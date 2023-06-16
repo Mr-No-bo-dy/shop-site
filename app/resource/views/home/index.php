@@ -46,7 +46,7 @@
          </div>
          <button class="btn btn-primary" type="submit" name="show">Show</button>
       </form>
-      <form style="display: inline-block;" action="<?= $this->getBaseURL('filtered') ?>" method="post">
+      <form style="display: inline-block;" action="<?= $this->getBaseURL('../home') ?>" method="post">
          <button class="btn btn-secondary" type="submit" name="resetFilters" value="1">Reset Filters</button>
       </form>
    </div>

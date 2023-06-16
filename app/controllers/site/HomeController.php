@@ -18,7 +18,7 @@
          $postData = $this->getPost();
          $data = [];
          if (!empty($postData)) {
-            $errors = $request->checkUserRegister($postData);
+            $errors = $request->checkUserRegister($postData, 'customers');
             if (!empty($errors)) {
                $data['errors'] = $errors;
             } else {
@@ -213,16 +213,11 @@
          $order = $this->getPost('order');
          if (!empty($order)) {
             $postData = $this->getPost();
-
-            // Checking if cutomer already exists in DB
-            $builder = $customerModel->builder();
-            $stmt = $builder->prepare('SELECT id_customer, email FROM shop_db.customers WHERE email = :email');
-            $stmt->bindParam(':email', $postData['email']);
-            $stmt->execute();
-            $isCustomerExist = $stmt->fetch();
+            // Checking if customer already exists in DB and get existing customer's new data
+            $isCustomerExist = $customerModel->getColumn('id_customer', ['email' => $postData['email']]);
             $existingCustomer = [];
             if ($isCustomerExist) {
-               $existingCustomer = $customerModel->getOne($isCustomerExist['id_customer']);
+               $existingCustomer = $customerModel->getOne($isCustomerExist);
                if ($existingCustomer['first_name'] != $postData['first_name']) {
                   $existingCustomer['new']['first_name'] = $postData['first_name'];
                }
@@ -234,7 +229,7 @@
                }
             }
 
-            // Update existing cutomer data, old data or create new customer
+            // Update existing customer data, old data or create new customer
             $idCustomer = '';
             if (isset($existingCustomer['new'])) {
                $idCustomer = $existingCustomer['id_customer'];
@@ -242,8 +237,9 @@
             } elseif (!empty($existingCustomer)) {
                $idCustomer = $existingCustomer['id_customer'];
             } else {
+               $newCustomerIdStatus = $customerModel->getColumn('id_status', ['name' => 'customer_new'], 'statuses');
                $setCustomerData = [
-                  'id_status' => 13,   // ...
+                  'id_status' => $newCustomerIdStatus,
                   'first_name' => $postData['first_name'],
                   'last_name' => $postData['last_name'],
                   'phone' => $postData['phone'],
@@ -256,13 +252,16 @@
             // Making Order itself
             if (!empty($idCustomer)) {
                $cartData = $this->actionCartData();
+               $newOrderIdUserStatus = $customerModel->getColumn('id_status', ['name' => 'super_admin'], 'statuses');
+               $newOrderIdUser = $customerModel->getColumn('id_user', ['id_status' => $newOrderIdUserStatus], 'users');
+               $newOrderIdStatus = $customerModel->getColumn('id_status', ['name' => 'new_order'], 'statuses');
                foreach ($cartData as $cartProducts) {
                   foreach ($cartProducts as $idProduct => $product) {
                      $orderData = [
-                        'id_user' => 1,
+                        'id_user' => $newOrderIdUser,
                         'id_customer' => $idCustomer,
                         'id_product' => $idProduct,
-                        'id_status' => 65,      // ...
+                        'id_status' => $newOrderIdStatus,
                         'total_quantity' => $product['count'],
                         'total_price' => $product['total_price'],
                      ];

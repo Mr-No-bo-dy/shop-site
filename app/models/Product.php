@@ -24,7 +24,6 @@
                   sc.id_sub_category, 
                   sc.name AS sub_category_name, 
                   pds.name AS product_status_name, 
-                  -- pd.id_status AS product_status, 
                   pd.id_product, 
                   pd.name, 
                   pd.description, 
