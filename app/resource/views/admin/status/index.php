@@ -1,8 +1,8 @@
 <?php require 'app/resource/views/admin/components/header.php'; ?>
 
-<h4>Statuses</h4>
+<h1 class="h3">Statuses</h1>
 
-<h5 class="mt-3">Create Status</h5>
+<h2 class="my-2 h5">Create Status</h2>
 <form action="<?= $this->getBaseURL('status') ?>" method="post">
    <div>
       <input class="<?= isset($errors['name']['check']) ? 'is-invalid' : '' ?>" type="text" name="name" value="<?= $_POST['name'] ?? '' ?>" placeholder="Name">
@@ -15,7 +15,7 @@
    <button type="submit" name="create">Create</button>
 </form>
 
-<h5 class="mt-3">All Statuses</h5>
+<h2 class="my-2 h5">All Statuses</h2>
 <!-- <table class="table_input">
    <thead>
       <tr class="inputs">

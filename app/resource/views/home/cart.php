@@ -2,7 +2,7 @@
 
 <div class="container-lg">
    <?php if (!empty($cartData)) { ?>
-      <h2>My Cart</h2>
+      <h1 class="h3">My Cart</h1>
       <form class="mb-3" action="<?= $this->getBaseURL('createOrder') ?>" method="post">
          <button class="btn btn-primary" type="submit" name="order" value="1">Make order</button>
       </form>
@@ -17,7 +17,7 @@
                               'class' => 'image',
                               'id' => 'img' . $product['id_product'],
                            ]); ?></div>
-                     <h5 class="my-3"><strong><?= $product['name'] ?></strong></h5>
+                     <h2 class="my-3 h5"><strong><?= $product['name'] ?></strong></h2>
                      <p><b>ID: </b><?= $product['id_product'] ?></p>
                      <p><b>Quantity: </b><?= $product['count'] ?></p>
                      <p><b>Price: </b><?= $product['price'] ?> $</p>
@@ -32,7 +32,7 @@
       </div>
    <?php } else { ?>
       <div class="text-center">
-         <h2>Your Cart is Empty</h2>
+         <h1 class="h3">Your Cart is Empty</h1>
          <p><a class="btn btn-secondary" href="<?= $this->getBaseURL('../home') ?>">Return back</a></p>
       </div>
    <?php } ?>   

@@ -72,7 +72,15 @@
                         <?php } ?>
                      </select>
                   </td>
-                  <td class="ps-1 text-start"><?= $this->getImage(['name' => $order['product_image']]) ?> <?= $order['product_name'] ?></td>
+                  <td class="ps-1 text-start">
+                     <?= $this->getImage([
+                        'name' => $order['product_image'],
+                        'alt' => $order['product_name'] . '_image',
+                        'class' => 'image',
+                        'id' => 'img' . $order['id_product'],
+                     ]); ?>
+                     <?= $order['product_name'] ?>
+                  </td>
                   <td><?= $order['total_quantity'] ?></td>
                   <td><?= $order['total_price'] ?> $</td>
                   <td class="ps-1 text-start">

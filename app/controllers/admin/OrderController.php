@@ -86,6 +86,7 @@
          $allOrdersPerPage = $pagination->getItemsPerPage($page, $allOrders);
 
          $content = [
+            'title' => 'Orders',
             'allOrders' => $allOrdersPerPage,
             'allStatuses' => $allStatuses,
             'allUsers' => $allUsers,

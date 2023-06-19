@@ -34,6 +34,9 @@
          $endLink = min($startLink + $this->numLinks, $totalPages) + 1;
          if (($currentPage + ($this->numLinks / 2)) >= $totalPages) {
             $startLink = $endLink - $this->numLinks - 1;
+            if ($startLink < 1) {
+               $startLink = 1;
+            }
          }
 
          $links = [];
@@ -62,7 +65,7 @@
                'label' => '>',
             ];
          }
-         if ($endLink < $totalPages + 1) {      // Не зовсім розумію, чому тут потрібен "+1"
+         if ($endLink < $totalPages + 1) {
             $links[] = [
                'page' => $totalPages,
                'label' => '>>',

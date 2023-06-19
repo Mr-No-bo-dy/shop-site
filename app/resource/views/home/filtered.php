@@ -7,7 +7,7 @@
       </form>
    </div>
    
-   <h2>Filtered</h2>
+   <h1 class="h3">Filtered</h1>
    <div class="row">
       <?php foreach ($allProducts as $product) { ?>
          <div class="col-md-3">
@@ -19,7 +19,7 @@
                            'class' => 'image',
                            'id' => 'img' . $product['id_product'],
                         ]); ?></div>
-                  <h5 class="my-3"><strong><?= $product['name'] ?></strong></h5>
+                  <h2 class="my-3 h5"><strong><?= $product['name'] ?></strong></h2>
                   <p><b>Status: </b><?= ucfirst($product['status_name']) ?></p>
                   <p><b>Price: </b><?= $product['price'] ?> $</p>
                   <form action="" method="post">

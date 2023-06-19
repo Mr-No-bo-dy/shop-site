@@ -11,7 +11,8 @@
          $userModel = new User();
 
          $postData = $this->getPost();
-         $data = [];
+         // $data = [];
+         $data['title'] = 'Register Admin';
          if (!empty($postData)) {
             $errors = $request->checkUserRegister($postData);
             if (!empty($errors)) {
@@ -36,7 +37,8 @@
          $userModel = new User();
 
          $postData = $this->getPost();
-         $data = [];
+         // $data = [];
+         $data['title'] = 'Login Admin';
          if (!empty($postData)) {
             $errors = $userModel->loginUser($postData);
             if (!empty($errors)) {

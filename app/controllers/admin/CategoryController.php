@@ -28,6 +28,7 @@
 
          $allCategories = $categoryModel->getAll();
          $content = [
+            'title' => 'Categories',
             'allCategories' => $allCategories,
             'errors' => $errors,
          ];

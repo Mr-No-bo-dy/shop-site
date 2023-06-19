@@ -8,12 +8,12 @@
 	<link rel="stylesheet" href="/app/resource/css/styles.css">
 	<!-- Using bootstrap.min.css v5.2.3 -->
 	<link rel="stylesheet" href="/app/resource/css/bootstrap.min.css">
-	<title></title>
+	<title>Techno Shop - <?= $title ?? '' ?></title>
 </head>
 
 <body>
 	<header class="header d-flex justify-content-between mb-3 bg-light shadow">
-      <div class="navbar"><a class="navbar-brand" href="<?= $this->getBaseURL('../home') ?>"><img src="/app/resource/img/logo.png" alt="Logo"></a></div>
+      <div class="navbar p-2"><a class="navbar-brand" href="<?= $this->getBaseURL('../home') ?>"><img style="max-height: 30px;" src="/app/resource/img/php-logo.png" alt="Logo"></a></div>
 		<nav class="navbar navbar-text">
 			<ul class="nav">
 				<li><a class="nav-link" href="<?= $this->getBaseURL('../home') ?>">Home</a></li>
@@ -32,8 +32,8 @@
 				<?php } ?>
 			</ul>
 		</nav>
-      <form class="d-flex">
-         <input class="form-control me-2" type="search" placeholder="Search">
+      <form class="p-2 d-flex" action="<?= $this->getBaseURL('../home') ?>" method="post">
+			<input class="form-control me-2" type="search" name="productName" value="<?= $_POST['productName'] ?? '' ?>" placeholder="Search">
          <button class="btn btn-outline-primary" type="submit">Go</button>
       </form>
 	</header>

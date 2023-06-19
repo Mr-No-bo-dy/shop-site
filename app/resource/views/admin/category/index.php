@@ -1,8 +1,8 @@
 <?php require 'app/resource/views/admin/components/header.php'; ?>
 
-<h4>Categories</h4>
+<h1 class="h4">Categories</h1>
 
-<h5 class="mt-3">Create Category</h5>
+<h2 class="my-2 h5">Create Category</h2>
 <form action="<?= $this->getBaseURL('category') ?>" method="post">
    <div>
       <input class="<?= isset($errors['name']['check']) ? 'is-invalid' : '' ?>" type="text" name="name" value="<?= $_POST['name'] ?? '' ?>" placeholder="Name">
@@ -15,7 +15,7 @@
    <button type="submit" name="create">Create</button>
 </form>
 
-<h5 class="mt-3">All Categories</h5>
+<h2 class="my-2 h5">All Categories</h2>
 <!-- <table class="table_input">
    <thead>
       <tr class="inputs">

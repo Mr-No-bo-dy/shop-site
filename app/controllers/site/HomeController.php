@@ -16,7 +16,8 @@
          $customerModel = new Customer();
 
          $postData = $this->getPost();
-         $data = [];
+         // $data = [];
+         $data['title'] = 'Register';
          if (!empty($postData)) {
             $errors = $request->checkUserRegister($postData, 'customers');
             if (!empty($errors)) {
@@ -41,7 +42,8 @@
          $customerModel = new Customer();
 
          $postData = $this->getPost();
-         $data = [];
+         // $data = [];
+         $data['title'] = 'Login';
          if (!empty($postData)) {
             $errors = $customerModel->loginCustomer($postData);
             if (!empty($errors)) {
@@ -107,6 +109,7 @@
          $allSubCategories = $subCategoryModel->getAll();
          $allStatuses = $statusModel->getAll(['category' => ['product']]);
          $content = [
+            'title' => 'Products ' . $filters['productName'] ?? '',
             'allProducts' => $allProducts,
             'allSubCategories' => array_merge([0 => ['id_sub_category' => 0, 'name' => 'All SubCategories']], $allSubCategories),
             'allCategories' => array_merge([0 => ['id_category' => 0, 'name' => 'All Categories']], $allCategories),
@@ -180,6 +183,7 @@
                }
             }
             $content = [
+               'title' => 'Cart',
                'cartData' => $cartData,
             ];
          }

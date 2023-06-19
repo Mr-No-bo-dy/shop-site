@@ -1,6 +1,6 @@
 <?php require 'app/resource/views/admin/components/header.php'; ?>
 
-<h4>Create Product</h4>
+<h1 class="h3">Create Product</h1>
 <form action="" method="post" enctype="multipart/form-data">
    <p><b>Name: </b><input type="text" name="name" value="<?= $_POST['name'] ?? '' ?>" placeholder="Name"></p>
    <div><b>Description: </b></div><p><textarea name="description" cols="30" rows="3" placeholder="Description"><?= $_POST['description'] ?? '' ?></textarea></p>

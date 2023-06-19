@@ -41,6 +41,11 @@ table td {
    width: 130px;
 } */
 
+.image {
+   max-width: 100px;
+   max-height: 100px;
+}
+
 select {
    width: 188px;
    min-height: 28.91px;

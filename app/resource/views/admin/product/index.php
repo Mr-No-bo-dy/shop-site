@@ -1,7 +1,7 @@
 <?php require 'app/resource/views/admin/components/header.php'; ?>
 
-<h4>Products</h4>
-<div class="my-3"><a class="btn btn-success" href="<?= $this->getBaseURL('product/create') ?>">Create New</a></div>
+<h1 class="h3">Products</h1>
+<div class="my-2"><a class="btn btn-success" href="<?= $this->getBaseURL('product/create') ?>">Create New</a></div>
 
 <div class="mb-3"><p class="m-0"><b>Filters: </b></p>
       <form class="filters" style="display: inline-block;" action="" method="post">
@@ -73,7 +73,14 @@
    <?php foreach ($products as $product) { ?>
       <tr>
          <td><?= $product['id_product'] ?></td>
-         <td><?= $this->getImage(['name' => $product['main_image']]); ?></td>
+         <td>
+            <?= $this->getImage([
+               'name' => $product['main_image'],
+               'alt' => $product['name'] . '_image',
+               'class' => 'image',
+               'id' => 'img' . $product['id_product'],
+            ]); ?>
+         </td>
          <td><?= $product['name'] ?></td>
          <td><?= $product['description'] ?></td>
          <td><?= ucfirst($product['category_name']) ?></td>

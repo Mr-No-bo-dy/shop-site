@@ -1,7 +1,7 @@
 <?php require 'app/resource/views/home/components/header.php'; ?>
 
 <div class="container-lg">
-   <h2>Products</h2>
+   <h1 class="h3">Products</h1>
    <div class="mb-3"><p class="m-0"><b>Filters: </b></p>
       <form class="filters" style="display: inline-block;" action="" method="post">
          <div style="display: inline-block;" class="name_filter">
@@ -56,13 +56,15 @@
          <div class="col-md-3">
             <figure class="p-3 card">
                <figcaption>
-                  <div><?= $this->getImage([
-                           'name' => $product['main_image'],
-                           'alt' => $product['name'] . '_image',
-                           'class' => 'image',
-                           'id' => 'img' . $product['id_product'],
-                        ]); ?></div>
-                  <h5 class="my-3"><strong><?= $product['name'] ?></strong></h5>
+                  <div>
+                     <?= $this->getImage([
+                        'name' => $product['main_image'],
+                        'alt' => $product['name'] . '_image',
+                        'class' => 'image',
+                        'id' => 'img' . $product['id_product'],
+                     ]); ?>
+                  </div>
+                  <h2 class="my-3 h5"><strong><?= $product['name'] ?></strong></h2>
                   <p><b>Status: </b><?= ucfirst($product['status_name']) ?></p>
                   <p><b>Price: </b><?= $product['price'] ?> $</p>
                   <form action="" method="post">

@@ -1,8 +1,8 @@
 <?php require 'app/resource/views/admin/components/header.php'; ?>
 
-<h4>SubCategories</h4>
+<h1 class="h3">SubCategories</h1>
 
-<h5 class="mt-3">Create SubCategory</h5>
+<h2 class="my-2 h5">Create SubCategory</h2>
 <form action="<?= $this->getBaseURL('subcategory') ?>" method="post">
    <div>
       <select name="id_category">
@@ -22,7 +22,7 @@
    <button type="submit" name="create">Create</button>
 </form>
 
-<h5 class="mt-3">All SubCategories</h5>
+<h2 class="my-2 h5">All SubCategories</h2>
 <!-- <table class="table_input">
    <thead>
       <tr class="inputs">

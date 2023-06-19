@@ -1,16 +1,18 @@
 <?php require 'app/resource/views/admin/components/header.php'; ?>
 
-<h4>Product</h4>
+<h1 class="h3">Product</h1>
 
 <figure>
    <figcaption>
-      <div><?= $this->getImage([
-               'name' => $product['main_image'],
-               'alt' => $product['name'] . '_image',
-               'class' => 'image',
-               'id' => 'img' . $product['id_product'],
-            ]); ?></div>
-      <h5 class="my-3">Name: <strong><?= $product['name'] ?></strong></h5>
+      <div>
+         <?= $this->getImage([
+            'name' => $product['main_image'],
+            'alt' => $product['name'] . '_image',
+            'class' => 'image',
+            'id' => 'img' . $product['id_product'],
+         ]); ?>
+      </div>
+      <h2 class="my-3 h5">Name: <strong><?= $product['name'] ?></strong></h2>
       <p><b>ID:</b> <?= $product['id_product'] ?></p>
       <p><b>Description:</b> <?= $product['description'] ?></p>
       <p><b>Category: </b><?= ucfirst($category) ?></p>

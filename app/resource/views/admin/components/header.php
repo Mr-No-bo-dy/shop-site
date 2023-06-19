@@ -8,7 +8,7 @@
 	<!-- Using bootstrap.min.css v5.2.3 -->
 	<link rel="stylesheet" href="/app/resource/css/bootstrap.min.css">
 	<link rel="stylesheet" href="/app/resource/css/styles.css">
-	<title></title>
+	<title><?= $title ?? '' ?></title>
 </head>
 
 <body>

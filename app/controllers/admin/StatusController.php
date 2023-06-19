@@ -27,6 +27,7 @@
 
          $allStatuses = $statusModel->getAll();
          $content = [
+            'title' => 'Statuses',
             'allStatuses' => $allStatuses,
             'errors' => $errors,
          ];

@@ -39,6 +39,7 @@
             }
          }
          $content = [
+            'title' => 'SubCategories',
             'setSubCategories' => $setSubCategories,
             'allCategories' => $allCategories,
             'errors' => $errors,

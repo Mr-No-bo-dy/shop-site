@@ -63,6 +63,7 @@
          $allStatuses = $statusModel->getAll(['category' => ['product']]);
          $allProducts = $productModel->getAllProducts($filters);
          $content = [
+            'title' => 'Products',
             'products' => $allProducts,
             'allSubCategories' => array_merge([0 => ['id_sub_category' => 0, 'name' => 'All SubCategories']], $allSubCategories),
             'allCategories' => array_merge([0 => ['id_category' => 0, 'name' => 'All Categories']], $allCategories),
@@ -95,6 +96,7 @@
             $priceStatuses = $statusModel->getAll(['id_status' => $idsPriceStatus]);
          }
          $content = [
+            'title' => $product['name'],
             'product' => $product,
             'prices' => $productPrices,
             'statuses' => $priceStatuses,
@@ -128,6 +130,7 @@
             }
          }
          $content = [
+            'title' => 'Create Product',
             'allCategories' => $allCategories,
             'allPriceStatuses' => $allPriceStatuses,
             'allProductStatuses' => $allProductStatuses,
@@ -168,14 +171,12 @@
       public function actionUpdateData()
       {
          $productModel = new Product();
-         $categoryModel = new Category();
          $priceModel = new Price();
          $statusModel = new Status();
          
          // Отримання з БД всіх даних одного продукту
          $idProduct = $this->getGet('id');
          $product = $productModel->getOne($idProduct);
-         $allCategories = $categoryModel->getAll();
          $productCategory = $productModel->getOne($idProduct, ['table' => 'products_categories']);
          $productPrices = $priceModel->getAll(['id_product' => [$idProduct]]);
          $idsPriceStatus = array_column($productPrices, 'id_status');
@@ -183,7 +184,31 @@
          if (!empty($idsPriceStatus)) {
             $priceStatuses = $statusModel->getAll(['id_status' => $idsPriceStatus]);
          }
-            // Отримання з БД і розділення всіх статусів на статуси_продуктів і _цін для виведення в різних select'ах
+
+         $updateData = [
+            'product' => $product,
+            'productCategory' => $productCategory,
+            'productPrices' => $productPrices,
+            'priceStatuses' => $priceStatuses,
+         ];
+         return $updateData;
+      }
+
+      // Update existing Product
+      public function actionUpdate()
+      {
+         $request = new Request();
+         $productModel = new Product();
+         $priceModel = new Price();
+         $statusModel = new Status();
+         $categoryModel = new Category();
+
+         // Отримання з БД всіх даних одного продукту
+         $updateData = $this->actionUpdateData();
+         extract($updateData, EXTR_OVERWRITE);
+         
+         $allCategories = $categoryModel->getAll();
+         // Отримання з БД і розділення всіх статусів на статуси_продуктів і _цін для виведення в різних select'ах
          $allStatuses = $statusModel->getAll();
          $allPriceStatuses = $allProductStatuses = [];
          foreach ($allStatuses as $status) {
@@ -196,30 +221,6 @@
                   break;
             }
          }
-
-         $updateData = [
-            'product' => $product,
-            'allCategories' => $allCategories,
-            'productCategory' => $productCategory,
-            'productPrices' => $productPrices,
-            'priceStatuses' => $priceStatuses,
-            'allPriceStatuses' => $allPriceStatuses,
-            'allProductStatuses' => $allProductStatuses,
-         ];
-         return $updateData;
-      }
-
-      // Update existing Product
-      public function actionUpdate()
-      {
-         $request = new Request();
-         $productModel = new Product();
-         $priceModel = new Price();
-
-         // Отримання з БД всіх даних одного продукту
-         $updateData = $this->actionUpdateData();
-         extract($updateData, EXTR_OVERWRITE);
-
          // Delete price
          if (!is_null($this->getPost('deletePrice'))) {
             $postData = $this->getPost();
@@ -294,15 +295,10 @@
                $productModel->update($productCategory['id_product_category'], $setCategoryData, ['field' => 'id_product_category', 'table' => 'products_categories']);
 
                $setPriceData = [];
-               foreach ($postData['price'] as $idPrice => $price) {
+               foreach ($postData['price'] as $idPrice => $onePrice) {
                   $setPriceData = [
-                     'price' => $price,
-                  ];
-                  $priceModel->update($idPrice, $setPriceData);
-               }
-               foreach ($postData['priceStatus'] as $idPrice => $id_status) {
-                  $setPriceData = [
-                     'id_status' => $id_status,
+                     'id_status' => $onePrice['status'],
+                     'price' => $onePrice['price'],
                      'active' => 0,
                   ];
                   $priceModel->update($idPrice, $setPriceData);
@@ -323,6 +319,7 @@
  
          // Формування даних на В'юшку
          $content = [
+            'title' => 'Update ' . $product['name'],
             'product' => $product,
             'prices' => $productPrices,
             'statuses' => $priceStatuses,
