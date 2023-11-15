@@ -28,7 +28,7 @@
       'home/logout' => 'site/home/logout',
 
       // site
-      '' => 'site/home/index',
+      // '' => 'site/home/index',      // Якщо URI буде без home - інші маршрути НЕ будуть працювати. Треба зробити додавання home/ до URI
       'home' => 'site/home/index',
       'home/index' => 'site/home/index',
       'home/filtered' => 'site/home/filtered',
