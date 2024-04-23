@@ -83,6 +83,7 @@
          $statusModel = new Status();
 
          $idProduct = $this->getGet('id');
+         // $idProduct = $this->getPost('id');
          $product = $productModel->getOne($idProduct);
          $productCategory = $productModel->getOne($idProduct, ['table' => 'products_categories']);
          if (!empty($productCategory['id_category'])) {
@@ -105,6 +106,39 @@
          ];
          
          return $this->view('admin/product/view', $content);
+      }
+
+      // Show one Product via AJAX-request as pop-up
+      public function actionShow()
+      {
+         $productModel = new Product();
+         $categoryModel = new Category();
+         $priceModel = new Price();
+         $statusModel = new Status();
+
+         $idProduct = $this->getGet('id');
+         $product = $productModel->getOne($idProduct);
+         $productCategory = $productModel->getOne($idProduct, ['table' => 'products_categories']);
+         if (!empty($productCategory['id_category'])) {
+            $category = $categoryModel->getOne($productCategory['id_category']);
+         }
+         $productStatus = $statusModel->getOne($product['id_status']);
+         $productPrices = $priceModel->getAll(['id_product' => [$idProduct]]);
+         $idsPriceStatus = array_column($productPrices, 'id_status');
+         $priceStatuses = [];
+         if (!empty($idsPriceStatus)) {
+            $priceStatuses = $statusModel->getAll(['id_status' => $idsPriceStatus]);
+         }
+         $content = [
+            'title' => $product['name'],
+            'product' => $product,
+            'prices' => $productPrices,
+            'statuses' => $priceStatuses,
+            'status' => $productStatus['name'],
+            'category' => $category['name'] ?? '',
+         ];
+         
+         return $this->view('admin/product/show', $content);
       }
 
       // Create new Product

@@ -52,6 +52,10 @@
       </form>
 </div>
 
+<!-- PopUp of 1 Product via AJAX -->
+<!-- <div id="viewProduct"></div> -->
+<div id="viewProduct" style="padding:0; margin:0; display:none;"></div>
+
 <table>
    <thead>
       <tr>
@@ -98,7 +102,14 @@
             <?php } ?>
          <?php } ?>
          </td>
-         <td><a class="btn btn-primary" href="<?= $this->getBaseURL('product') . '?id=' . $product['id_product']. '&name=' . $product['name'] ?>">View</a></td>
+         <!-- <td><a class="btn btn-primary" href="<?= $this->getBaseURL('product') . '?id=' . $product['id_product']. '&name=' . $product['name'] ?>">View</a></td> -->
+
+         <!-- <td><button id="viewProductBtn" onclick="viewPoduct()" class="btn btn-primary">View</button></td> -->
+         <!-- <td>
+            <input class="productID" type="hidden" name="id" value="<?= $product['id_product'] ?>">
+            <button id="viewProductBtn" onclick="viewPoduct(this)" class="btn btn-primary">View</button>
+         </td> -->
+         <td><button class="viewProductBtn btn btn-primary" name="id" value="<?= $product['id_product'] ?>">View</button></td>
          <td><a class="btn btn-warning" href="<?= $this->getBaseURL('product/update') . '?id=' . $product['id_product']. '&name=' . $product['name'] ?>">Change</a></td>
          <td>
             <form action="<?= $this->getBaseURL('product/delete') ?>" method="post">

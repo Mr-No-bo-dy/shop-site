@@ -18,6 +18,7 @@
       // admin - products
       'admin/products' => 'admin/product/index',
       'admin/product' => 'admin/product/view',
+      'admin/product/show' => 'admin/product/show',   // for AJAX
       'admin/product/create' => 'admin/product/create',
       'admin/product/update' => 'admin/product/update',
       'admin/product/delete' => 'admin/product/delete',
